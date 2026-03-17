@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ghost Protocol Account — Studex Global Markets</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ob:#080A0E;--deep:#0C0F15;--panel:#111520;
+  --gold:#C9A84C;--gold-b:#E5C26A;--gd:rgba(201,168,76,0.15);--gb:rgba(201,168,76,0.08);
+  --t:#D8D0BC;--td:rgba(216,208,188,0.55);--tf:rgba(216,208,188,0.28);
+  --w:#F0EAD8;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --mono:'Share Tech Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--ob);color:var(--t);font-family:var(--serif);font-size:16px;line-height:1.7}
+body::before{
+  content:'';position:fixed;inset:0;
+  background:radial-gradient(ellipse 70% 40% at 50% -5%,rgba(201,168,76,0.07) 0%,transparent 70%);
+  pointer-events:none;z-index:0;
+}
+
+.page{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:48px 28px 80px}
+
+/* EYEBROW */
+.eyebrow{
+  font-family:var(--mono);font-size:9px;letter-spacing:4px;
+  color:var(--gold);text-transform:uppercase;margin-bottom:24px;
+  display:flex;align-items:center;gap:10px;
+}
+.eyebrow::before{content:'◈';color:var(--gold)}
+
+/* PRODUCT TITLE */
+.product-name{
+  font-size:clamp(38px,5vw,64px);font-weight:300;
+  color:var(--w);letter-spacing:-1.5px;line-height:1.1;
+  margin-bottom:10px;
+}
+.product-name em{font-style:italic;color:var(--gold)}
+.product-tier{
+  font-family:var(--mono);font-size:10px;letter-spacing:3px;
+  color:var(--td);text-transform:uppercase;margin-bottom:32px;
+}
+
+/* PRICE DISPLAY */
+.price-area{
+  border-top:1px solid rgba(201,168,76,0.2);
+  border-bottom:1px solid rgba(201,168,76,0.2);
+  padding:28px 0;
+  margin-bottom:32px;
+  display:flex;flex-wrap:wrap;gap:32px;align-items:flex-end;
+}
+.price-item{}
+.price-label{
+  font-family:var(--mono);font-size:9px;letter-spacing:3px;
+  color:var(--tf);text-transform:uppercase;margin-bottom:6px;
+}
+.price-value{
+  font-size:42px;font-weight:300;color:var(--w);
+  letter-spacing:-2px;line-height:1;
+}
+.price-value sup{font-size:0.4em;color:var(--gold);vertical-align:super;letter-spacing:0}
+.price-period{
+  font-family:var(--mono);font-size:9px;letter-spacing:2px;
+  color:var(--td);margin-top:4px;
+}
+.price-divider{
+  width:1px;background:rgba(201,168,76,0.2);align-self:stretch;
+}
+.price-note{
+  font-size:13px;font-weight:300;font-style:italic;
+  color:var(--td);max-width:220px;line-height:1.5;
+}
+
+/* TAGLINE */
+.tagline{
+  font-size:clamp(18px,2.5vw,24px);font-weight:300;font-style:italic;
+  color:var(--w);line-height:1.45;margin-bottom:28px;
+  border-left:2px solid var(--gold);
+  padding-left:20px;
+}
+
+/* BODY TEXT */
+.body-text{
+  font-size:16px;font-weight:300;color:var(--t);
+  line-height:1.8;margin-bottom:18px;
+}
+.body-text strong{font-weight:600;color:var(--w)}
+.body-text em{font-style:italic;color:var(--gold-b)}
+
+/* INCLUDES LIST */
+.includes-label{
+  font-family:var(--mono);font-size:9px;letter-spacing:4px;
+  color:var(--gold);text-transform:uppercase;
+  margin:36px 0 16px;
+}
+.includes{list-style:none}
+.includes li{
+  display:flex;gap:12px;align-items:flex-start;
+  padding:11px 0;
+  border-bottom:1px solid var(--gb);
+  font-size:15px;font-weight:300;color:var(--t);line-height:1.6;
+}
+.includes li:last-child{border-bottom:none}
+.includes li::before{
+  content:'◆';color:var(--gold);font-size:7px;margin-top:7px;flex-shrink:0;
+}
+
+/* CTA BLOCK */
+.cta-block{
+  background:linear-gradient(135deg,rgba(201,168,76,0.09),rgba(201,168,76,0.03));
+  border:1px solid rgba(201,168,76,0.3);
+  padding:36px;margin-top:40px;text-align:center;
+  position:relative;
+}
+.cta-block::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+.cta-headline{
+  font-size:26px;font-weight:300;color:var(--w);
+  font-style:italic;margin-bottom:10px;
+}
+.cta-sub{
+  font-family:var(--mono);font-size:9px;letter-spacing:3px;
+  color:var(--td);text-transform:uppercase;margin-bottom:24px;
+}
+.cta-note{
+  font-size:13px;font-weight:300;color:var(--tf);font-style:italic;line-height:1.5;
+}
+
+/* DISCLAIMER */
+.disclaimer{
+  font-family:var(--mono);font-size:9px;letter-spacing:1px;
+  color:var(--tf);line-height:1.7;margin-top:36px;
+  padding-top:24px;border-top:1px solid var(--gb);
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="eyebrow">Ghost Protocol · Studex Global Markets · Sovereign Tier</div>
+
+  <h1 class="product-name"><em>Ghost Protocol</em><br>Global Markets Account</h1>
+  <div class="product-tier">Annual Activation · Sovereign Account Tier · Ghost Protocol GP-01</div>
+
+  <div class="price-area">
+    <div class="price-item">
+      <div class="price-label">Yearly Account Activation</div>
+      <div class="price-value"><sup>$</sup>25,000</div>
+      <div class="price-period">One-time annual activation fee</div>
+    </div>
+    <div class="price-divider"></div>
+    <div class="price-item">
+      <div class="price-label">Monthly Retainer</div>
+      <div class="price-value"><sup>$</sup>7,500</div>
+      <div class="price-period">Per month · Active engagement &amp; deal facilitation</div>
+    </div>
+    <div class="price-note">Payment details and account activation link provided upon confirmation. All pricing in USD.</div>
+  </div>
+
+  <p class="tagline">"The most exclusive entry point into Africa's gold and commodity economy available to any international partner today."</p>
+
+  <p class="body-text">The Studex Global Markets <strong>Ghost Protocol Account</strong> is Africa's most exclusive sovereign-tier business engagement membership. Designed for a maximum of five international partners per cycle, Ghost Protocol grants you full access to Studex Global Markets' private deal network, state-level relationship infrastructure, and a curated calendar of sovereign business missions across Sub-Saharan Africa.</p>
+
+  <p class="body-text">This is not a directory. It is not a network pass. It is a <em>fully managed, actively curated strategic mandate</em> in which the Studex Global Markets team works as your dedicated intelligence unit, diplomatic facilitator, and commercial partner — across gold acquisition, commodity trading, state-level introductions, and investment origination.</p>
+
+  <p class="body-text">Your annual activation fee unlocks your position in the Ghost Protocol tier, grants access to the Studex sovereign intelligence platform, and initiates the onboarding sequence through which your objectives, counterparty preferences, and investment appetite are mapped to active opportunities within the Studex network. The monthly retainer funds the ongoing engagement: the missions, the meetings, the Zoom calls, the deal preparation, and the follow-through that converts introductions into outcomes.</p>
+
+  <div class="includes-label">What Your Account Includes</div>
+  <ul class="includes">
+    <li>Two fully curated sovereign state-level missions (including Uganda and Zimbabwe) — pre-mission intelligence briefings, in-country team accompaniment, and post-mission commercial follow-up</li>
+    <li>Six-event Forbes Magazine × Studex Global Markets Africa Business Summit Series access — with Ghost Protocol co-presenting sponsorship available</li>
+    <li>March Mozambique pre-mission: Ministry of Mineral Resources introduction, Johannesburg refinery circuit, and first-contact gold consignment discussions</li>
+    <li>Direct gold acquisition facilitation — consignments from 10–50kg to 200kg+ through verified South African and Mozambican operators and refinery partners</li>
+    <li>Mozambique direct mining investment opportunity — site introduction, ministry-level facilitation, and Studex-guided due diligence</li>
+    <li>Monthly private Zoom strategy sessions with the Studex Global Markets intelligence and deal team</li>
+    <li>Proactive opportunity origination — Studex continuously scouts, pre-qualifies, and presents deals matching your investment profile</li>
+    <li>Access to the Studex sovereign advisory network — proximity to figures across African mining, statecraft, sport, and finance</li>
+    <li>Ghost Protocol encrypted deal room and secure documentation channel for all classified commercial discussions</li>
+    <li>Full compliance and KYC/KYB management across all Studex-originated engagements — chain-of-custody, regulatory documentation, and export framework support</li>
+  </ul>
+
+  <div class="cta-block">
+    <div class="cta-headline">Ready to activate your account?</div>
+    <div class="cta-sub">Ghost Protocol · Sovereign Tier · Limited to 5 Partners Per Cycle</div>
+    <p class="cta-note">Upon payment of the $25,000 annual activation fee, your Ghost Protocol account will be initialised within 48 hours. Your dedicated Studex relationship manager will contact you to begin the onboarding and mission briefing sequence. The $7,500 monthly retainer commences in the month following activation.</p>
+  </div>
+
+  <div class="disclaimer">
+    Studex Global Markets Ghost Protocol is a private, invitation-only engagement programme. Membership is subject to KYC/KYB verification and Studex Global Markets approval. All pricing in USD. Payment instructions provided upon confirmed interest. This product listing is for authorised counterparties only and is not publicly distributed. Studex Group (Pty) Ltd · Johannesburg, South Africa.
+  </div>
+
+</div>
+</body>
+</html>

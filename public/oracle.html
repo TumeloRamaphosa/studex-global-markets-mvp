@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Studex Oracle // Deal Simulator</title>
+  <link rel="stylesheet" href="studex-theme.css">
+  <style>
+    body { background: var(--bg-deep); height: 100vh; overflow: hidden; display: flex; }
+    
+    /* SIDEBAR (Simplified for sub-pages) */
+    .sidebar { width: 80px; border-right: 1px solid rgba(255,255,255,0.05); background: rgba(10,12,18,0.8); display: flex; flex-direction: column; align-items: center; padding-top: 32px; }
+    .sidebar-brand { font-size: 24px; color: var(--gold-champagne); cursor: pointer; }
+    
+    .oracle-container { flex: 1; padding: 48px; position: relative; display: flex; flex-direction: column; }
+    
+    .top-panel { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 24px;}
+    .oracle-brand { font-size: 32px; font-weight: 800; background: linear-gradient(90deg, #00D084, #00A3FF); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    
+    .sim-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 40px; flex: 1; }
+    
+    /* CONTROL PANEL */
+    .control-panel { background: rgba(15,18,26,0.6); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 32px; }
+    .input-group { margin-bottom: 24px; }
+    .input-group label { display: block; font-size: 11px; font-weight: 700; color: var(--text-dim); margin-bottom: 8px; letter-spacing: 0.1em; text-transform: uppercase; }
+    .input-group select, .input-group input { width: 100%; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 12px; border-radius: 8px; font-family: var(--font-mono); font-size: 14px; }
+    
+    /* VISUALIZATION */
+    .viz-panel { background: rgba(0,0,0,0.3); border: 1px solid rgba(0,208,132,0.2); border-radius: 16px; display: flex; flex-direction: column; position: relative; overflow: hidden; }
+    #matrix-canvas { position: absolute; inset: 0; z-index: 0; opacity: 0.15; pointer-events: none; }
+    
+    .viz-content { position: relative; z-index: 1; padding: 40px; height: 100%; display: flex; flex-direction: column; }
+    
+    /* CONSOLE */
+    .sim-console { flex: 1; font-family: var(--font-mono); font-size: 12px; color: #00D084; line-height: 1.8; overflow: hidden; position: relative; }
+    .sim-line { opacity: 0; transform: translateY(10px); animation: fadeUp 0.3s forwards; }
+    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+    
+    /* RESULTS */
+    .result-box { margin-top: auto; background: rgba(0,208,132,0.1); border-top: 1px solid rgba(0,208,132,0.4); padding: 32px; display: none; justify-content: space-between; align-items: center; }
+    .result-box.show { display: flex; animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    .fair-value { font-size: 48px; font-weight: 900; color: #00D084; font-family: var(--font-number); }
+    .confidence { background: #00D084; color: #000; padding: 8px 16px; border-radius: 20px; font-weight: 800; font-size: 14px; }
+
+  </style>
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="sidebar-brand" onclick="window.location.href='dashboard.html'">◈</div>
+  </aside>
+
+  <div class="oracle-container">
+    <div class="top-panel reveal">
+      <div>
+        <div class="eyebrow" style="color:var(--emerald);">⬡ ORACLE AGENT</div>
+        <div class="oracle-brand">Monte Carlo Deal Simulation</div>
+      </div>
+      <div style="text-align:right;">
+        <div class="wallet-pill" style="color:var(--text-dim); border:none;">10,000 Scenarios / Server: SGM-Alpha</div>
+      </div>
+    </div>
+
+    <div class="sim-grid reveal">
+      <!-- INPUTS -->
+      <div class="control-panel tilt-card">
+        <div class="tilt-content">
+          <div class="input-group">
+            <label>Commodity Asset</label>
+            <select id="asset">
+              <option>Rwandan Reserve Coffee (2 Containers)</option>
+              <option>South African Wagyu (500 Units)</option>
+              <option>Rhino DNA Equity (10k Tokens)</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label>Counterparty Region</label>
+            <select>
+              <option>UAE / Middle East</option>
+              <option>European Union</option>
+              <option>United States</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label>Geopolitical Risk Adjustment</label>
+            <select>
+              <option>Standard (1.0x)</option>
+              <option>High Volatility (1.5x)</option>
+            </select>
+          </div>
+          
+          <button class="btn-3d" style="width:100%; margin-top: 24px;" onclick="runSimulation()">INITIALIZE SIMULATION</button>
+        </div>
+      </div>
+
+      <!-- VISUALIZER -->
+      <div class="viz-panel">
+        <canvas id="matrix-canvas"></canvas>
+        <div class="viz-content">
+          <div class="sim-console" id="console">
+            <div>[ORACLE IDLE] Awaiting parameters...</div>
+          </div>
+          
+          <div class="result-box" id="results">
+            <div>
+              <div style="font-size:12px; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:8px;">Determined Fair Value</div>
+              <div class="fair-value" id="final-value">$0.00</div>
+            </div>
+            <div style="text-align:right;">
+              <div class="confidence">94.2% CONFIDENCE</div>
+              <div style="font-size:11px; color:#00D084; margin-top:12px; font-family:var(--font-mono);">◈ EXECUTABLE ON CHRONOS</div>
+              <button class="btn-3d btn-3d-secondary" style="margin-top:16px; padding:10px 20px;" onclick="window.location.href='ghost-room.html'">ENTER GHOST ROOM</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Reveal Script
+    setTimeout(() => { document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible')); }, 100);
+
+    // Matrix Rain Effect for Oracle
+    const canvas = document.getElementById('matrix-canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = canvas.parentElement.offsetWidth;
+    canvas.height = canvas.parentElement.offsetHeight;
+    
+    const chars = '01ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$₿⬡◈';
+    const fontSize = 14;
+    const columns = canvas.width / fontSize;
+    const drops = [];
+    for(let x = 0; x < columns; x++) drops[x] = 1;
+    
+    function drawMatrix() {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#00D084';
+      ctx.font = fontSize + 'px monospace';
+      
+      for(let i = 0; i < drops.length; i++) {
+        const text = chars.charAt(Math.floor(Math.random() * chars.length));
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if(drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+        drops[i]++;
+      }
+    }
+    let matrixInterval;
+
+    const consoleDiv = document.getElementById('console');
+    const resultsDiv = document.getElementById('results');
+    const valEl = document.getElementById('final-value');
+
+    function log(msg) {
+      const line = document.createElement('div');
+      line.className = 'sim-line';
+      line.innerText = `> ${msg}`;
+      consoleDiv.appendChild(line);
+      consoleDiv.scrollTop = consoleDiv.scrollHeight;
+    }
+
+    function runSimulation() {
+      consoleDiv.innerHTML = '';
+      resultsDiv.classList.remove('show');
+      clearInterval(matrixInterval);
+      matrixInterval = setInterval(drawMatrix, 30);
+      
+      const steps = [
+        "Connecting to Pinecone Vector DB...",
+        "Fetching historical trade matrices (10 years)...",
+        "Applying UAE tariff risk adjustments...",
+        "Running 10,000 Monte Carlo simulations...",
+        "Calculating Standard Deviation curves...",
+        "Isolating outlier risks...",
+        "Converging on Fair Value Consensus..."
+      ];
+      
+      let i = 0;
+      const interval = setInterval(() => {
+        if(i < steps.length) {
+          log(steps[i]);
+          i++;
+        } else {
+          clearInterval(interval);
+          clearInterval(matrixInterval);
+          log("[COMPLETE] Consensus Reached.");
+          setTimeout(() => {
+            valEl.innerText = "$472,500";
+            resultsDiv.classList.add('show');
+          }, 500);
+        }
+      }, 600);
+    }
+  </script>
+</body>
+</html>

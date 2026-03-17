@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Studex // Vault & Portfolio</title>
+  <link rel="stylesheet" href="studex-theme.css">
+  <style>
+    body { background: var(--bg-deep); height: 100vh; overflow: hidden; display: flex; }
+    .sidebar { width: 80px; border-right: 1px solid rgba(255,255,255,0.05); background: rgba(10,12,18,0.8); display: flex; flex-direction: column; align-items: center; padding-top: 32px; z-index: 10; }
+    .sidebar-brand { font-size: 24px; color: var(--gold-champagne); cursor: pointer; }
+    
+    .vault-container { flex: 1; padding: 48px; position: relative; }
+    .top-panel { margin-bottom: 40px; }
+    
+    .net-worth { font-family: var(--font-number); font-size: 72px; font-weight: 900; background: linear-gradient(135deg, #E6C27A, #A68A56); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1; margin-bottom: 8px;}
+    
+    /* 3D VAULT CARDS */
+    .vault-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 48px;}
+    
+    .asset-card {
+      background: linear-gradient(180deg, rgba(20,24,34,0.6) 0%, rgba(10,12,18,0.9) 100%);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 20px;
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+    .asset-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:var(--gold-champagne); opacity:0.3; }
+    .asset-card:nth-child(2)::before { background:var(--emerald); }
+    .asset-card:nth-child(3)::before { background:#00A3FF; }
+    
+    .asset-icon { font-size: 48px; margin-bottom: 24px; display: block; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5)); }
+    .asset-name { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
+    .asset-value { font-family: var(--font-mono); font-size: 24px; color: #fff; margin-bottom: 24px; }
+    
+    .progress-track { height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; width: 100%; overflow: hidden; margin-bottom: 12px; }
+    .progress-fill { height: 100%; background: var(--gold-champagne); width: 0%; transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1); }
+  </style>
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="sidebar-brand" onclick="window.location.href='dashboard.html'">◈</div>
+  </aside>
+
+  <div class="vault-container">
+    <div class="top-panel reveal">
+      <div class="eyebrow">INSTITUTIONAL VAULT</div>
+      <div class="net-worth">$12,450,000.00</div>
+      <div style="color:var(--emerald); font-family:var(--font-mono); font-size:14px; margin-top:12px;">+ $1.2M (Last 30 Days) via Chronos Settlement</div>
+    </div>
+
+    <div class="vault-grid reveal">
+      <div class="asset-card tilt-card">
+        <div class="tilt-content">
+          <span class="asset-icon">🐂</span>
+          <div class="asset-name">Contract: SA Wagyu</div>
+          <div class="asset-value">$2,100,000</div>
+          <div class="progress-track"><div class="progress-fill" style="width: 45%;"></div></div>
+          <div style="font-size:11px; color:var(--text-dim); display:flex; justify-content:space-between;">
+            <span>In Transit (Shipment)</span>
+            <span>45%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="asset-card tilt-card">
+        <div class="tilt-content">
+          <span class="asset-icon">🦏</span>
+          <div class="asset-name">Rhino DNA Equity</div>
+          <div class="asset-value">25,000 Tokens</div>
+          <div class="progress-track"><div class="progress-fill" style="width: 90%; background:var(--emerald);"></div></div>
+          <div style="font-size:11px; color:var(--text-dim); display:flex; justify-content:space-between;">
+            <span>Conservation Yield</span>
+            <span>+12.4 APY</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="asset-card tilt-card">
+        <div class="tilt-content">
+          <span class="asset-icon">₿</span>
+          <div class="asset-name">Chronos Escrow (BTC)</div>
+          <div class="asset-value">14.6502 BTC</div>
+          <div class="progress-track"><div class="progress-fill" style="width: 100%; background:#00A3FF;"></div></div>
+          <div style="font-size:11px; color:var(--text-dim); display:flex; justify-content:space-between;">
+            <span>Locked in Smart Contract</span>
+            <span>Fully Collateralized</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    setTimeout(() => { document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible')); }, 100);
+    
+    // Tilt physics
+    document.querySelectorAll(".tilt-card").forEach(card => {
+      card.addEventListener("mousemove", (e) => {
+        const rect = card.getBoundingClientRect();
+        card.style.transform = `perspective(1000px) rotateX(${((e.clientY - rect.top) / rect.height - 0.5) * -15}deg) rotateY(${((e.clientX - rect.left) / rect.width - 0.5) * 15}deg) scale3d(1.02,1.02,1.02)`;
+      });
+      card.addEventListener("mouseleave", () => {
+        card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)`;
+      });
+    });
+  </script>
+</body>
+</html>

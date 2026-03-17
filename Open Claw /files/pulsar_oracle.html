@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The 10 Commandments — Studex Global Markets × Pulsar Mining | Oracle Protocol</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&family=Orbitron:wght@400;700;900&display=swap');
+
+  :root {
+    --gold: #C9A84C;
+    --amber: #E8A020;
+    --blue: #2EC4B6;
+    --red: #FF6B6B;
+    --green: #51E89A;
+    --bg: #040608;
+    --text: #d8d0bc;
+    --text-dim: rgba(255,255,255,0.42);
+    --border: rgba(201,168,76,0.2);
+    --surface: rgba(0,0,0,0.5);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Share Tech Mono', monospace;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background-image:
+      linear-gradient(rgba(46,196,182,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,0.03) 1px, transparent 1px);
+    background-size: 70px 70px;
+    animation: gridScroll 30s linear infinite;
+  }
+
+  body::after {
+    content: '';
+    position: fixed; inset: 0; z-index: 1; pointer-events: none;
+    background: linear-gradient(transparent 50%, rgba(0,0,0,0.025) 50%);
+    background-size: 100% 4px;
+  }
+
+  .corner { position: fixed; width: 44px; height: 44px; z-index: 5; }
+  .corner.tl { top: 16px; left: 16px; border-top: 1px solid rgba(46,196,182,0.5); border-left: 1px solid rgba(46,196,182,0.5); }
+  .corner.tr { top: 16px; right: 16px; border-top: 1px solid rgba(46,196,182,0.5); border-right: 1px solid rgba(46,196,182,0.5); }
+  .corner.bl { bottom: 16px; left: 16px; border-bottom: 1px solid rgba(201,168,76,0.5); border-left: 1px solid rgba(201,168,76,0.5); }
+  .corner.br { bottom: 16px; right: 16px; border-bottom: 1px solid rgba(201,168,76,0.5); border-right: 1px solid rgba(201,168,76,0.5); }
+
+  .wrapper { position: relative; z-index: 2; max-width: 1440px; margin: 0 auto; padding: 24px 24px 48px; }
+
+  /* HERO HEADER */
+  .header { text-align: center; margin-bottom: 28px; padding-top: 20px; }
+  .header-eyebrow {
+    font-size: 9px; letter-spacing: 5px; margin-bottom: 10px;
+    background: linear-gradient(90deg, rgba(46,196,182,0.0), rgba(46,196,182,0.7), rgba(201,168,76,0.7), rgba(201,168,76,0.0));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .header-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(22px, 4.5vw, 44px);
+    font-weight: 900; letter-spacing: 0.1em; color: #fff; text-transform: uppercase;
+    animation: glitchCycle 7s infinite;
+  }
+  .header-subtitle {
+    font-size: clamp(10px, 1.5vw, 13px); letter-spacing: 3px; margin-top: 8px;
+    color: var(--gold); opacity: 0.75;
+  }
+  .header-partners {
+    display: flex; align-items: center; justify-content: center; gap: 20px;
+    margin-top: 16px; font-size: 11px; letter-spacing: 3px;
+  }
+  .partner-tag {
+    padding: 5px 16px; border: 1px solid;
+    font-size: 10px; letter-spacing: 2px; font-weight: 700;
+  }
+  .partner-tag.studex { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,0.08); }
+  .partner-tag.pulsar { border-color: var(--blue); color: var(--blue); background: rgba(46,196,182,0.08); }
+  .partner-divider { color: rgba(255,255,255,0.2); font-size: 18px; }
+  .header-line { width: 260px; height: 1px; background: linear-gradient(90deg, transparent, var(--blue), var(--gold), transparent); margin: 14px auto 0; }
+
+  /* STATS */
+  .stats-bar { display: flex; border: 1px solid var(--border); margin-bottom: 24px; overflow: hidden; flex-wrap: wrap; }
+  .stat-item { flex: 1; min-width: 120px; padding: 12px 16px; border-right: 1px solid var(--border); text-align: center; }
+  .stat-item:last-child { border-right: none; }
+  .stat-val { font-family: 'Orbitron', sans-serif; font-size: 17px; font-weight: 700; color: var(--gold); }
+  .stat-val.teal { color: var(--blue); }
+  .stat-label { font-size: 7px; letter-spacing: 2px; color: rgba(255,255,255,0.28); margin-top: 3px; text-transform: uppercase; }
+
+  /* TOGGLE */
+  .toggle-bar { display: flex; gap: 12px; justify-content: center; margin-bottom: 24px; flex-wrap: wrap; }
+  .toggle-btn {
+    padding: 13px 28px; background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.1); color: var(--text-dim);
+    cursor: pointer; font-family: 'Share Tech Mono', monospace;
+    letter-spacing: 2px; font-size: 11px; transition: all 0.3s; text-align: center;
+  }
+  .toggle-btn.active-studex { background: rgba(201,168,76,0.1); border-color: var(--gold); color: var(--gold); }
+  .toggle-btn.active-pulsar { background: rgba(46,196,182,0.1); border-color: var(--blue); color: var(--blue); }
+  .toggle-btn-label { font-weight: 700; font-size: 12px; margin-bottom: 3px; }
+  .toggle-btn-sub { font-size: 8px; opacity: 0.55; }
+
+  /* LAYOUT */
+  .layout { display: flex; gap: 20px; align-items: flex-start; }
+
+  /* SIDEBAR */
+  .sidebar { width: 238px; flex-shrink: 0; border: 1px solid rgba(201,168,76,0.15); background: rgba(0,0,0,0.45); }
+  .sidebar-header { padding: 10px 14px; border-bottom: 1px solid rgba(201,168,76,0.12); font-size: 8px; letter-spacing: 3px; color: var(--gold); opacity: 0.6; }
+  .q-btn {
+    display: block; width: 100%; text-align: left;
+    padding: 10px 14px; background: transparent; border: none;
+    border-left: 2px solid transparent;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    color: var(--text-dim); cursor: pointer;
+    font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 1px;
+    transition: all 0.2s;
+  }
+  .q-btn:hover { background: rgba(201,168,76,0.07); transform: translateX(3px); }
+  .q-btn.active-s { background: rgba(201,168,76,0.1); border-left-color: var(--gold); color: var(--gold); }
+  .q-btn.active-p { background: rgba(46,196,182,0.1); border-left-color: var(--blue); color: var(--blue); }
+  .q-btn-num { font-weight: 700; font-size: 11px; margin-bottom: 2px; }
+  .q-btn-tag { font-size: 8px; opacity: 0.5; line-height: 1.3; }
+
+  /* MAIN */
+  .main { flex: 1; min-width: 0; }
+
+  /* SCANNER */
+  .scanner {
+    border: 1px solid rgba(46,196,182,0.2); background: rgba(0,0,0,0.6);
+    padding: 60px 40px; text-align: center; min-height: 420px;
+    display: none; flex-direction: column; align-items: center; justify-content: center;
+  }
+  .scanner.active { display: flex; }
+  .scanner-text { font-size: 11px; letter-spacing: 4px; color: var(--blue); animation: pulse 0.6s infinite; }
+  .scanner-dots { display: flex; gap: 6px; justify-content: center; margin-top: 24px; }
+  .scanner-dot { width: 5px; height: 5px; background: var(--blue); animation: pulse 0.5s infinite; }
+  .scanner-dot:nth-child(2){animation-delay:.1s} .scanner-dot:nth-child(3){animation-delay:.2s}
+  .scanner-dot:nth-child(4){animation-delay:.3s} .scanner-dot:nth-child(5){animation-delay:.4s}
+
+  /* CARD */
+  .card { animation: fadeUp 0.4s ease-out; display: none; }
+  .card.active { display: block; }
+
+  .card-header {
+    padding: 14px 20px; margin-bottom: 16px;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  }
+  .card-header.sh { background: rgba(201,168,76,0.06); border: 1px solid rgba(201,168,76,0.25); }
+  .card-header.ph { background: rgba(46,196,182,0.06); border: 1px solid rgba(46,196,182,0.25); }
+  .ch-meta { font-size: 9px; letter-spacing: 3px; margin-bottom: 5px; opacity: 0.7; }
+  .ch-meta.sm { color: var(--gold); } .ch-meta.pm { color: var(--blue); }
+  .ch-title { font-family: 'Orbitron', sans-serif; font-size: clamp(10px, 1.8vw, 13px); font-weight: 700; color: #fff; text-transform: uppercase; line-height: 1.3; }
+  .ch-tags { text-align: right; flex-shrink: 0; }
+  .ch-tag { font-size: 8px; letter-spacing: 1.5px; opacity: 0.65; display: block; }
+  .ch-tag.st { color: var(--gold); } .ch-tag.pt { color: var(--blue); }
+
+  /* QUESTION */
+  .q-block {
+    position: relative; border: 1px solid rgba(255,255,255,0.07);
+    background: rgba(0,0,0,0.5); padding: 28px 32px; margin-bottom: 16px;
+    animation: borderBreathe 6s infinite;
+  }
+  .q-block::before {
+    content: attr(data-src); position: absolute; top: -1px; left: 40px;
+    background: var(--bg); padding: 0 10px;
+    font-size: 8px; letter-spacing: 2px; text-transform: uppercase;
+  }
+  .q-block.sb::before { color: var(--gold); }
+  .q-block.pb::before { color: var(--blue); }
+  .q-numeral {
+    font-family: 'Orbitron', sans-serif; font-size: 76px; font-weight: 900;
+    color: rgba(46,196,182,0.04); position: absolute; top: 6px; right: 18px;
+    line-height: 1; user-select: none; pointer-events: none;
+  }
+  .q-text {
+    font-family: 'Rajdhani', sans-serif; font-size: clamp(12px, 1.6vw, 15px);
+    line-height: 1.9; color: #cfc8b4; position: relative; z-index: 1; max-width: 92%;
+  }
+
+  /* INTEL */
+  .intel-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+  .intel-panel { border: 1px solid; padding: 14px 16px; }
+  .intel-panel.w { border-color: rgba(255,107,107,0.25); background: rgba(255,107,107,0.04); }
+  .intel-panel.s { border-color: rgba(81,232,154,0.25); background: rgba(81,232,154,0.04); }
+  .intel-panel.a { border-color: rgba(46,196,182,0.25); background: rgba(46,196,182,0.04); }
+  .intel-label { font-size: 8px; letter-spacing: 2px; font-weight: 700; margin-bottom: 8px; text-transform: uppercase; }
+  .intel-panel.w .intel-label { color: var(--red); }
+  .intel-panel.s .intel-label { color: var(--green); }
+  .intel-panel.a .intel-label { color: var(--blue); }
+  .intel-text { font-size: 11px; color: rgba(255,255,255,0.58); line-height: 1.55; }
+
+  /* MINERAL BADGE */
+  .mineral-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+  .mineral-tag {
+    font-size: 8px; letter-spacing: 2px; padding: 3px 10px;
+    border: 1px solid rgba(46,196,182,0.3); color: var(--blue);
+    background: rgba(46,196,182,0.06); text-transform: uppercase;
+  }
+
+  /* NAV */
+  .nav-bar { display: flex; gap: 8px; align-items: center; }
+  .nav-btn {
+    padding: 8px 18px; background: transparent;
+    border: 1px solid rgba(201,168,76,0.25); color: var(--gold);
+    cursor: pointer; font-family: 'Share Tech Mono', monospace;
+    font-size: 10px; letter-spacing: 2px; transition: all 0.2s;
+  }
+  .nav-btn:hover:not(:disabled) { background: rgba(201,168,76,0.1); }
+  .nav-btn:disabled { color: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.07); cursor: default; }
+  .nav-dots { flex: 1; display: flex; gap: 5px; justify-content: center; align-items: center; flex-wrap: wrap; }
+  .nav-dot { height: 6px; background: rgba(255,255,255,0.13); cursor: pointer; transition: all 0.3s; border: none; padding: 0; }
+  .nav-dot.ds { background: var(--gold); }
+  .nav-dot.dp { background: var(--blue); }
+
+  /* FOOTER */
+  .footer {
+    margin-top: 40px; padding-top: 16px;
+    border-top: 1px solid rgba(201,168,76,0.08);
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 8px; letter-spacing: 3px; flex-wrap: wrap; gap: 8px;
+  }
+  .footer-l { color: rgba(255,255,255,0.16); }
+  .footer-c { color: var(--blue); opacity: 0.45; animation: pulse 2.5s infinite; }
+  .footer-r { color: rgba(255,255,255,0.16); }
+
+  /* ANIMATIONS */
+  @keyframes gridScroll { from{background-position:0 0} to{background-position:70px 70px} }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.2} }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes borderBreathe { 0%,100%{border-color:rgba(255,255,255,0.07)} 50%{border-color:rgba(46,196,182,0.15)} }
+  @keyframes glitchCycle {
+    0%,96%,100%{transform:translate(0);filter:none}
+    97%{transform:translate(-2px,1px);filter:hue-rotate(60deg)}
+    98%{transform:translate(2px,-1px);filter:hue-rotate(-60deg)}
+  }
+
+  @media(max-width:900px){
+    .layout{flex-direction:column} .sidebar{width:100%}
+    .intel-grid{grid-template-columns:1fr} .q-numeral{font-size:48px}
+  }
+  @media(max-width:600px){
+    .wrapper{padding:14px 12px 32px} .header-partners{flex-direction:column;gap:8px}
+    .q-text{max-width:100%} .footer{flex-direction:column;text-align:center}
+  }
+</style>
+</head>
+<body>
+
+<div class="corner tl"></div><div class="corner tr"></div>
+<div class="corner bl"></div><div class="corner br"></div>
+
+<div class="wrapper">
+
+  <header class="header">
+    <div class="header-eyebrow">◈ ORACLE PROTOCOL v3.0 &nbsp;|&nbsp; MINERAL INTELLIGENCE EDITION &nbsp;|&nbsp; STUDEX AI × PULSAR MINING ◈</div>
+    <h1 class="header-title">The 10 Commandments</h1>
+    <div class="header-subtitle">Strategic Partnership Intelligence &nbsp;·&nbsp; Mozambique Critical Minerals Edition</div>
+    <div class="header-partners">
+      <div class="partner-tag studex">STUDEX GLOBAL MARKETS</div>
+      <div class="partner-divider">⟷</div>
+      <div class="partner-tag pulsar">PULSAR MINING & CONSULTING</div>
+    </div>
+    <div class="header-line"></div>
+  </header>
+
+  <div class="stats-bar">
+    <div class="stat-item"><div class="stat-val">20</div><div class="stat-label">Total Questions</div></div>
+    <div class="stat-item"><div class="stat-val teal">131K+</div><div class="stat-label">Hectares Portfolio</div></div>
+    <div class="stat-item"><div class="stat-val">6</div><div class="stat-label">Provinces Covered</div></div>
+    <div class="stat-item"><div class="stat-val teal">12+</div><div class="stat-label">Mineral Commodities</div></div>
+    <div class="stat-item"><div class="stat-val">AI</div><div class="stat-label">Intelligence Active</div></div>
+  </div>
+
+  <div class="toggle-bar">
+    <button class="toggle-btn active-studex" id="btn-studex" onclick="switchCompany('studex')">
+      <div class="toggle-btn-label">STUDEX → PULSAR</div>
+      <div class="toggle-btn-sub">10 Questions from Studex Global Markets</div>
+    </button>
+    <button class="toggle-btn" id="btn-pulsar" onclick="switchCompany('pulsar')">
+      <div class="toggle-btn-label">PULSAR → STUDEX</div>
+      <div class="toggle-btn-sub">10 Questions from Pulsar Mining & Consulting</div>
+    </button>
+  </div>
+
+  <div class="layout">
+    <nav class="sidebar" id="sidebar">
+      <div class="sidebar-header">◈ Select Commandment</div>
+    </nav>
+    <main class="main">
+      <div class="scanner" id="scanner">
+        <div class="scanner-text" id="scanner-text">INITIALIZING MINERAL INTELLIGENCE SCAN...</div>
+        <div class="scanner-dots">
+          <div class="scanner-dot"></div><div class="scanner-dot"></div>
+          <div class="scanner-dot"></div><div class="scanner-dot"></div>
+          <div class="scanner-dot"></div>
+        </div>
+      </div>
+      <div id="card-area"></div>
+      <div class="nav-bar" id="nav-bar" style="display:none">
+        <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">← PREV</button>
+        <div class="nav-dots" id="nav-dots"></div>
+        <button class="nav-btn" id="next-btn" onclick="navigate(1)">NEXT →</button>
+      </div>
+    </main>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-l">STUDEX GLOBAL MARKETS × PULSAR MINING &nbsp;·&nbsp; ORACLE PROTOCOL &nbsp;·&nbsp; CONFIDENTIAL 2026</div>
+    <div class="footer-c">◈ MINERAL AI INTELLIGENCE ACTIVE</div>
+    <div class="footer-r">UNLOCKING CRITICAL RESOURCES · STRUCTURING GLOBAL PARTNERSHIPS</div>
+  </footer>
+</div>
+
+<script>
+const STUDEX_Q = [
+  {
+    id:"I", title:"THE COMMANDMENT OF COMMODITY GRAVITY",
+    tag:"CRITICAL MINERALS · SUPPLY CHAIN STRATEGY",
+    minerals:["Niobium","REE","Graphite","Lithium"],
+    question:"Pulsar Mining holds niobium and rare earth licenses in Niassa Province — minerals that the entire global energy transition is structurally short of. China controls 85% of rare earth refining capacity. The EU Critical Raw Materials Act has placed REEs on its emergency list. Our AI has identified 23 active offtake agreements being negotiated right now between African REE projects and Asian, European, and North American buyers. Pulsar sits on 4,226 hectares of alkaline syenites with confirmed Nb, Ta, and REE anomalies — but has no international trading partner to connect this asset to those buyers. Studex Global Markets has that distribution architecture. Why is Pulsar not already using it?",
+    weakness:"Pulsar's REE and niobium assets remain early-stage with no confirmed international offtake — invisible to global supply chain buyers",
+    strength:"Pulsar's geological positioning in Niassa with confirmed radiometric anomalies and historical trenching gives it credible first-mover advantage in an underexplored province",
+    ai:"23 active REE and niobium offtake negotiations mapped globally — cross-referenced against Pulsar asset specifications"
+  },
+  {
+    id:"II", title:"THE COMMANDMENT OF THE BATTERY SUPERCYCLE",
+    tag:"EV SUPPLY CHAINS · GRAPHITE STRATEGY",
+    minerals:["Graphite","Lithium","Cobalt"],
+    question:"Cabo Delgado Province. License 7416. 16,863 hectares of graphite and ruby ground. Graphite is the anode material that every EV battery on earth requires — and natural flake graphite from Africa is being aggressively sought by battery manufacturers in South Korea, Japan, Germany, and the United States as an alternative to Chinese supply. Our predictive models show that a Mozambican graphite project with confirmed mineralisation and a credible trading partner can secure a term sheet with a Tier 1 battery manufacturer within 9–14 months. Pulsar has the ground. Studex has the relationships. What is the specific technical work program that would bring this asset to term-sheet readiness — and has Pulsar defined it?",
+    weakness:"Without a defined technical work program and international trading partner, Pulsar's graphite asset risks being overlooked in a rapidly closing window of opportunity",
+    strength:"Mozambique graphite is already globally recognised — Syrah Resources and Twigg Exploration have proven the province's credibility as a battery mineral source",
+    ai:"Tier 1 battery manufacturer procurement timelines mapped against Mozambican graphite project readiness criteria"
+  },
+  {
+    id:"III", title:"THE COMMANDMENT OF GOLD'S SECOND LIFE",
+    tag:"PRECIOUS METALS · POLYMETALLIC STRATEGY",
+    minerals:["Gold","Copper","Lithium"],
+    question:"Tete Province: six contiguous gold and polymetallic licenses covering 90,500 combined hectares in Chifunde, Maravia, and Zumbo districts. Artisanal activity across the entire package confirms shallow mineralisation. Gold is at $3,100 per ounce. Copper is the metal of electrification — every renewable energy installation, EV charging network, and grid expansion project requires it. License 10294 carries a lithium upside that could make this one of the most strategically valuable polymetallic packages in southern Africa. Studex's B2B exchange connects commodity producers directly to institutional buyers without the margin-destroying middlemen that currently extract value from Mozambican junior miners. What would it take for Pulsar to structure one of these licenses as a flagship transaction on the Studex platform?",
+    weakness:"Pulsar's Tete gold portfolio is large and prospective but lacks the defined resource estimates needed to attract institutional capital without a structured intermediary",
+    strength:"Artisanal activity across 90,500+ hectares is a powerful proxy for mineralisation — junior mining investors understand this signal",
+    ai:"Gold and polymetallic project valuation model calibrated against comparable Tete Province transactions 2020–2025"
+  },
+  {
+    id:"IV", title:"THE COMMANDMENT OF THE FLUORITE MONOPOLY",
+    tag:"INDUSTRIAL MINERALS · STEEL STRENGTHENING ALLOYS",
+    minerals:["Fluorite","Iron","Copper"],
+    question:"License 8262 in Changara District holds iron, gold, copper, and fluorite across 8,513 hectares. Fluorite is the mineral the world's steel industry cannot replace — it is the flux that makes high-grade steel production possible, and global fluorite supply is dangerously concentrated in China and Mexico. The African steel industry, growing at 6% annually, needs local fluorite supply desperately. Studex's existing steel trading relationships — including our active engagement with NLMK Group — create a direct pathway from Pulsar's fluorite concession to steel manufacturers who need exactly this mineral. Has Pulsar explored the fluorite dimension of this license as a standalone strategic asset, or is it being treated as a byproduct?",
+    weakness:"Pulsar's polymetallic licenses risk undervaluing individual commodities by pursuing them as an integrated package rather than as standalone strategic assets",
+    strength:"The geological synergy of iron, fluorite, and copper in a single license creates multiple revenue streams that reduce single-commodity price risk",
+    ai:"Global fluorite supply deficit model — African production capacity vs steel industry demand growth 2025–2030"
+  },
+  {
+    id:"V", title:"THE COMMANDMENT OF THE GEMSTONE PARADOX",
+    tag:"HIGH-VALUE COMMODITIES · ARTISANAL INTEGRATION",
+    minerals:["Emerald","Aquamarine","Ruby","Tourmaline","Diamond"],
+    question:"Pulsar holds gemstone rights across multiple licenses — emerald, aquamarine, ruby, tourmaline in Tete Province and diamond prospects in Gaza Province. The global coloured gemstone market is $22 billion annually, and 'origin-verified' African gemstones command premiums of 40–200% over unverified stones in the high-end jewellery market. Yet African gemstone producers historically lose 70–80% of value to informal trading chains before their stones reach international buyers. Studex's verified KYC/KYB trading platform can function as an origin-certification and premium buyer matching system for Pulsar's gemstone assets — connecting verified Mozambican gemstones directly to certified jewellers and auction houses in Antwerp, Dubai, and Hong Kong. Is Pulsar exploiting the premium positioning of its gemstone assets, or surrendering that value to informal intermediaries?",
+    weakness:"Gemstone value capture in Africa is systematically destroyed by informal trading chains — without a verified trading platform, Pulsar's gemstone licenses will underperform their geological potential",
+    strength:"Pulsar's ESG commitment to artisanal miner formalisation creates a natural 'ethical origin' premium that Studex's verified trading platform can monetise",
+    ai:"African coloured gemstone value chain analysis — informal vs verified trading premium differential 2024"
+  },
+  {
+    id:"VI", title:"THE COMMANDMENT OF PARTNERSHIP ARCHITECTURE",
+    tag:"DEAL STRUCTURE · INVESTOR ALIGNMENT",
+    minerals:["All Commodities"],
+    question:"Pulsar offers four partnership models: Joint Venture, Earn-In, Asset Sale, and Offtake plus Finance. This is sophisticated structuring. But the question is not what models you offer — it is which model is optimal for each specific asset at this specific moment in the commodity cycle. Niobium and REE assets demand an Offtake plus Finance structure because battery mineral buyers will prepay for supply security. Graphite demands a JV with a downstream battery material processor. Gold demands a royalty-retaining Asset Sale to a mid-tier producer. Our AI has modelled the optimal deal structure for each of Pulsar's licenses against current market conditions. Does Pulsar have the international market intelligence to match the right structure to the right asset — or is it presenting all four options to every potential partner and letting them choose?",
+    weakness:"Offering all partnership models simultaneously without asset-specific recommendations signals a lack of market intelligence that sophisticated investors will exploit",
+    strength:"Pulsar's four-model flexibility is a genuine competitive advantage when guided by market intelligence — it can adapt to any investor risk profile",
+    ai:"Asset-by-asset deal structure optimisation model based on current commodity cycle positioning and comparable African mining transactions"
+  },
+  {
+    id:"VII", title:"THE COMMANDMENT OF THE INFRASTRUCTURE CORRIDOR",
+    tag:"LOGISTICS · PORT ACCESS · EXPORT ARCHITECTURE",
+    minerals:["Bulk Commodities","Iron","Graphite","Limestone"],
+    question:"Mozambique's strategic advantage — Indian Ocean port access, growing infrastructure corridors, the Nacala and Beira port systems — is real but unevenly distributed across Pulsar's license portfolio. Niassa Province assets are 1,400km from Nacala Port by road. Inhambane's limestone and heavy mineral assets are within 200km of the coast. Gaza Province's diamond prospect has exceptional transport accessibility. Our logistics AI has modelled the export cost differential across Pulsar's portfolio and identified that three of your licenses have export cost structures that are globally competitive right now — while two require infrastructure investment before they become viable. Does Pulsar have a differentiated logistics strategy per asset, or is it presenting the entire portfolio as equally shovel-ready?",
+    weakness:"Infrastructure and logistics challenges vary dramatically across Pulsar's 6-province portfolio — treating all assets as equally accessible misleads investors",
+    strength:"Mozambique's Indian Ocean port access is a genuine and underappreciated competitive advantage over landlocked African mining jurisdictions",
+    ai:"Per-license export logistics cost modelling — mine gate to FOB price differential across all Pulsar assets"
+  },
+  {
+    id:"VIII", title:"THE COMMANDMENT OF ESG AS REVENUE",
+    tag:"ESG MONETISATION · ARTISANAL FORMALISATION",
+    minerals:["All Commodities"],
+    question:"Pulsar's commitment to artisanal miner formalisation, community employment, and transparent governance is genuine — and in 2026, it is also a commercially exploitable asset. ESG-compliant African mineral projects command a 15–25% premium in project valuation from institutional investors who must meet sustainability mandates. Carbon credit frameworks for responsible mining can generate $2–8 per tonne of ore processed. The London Metal Exchange's responsible sourcing requirements now exclude minerals from non-compliant operations. Studex's platform can structure Pulsar's ESG credentials into a verifiable, internationally auditable framework that increases asset valuation, unlocks ESG-mandated capital, and generates carbon credit revenue. Is Pulsar treating its ESG commitment as a cost centre or as a strategic revenue multiplier?",
+    weakness:"Pulsar's ESG framework, while genuine, lacks the international audit and certification infrastructure needed to unlock ESG-premium capital",
+    strength:"Pulsar's artisanal formalisation programme is exactly the kind of community-benefit story that ESG-mandated institutional investors require — and it is authentic",
+    ai:"ESG premium valuation model for African mining projects — correlation between certification level and investor appetite 2023–2025"
+  },
+  {
+    id:"IX", title:"THE COMMANDMENT OF THE DIGITAL MINING EXCHANGE",
+    tag:"DIGITAL INFRASTRUCTURE · B2B EXCHANGE INTEGRATION",
+    minerals:["All Commodities"],
+    question:"Pulsar's business model is built on relationship-based intermediation — connecting mineral assets, capital, and technical operators through human networks. This works at the 5–10 transaction per year scale. It does not work at the scale required to develop a 131,000+ hectare portfolio across 12+ commodities simultaneously. Studex Global Markets has built an AI-powered B2B exchange with mandatory KYC/KYB verification, real-time pricing intelligence, predictive demand forecasting, and automated deal-matching across African commodity sectors. Integrating Pulsar's asset portfolio onto the Studex exchange would make every one of your licenses discoverable, verifiable, and transactable by 1,800+ pre-qualified international investors and offtake buyers. At what point does Pulsar's relationship-based model become a bottleneck to its own growth — and is it ready to scale beyond it?",
+    weakness:"Pulsar's relationship-based advisory model creates a growth ceiling — the firm cannot scale deal flow faster than its partners can manage relationships manually",
+    strength:"Pulsar's deep local expertise and regulatory knowledge is the exact complement to Studex's digital infrastructure — together they create what neither has alone",
+    ai:"Deal flow capacity modelling — relationship-based vs platform-based mining advisory models at comparable portfolio scales"
+  },
+  {
+    id:"X", title:"THE COMMANDMENT OF THE CONTINENTAL MANDATE",
+    tag:"STRATEGIC VISION · AFRICA PARTNERSHIP",
+    minerals:["All Commodities"],
+    question:"Pulsar Mining's vision is to become 'a leading African mining development partner, recognized for structuring high-potential mineral assets into sustainable, internationally competitive projects.' Studex Global Markets' mission is to build Africa's premier global consignment exchange — the infrastructure layer through which African commodities reach the world. These are not competing visions. They are complementary architectures for the same continental mission: making Africa the dominant supplier of the critical minerals the 21st century runs on. Our models show that a formal partnership between Pulsar's asset development capability and Studex's trading infrastructure could structure, market, and transact a minimum of 4 major mineral deals in the first 24 months — generating combined project value of $35–80M. The window to establish first-mover credibility in Mozambique's critical mineral sector is open right now, and it is closing. Are Pulsar's leadership and Studex's leadership ready to sign a Memorandum of Understanding and begin building Africa's most powerful mineral trading partnership?",
+    weakness:"Without a formal partnership structure, both Pulsar and Studex risk being outpaced by better-capitalised competitors who are already moving on Mozambique's mineral opportunity",
+    strength:"The complementarity between Pulsar's local asset development expertise and Studex's international trading infrastructure is genuinely rare and structurally defensible",
+    ai:"Mozambique critical mineral deal pipeline — 4 structured transactions modelled across niobium, graphite, gold, and gemstone asset categories"
+  }
+];
+
+const PULSAR_Q = [
+  {
+    id:"I", title:"THE COMMANDMENT OF COMMODITY KNOWLEDGE",
+    tag:"MINERAL EXPERTISE · TECHNICAL CREDIBILITY",
+    minerals:["Niobium","REE","Graphite"],
+    question:"Studex Global Markets operates across Wagyu beef, specialty coffee, wheat, and industrial steel. You now propose to trade critical minerals — niobium, rare earth elements, graphite, and lithium — on your B2B exchange platform. These are not agricultural commodities. REE pricing involves 17 distinct element specifications. Niobium trading requires understanding ASTM and ISO metallurgical grade requirements. Graphite involves flake size distribution, carbon purity percentage, and expandability specifications that determine whether the product qualifies for battery-grade use. Our AI has identified 14 technical parameters that differentiate a premium graphite sale from a standard industrial sale — worth a 300% price differential. Does Studex have mineral commodity trading expertise on its team, or is it proposing to learn this at Pulsar's expense?",
+    weakness:"Studex's multi-commodity platform model may lack the technical depth required to add value in specialist mineral trading without dedicated geological and metallurgical expertise",
+    strength:"Studex's existing B2B infrastructure, KYC/KYB verification, and African trading relationships provide a genuine foundation that can be rapidly upgraded with specialist knowledge",
+    ai:"14-parameter mineral commodity specification matrix — premium vs standard grade differential modelling"
+  },
+  {
+    id:"II", title:"THE COMMANDMENT OF BUYER VERIFICATION",
+    tag:"OFFTAKE BUYER QUALITY · INSTITUTIONAL VERIFICATION",
+    minerals:["All Commodities"],
+    question:"You claim to have 1,800+ pre-qualified buyers on your exchange. For our mineral assets, the buyer universe is highly specific: battery manufacturers (CATL, LG Energy Solution, Panasonic), steel producers (NLMK, ArcelorMittal, POSCO), specialist REE processors (Lynas, MP Materials, Shin-Etsu), and gemstone traders (Gemfields, Gübelin, Chopard supply chains). These are Tier 1 institutional buyers who require JORC-compliant resource estimates, environmental baseline studies, and legal title verification before they will sign an offtake term sheet. How many of your 1,800 buyers are specifically verified for mineral commodity procurement at this institutional level — and can you provide Pulsar with a confirmed buyer list for niobium, graphite, and battery-grade lithium?",
+    weakness:"Generic B2B buyer verification may not meet the specific institutional credibility requirements of Tier 1 mineral commodity buyers",
+    strength:"Studex's NLMK steel relationship demonstrates it can access Tier 1 industrial buyers — the question is whether this extends to battery and critical mineral supply chains",
+    ai:"Tier 1 mineral buyer procurement requirement mapping — JORC compliance, ESG certification, and supply chain audit standards"
+  },
+  {
+    id:"III", title:"THE COMMANDMENT OF REGULATORY COMPETENCE",
+    tag:"MOZAMBICAN MINING LAW · COMPLIANCE INFRASTRUCTURE",
+    minerals:["All Commodities"],
+    question:"Mozambique's Mining Law (Law 20/2014) and its Regulations (Decree 31/2015) govern every aspect of mineral rights assignment, transfer, and joint venture structuring. The Mining Cadastre (Landfolio system) requires specific notification procedures for any change in beneficial ownership. Environmental Impact Assessments must be approved by MITADER before any exploration activity beyond Phase 1. Artisanal mining formalisation requires coordination with MIREME's Artisanal Mining Department. These are not bureaucratic footnotes — they are the legal architecture within which every Pulsar transaction must operate. Studex proposes to structure and intermediate mineral deals in Mozambique. What specific knowledge does Studex have of Mozambican mining law, and which qualified Mozambican legal firms are currently on retainer to support your mineral trading operations in this jurisdiction?",
+    weakness:"A trading platform without deep Mozambican regulatory competence could inadvertently create compliance risks that invalidate mineral transactions",
+    strength:"Pulsar's regulatory compliance expertise is its most defensible competitive advantage — a Studex partnership that incorporates Pulsar's legal knowledge solves this weakness completely",
+    ai:"Mozambican mining law compliance checklist — 23 regulatory requirements for valid mineral transaction structuring"
+  },
+  {
+    id:"IV", title:"THE COMMANDMENT OF PRICE DISCOVERY",
+    tag:"COMMODITY PRICING · MARKET INTELLIGENCE",
+    minerals:["Niobium","REE","Graphite","Gold"],
+    question:"Gold trades on the COMEX with real-time price discovery. Graphite has no futures market — pricing is bilateral, opaque, and relationship-dependent. REE pricing is dominated by Chinese export quotas and spot market opacity. Niobium is effectively a CBMM near-monopoly where Brazilian prices set the global reference. For Pulsar's most strategic assets, the 'market price' is whatever a sophisticated buyer can negotiate against an unsophisticated seller. Your AI claims predictive pricing intelligence across African commodity markets. For graphite, REE, and niobium specifically — what is your price discovery methodology, what data sources does it use, and how does it account for the bilateral opacity that characterises these markets? Pulsar needs a trading partner with genuine pricing power, not a platform that reprices what it finds on Bloomberg.",
+    weakness:"AI-driven price discovery for opaque, bilaterally-traded critical minerals is genuinely difficult — general commodity platforms typically lack the specialist data sources required",
+    strength:"Studex's proposed integration of multiple data sources and African trade flow data could create a proprietary pricing intelligence advantage that no competitor currently holds",
+    ai:"Critical mineral price discovery methodology — data source validation for graphite, REE, and niobium bilateral markets"
+  },
+  {
+    id:"V", title:"THE COMMANDMENT OF FINANCIAL ARCHITECTURE",
+    tag:"PROJECT FINANCE · CAPITAL MOBILISATION",
+    minerals:["All Commodities"],
+    question:"Exploration to production in critical minerals requires capital in stages: $500K–$2M for Phase 1 resource definition drilling; $3–8M for feasibility study and environmental baseline; $15–50M for mine construction depending on commodity and scale. Pulsar's assets span this entire capital spectrum. The Offtake plus Finance model you have shown interest in requires a prepayment counterparty with balance sheet strength. Has Studex secured relationships with development finance institutions — Afreximbank, the Africa Finance Corporation, the IFC, or the European Investment Bank — that can provide the structured finance layer required to bring Pulsar's pre-production assets to bankability? A trading platform without a finance architecture is a distribution channel without product.",
+    weakness:"Without formalised DFI relationships, Studex cannot deliver the finance component of an Offtake plus Finance structure that Pulsar's exploration-stage assets require",
+    strength:"Studex's proposed Afreximbank escrow architecture demonstrates awareness of African DFI relationships — formalising this into a project finance partnership solves the capital gap",
+    ai:"Development finance institution appetite modelling for Mozambican critical mineral projects 2025–2026"
+  },
+  {
+    id:"VI", title:"THE COMMANDMENT OF GEOGRAPHIC REACH",
+    tag:"MARKET ACCESS · BUYER GEOGRAPHY",
+    minerals:["Graphite","REE","Lithium"],
+    question:"The buyers for Pulsar's critical minerals are geographically concentrated: battery manufacturers in South Korea (Samsung SDI, SK Innovation), Japan (Panasonic, TDK), Germany (BASF, Volkswagen supply chain), and the United States (Tesla, GM supply chains under the Inflation Reduction Act). The IRA specifically incentivises battery mineral supply from non-Chinese sources with $7,500 per vehicle tax credits — creating a structural premium for Mozambican graphite and lithium if properly certified. Does Studex have verified trading relationships and established market access in South Korea, Japan, Germany, and the United States — the four markets where Pulsar's critical mineral offtake value will ultimately be determined?",
+    weakness:"An Africa-focused trading platform may have limited penetration in the Asian and Western markets where critical mineral offtake decisions are actually made",
+    strength:"Studex's pan-African positioning means it understands the supply-side architecture — partnering with market-access specialists in key buyer geographies would complete the value chain",
+    ai:"IRA-compliant critical mineral supply chain mapping — Mozambique to US battery manufacturer certification pathway"
+  },
+  {
+    id:"VII", title:"THE COMMANDMENT OF ARTISANAL PROTECTION",
+    tag:"COMMUNITY RIGHTS · ARTISANAL FORMALISATION",
+    minerals:["Gemstones","Gold","Diamond"],
+    question:"Pulsar's most important social commitment is the formalisation and protection of artisanal miners across its license areas. These are Mozambican citizens — many of them operating in informal gold and gemstone workings for generations. When Studex introduces international buyers and institutional capital into these areas, the risk of artisanal displacement is real. Corporate mining history in Africa is full of cases where international trading platforms and investors bypassed artisanal communities rather than integrating them. What specific contractual, ethical, and operational commitments is Studex prepared to make regarding the protection and economic inclusion of artisanal miners in every transaction it structures on Pulsar's licenses? Pulsar will not sign a partnership that monetises our ESG credentials without binding commitments to the communities behind them.",
+    weakness:"Trading platforms optimised for transaction speed may have structural incentives that conflict with the slow, community-consultative processes that genuine artisanal formalisation requires",
+    strength:"Studex's emphasis on KYC/KYB verification and ethical trading infrastructure creates a natural foundation for binding community protection commitments",
+    ai:"Artisanal miner economic inclusion modelling — revenue share, employment, and capacity building frameworks across comparable African mining projects"
+  },
+  {
+    id:"VIII", title:"THE COMMANDMENT OF TITLE SECURITY",
+    tag:"LEGAL TITLE · LICENSE PROTECTION",
+    minerals:["All Licenses"],
+    question:"Pulsar holds licenses through partnerships with licensed Mozambican mineral right holders. The strength of this structure depends entirely on the quality of the underlying title documentation, the absence of overlapping claims, and the legal enforceability of the partnership agreements. International investors and offtake buyers will conduct title due diligence before any transaction. Our experience shows that 40% of African mineral project transactions fail at due diligence stage due to title defects that were unknown to the project developer. Before Pulsar can credibly market its portfolio on the Studex platform, every license must pass independent legal title verification. What is Studex's due diligence architecture for title verification — and which independent legal firm will Studex appoint to conduct title audits across Pulsar's 15+ license portfolio?",
+    weakness:"Title defects are the single most common cause of failed African mineral transactions — without a rigorous independent title audit, Studex risks presenting flawed assets to buyers",
+    strength:"Studex's mandatory KYC/KYB verification infrastructure provides a natural framework for extending asset-level due diligence to legal title verification",
+    ai:"African mineral title defect frequency analysis — 15-license portfolio audit timeline and cost modelling"
+  },
+  {
+    id:"IX", title:"THE COMMANDMENT OF VALUE RETENTION",
+    tag:"MARGIN ARCHITECTURE · FEE STRUCTURE",
+    minerals:["All Commodities"],
+    question:"Pulsar's licensed partners have invested years of time, regulatory effort, and capital into acquiring and maintaining these mineral rights. When Studex structures transactions on the Studex Global Markets exchange, what percentage of transaction value flows back to the mineral right holder, to Pulsar as the structuring intermediary, and to Studex as the trading platform? The African mining sector has a documented history of international trading platforms and intermediaries extracting 15–30% of transaction value through layered fee structures that are not disclosed upfront. Pulsar requires complete fee transparency, a defined revenue waterfall for every transaction type, and a commitment that Studex's commercial model never incentivises transaction volume over asset value maximisation for the mineral right holder.",
+    weakness:"Multi-layer intermediation in African mineral transactions has historically destroyed value for asset holders — without full fee transparency, Pulsar cannot evaluate the true economics of a Studex partnership",
+    strength:"Studex's revenue-share model, if structured with full transparency, creates genuine alignment — both parties earn only when transactions complete at optimal value",
+    ai:"Transaction fee structure analysis — African mineral trading platform margin benchmarking 2020–2025"
+  },
+  {
+    id:"X", title:"THE COMMANDMENT OF THE SOVEREIGN MANDATE",
+    tag:"MOZAMBICAN VALUE · NATIONAL INTEREST",
+    minerals:["All Commodities"],
+    question:"Mozambique is not simply a geological opportunity. It is a sovereign nation whose mineral wealth belongs to its people under the constitution. Pulsar Mining's mandate is to ensure that the development of Mozambican mineral assets delivers lasting value to Mozambican communities, the Mozambican government, and the Mozambican economy — not just to international investors and trading platforms. The global critical mineral rush is generating enormous wealth, and too little of it remains in the countries where the minerals are extracted. Studex Global Markets is building Africa's premier trading exchange. Before Pulsar commits to this partnership, we need to understand: what specific, binding commitments is Studex prepared to make to ensure that a defined percentage of transaction value, employment, and capacity building remains in Mozambique — and how will those commitments be independently verified?",
+    weakness:"International trading platforms are structurally incentivised to minimise in-country value retention in favour of transaction speed and fee extraction",
+    strength:"Studex's African identity and pan-continental mission create a genuine alignment with Mozambican value retention goals that Western trading platforms cannot credibly claim",
+    ai:"In-country value retention modelling — Mozambican regulatory minimum vs Studex partnership commitment framework"
+  }
+];
+
+let company = 'studex', qIdx = 0;
+function qs() { return company==='studex' ? STUDEX_Q : PULSAR_Q; }
+
+function switchCompany(c) {
+  if (c===company) return;
+  company=c; qIdx=0;
+  document.getElementById('btn-studex').className='toggle-btn'+(c==='studex'?' active-studex':'');
+  document.getElementById('btn-pulsar').className='toggle-btn'+(c==='pulsar'?' active-pulsar':'');
+  buildSidebar(); loadQuestion();
+}
+
+function buildSidebar() {
+  const sb=document.getElementById('sidebar');
+  sb.innerHTML='<div class="sidebar-header">◈ Select Commandment</div>';
+  qs().forEach((q,i)=>{
+    const b=document.createElement('button');
+    b.className='q-btn'+(i===qIdx?(company==='studex'?' active-s':' active-p'):'');
+    b.innerHTML=`<div class="q-btn-num">COMMANDMENT ${q.id}</div><div class="q-btn-tag">${q.tag.split('·')[0].trim()}</div>`;
+    b.onclick=()=>{qIdx=i;buildSidebar();loadQuestion();};
+    sb.appendChild(b);
+  });
+}
+
+function buildNav() {
+  const nd=document.getElementById('nav-dots'); nd.innerHTML='';
+  qs().forEach((_,i)=>{
+    const d=document.createElement('button');
+    d.className='nav-dot'+(i===qIdx?(company==='studex'?' ds':' dp'):'');
+    d.style.width=i===qIdx?'20px':'6px';
+    d.onclick=()=>{qIdx=i;buildSidebar();loadQuestion();};
+    nd.appendChild(d);
+  });
+  document.getElementById('prev-btn').disabled=qIdx===0;
+  document.getElementById('next-btn').disabled=qIdx===qs().length-1;
+}
+
+function navigate(d) {
+  qIdx=Math.max(0,Math.min(qs().length-1,qIdx+d));
+  buildSidebar(); loadQuestion();
+}
+
+function loadQuestion() {
+  const sc=document.getElementById('scanner'),ca=document.getElementById('card-area'),nb=document.getElementById('nav-bar');
+  ca.innerHTML=''; nb.style.display='none'; sc.classList.add('active');
+  const q=qs()[qIdx];
+  const msgs=['INITIALIZING MINERAL INTELLIGENCE SCAN...','QUERYING MOZAMBIQUE CADASTRE DATABASE...','CROSS-REFERENCING GLOBAL COMMODITY BUYERS...','LOADING COMMANDMENT '+q.id+'...'];
+  let i=0;
+  const st=document.getElementById('scanner-text');
+  const iv=setInterval(()=>{
+    if(i<msgs.length){st.textContent=msgs[i];i++;}
+    else{clearInterval(iv);sc.classList.remove('active');renderCard();nb.style.display='flex';buildNav();}
+  },320);
+}
+
+function renderCard() {
+  const q=qs()[qIdx];
+  const isSt=company==='studex';
+  const hc=isSt?'card-header sh':'card-header ph';
+  const mc=isSt?'ch-meta sm':'ch-meta pm';
+  const tc=isSt?'ch-tag st':'ch-tag pt';
+  const bc=isSt?'q-block sb':'q-block pb';
+  const src=isSt?'STUDEX GLOBAL MARKETS → PULSAR MINING':'PULSAR MINING & CONSULTING → STUDEX GLOBAL MARKETS';
+  const tags=q.tag.split('·').map(t=>`<span class="${tc}">◈ ${t.trim()}</span>`).join('');
+  const minerals=q.minerals.map(m=>`<div class="mineral-tag">${m}</div>`).join('');
+  const el=document.createElement('div');
+  el.className='card active';
+  el.innerHTML=`
+    <div class="${hc}">
+      <div>
+        <div class="${mc}">COMMANDMENT ${q.id} OF X</div>
+        <div class="ch-title">${q.title}</div>
+      </div>
+      <div class="ch-tags">${tags}</div>
+    </div>
+    <div class="mineral-tags">${minerals}</div>
+    <div class="${bc}" data-src="${src}">
+      <div class="q-numeral">${q.id}</div>
+      <p class="q-text">${q.question}</p>
+    </div>
+    <div class="intel-grid">
+      <div class="intel-panel w"><div class="intel-label">⚠ Weakness Exposed</div><div class="intel-text">${q.weakness}</div></div>
+      <div class="intel-panel s"><div class="intel-label">◈ Strength Leveraged</div><div class="intel-text">${q.strength}</div></div>
+      <div class="intel-panel a"><div class="intel-label">⬡ AI Intelligence Layer</div><div class="intel-text">${q.ai}</div></div>
+    </div>`;
+  document.getElementById('card-area').appendChild(el);
+}
+
+buildSidebar(); loadQuestion();
+</script>
+</body>
+</html>

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studex Private Intelligence // Ghost Room 01</title>
+    <link rel="stylesheet" href="studex-theme.css">
+    <style>
+        body { background: var(--bg-deep); overflow: hidden; height: 100vh; display: flex; flex-direction: column; }
+        
+        .topbar { padding: 20px 48px; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; background: rgba(2,3,5,0.9); z-index: 100;}
+        .topbar a { color: var(--text-dim); text-decoration: none; font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; }
+        .topbar a:hover { color: var(--gold-champagne); }
+        
+        .ghost-container { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding: 24px 48px; overflow: hidden; }
+
+        /* LEFT: CHAT AND LOGS */
+        .ghost-ui {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(230, 194, 122, 0.15);
+            background: rgba(10, 12, 18, 0.6);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .ghost-header { padding: 20px 30px; border-bottom: 1px solid rgba(230, 194, 122, 0.1); display: flex; justify-content: space-between; align-items: center; }
+        .room-id { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; color: var(--gold-champagne); }
+        
+        .chat-area { flex: 1; padding: 30px; overflow-y: auto; display: flex; flex-direction: column; gap: 24px; position:relative; }
+        
+        .message { padding: 16px 20px; font-size: 13px; max-width: 85%; }
+        .message.agent { border-left: 2px solid var(--emerald); background: rgba(0, 208, 132, 0.05); align-self: flex-start; border-radius: 0 8px 8px 0; }
+        .message.user { border-right: 2px solid var(--gold-champagne); background: rgba(230, 194, 122, 0.05); align-self: flex-end; text-align: right; border-radius: 8px 0 0 8px; }
+        
+        .sender { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 8px; color: var(--text-dim); }
+        
+        .input-area { padding: 20px 30px; border-top: 1px solid rgba(230, 194, 122, 0.1); display: flex; gap: 20px; background: rgba(0,0,0,0.3); }
+        .ghost-input { flex: 1; background: transparent; border: 1px solid rgba(255, 255, 255, 0.1); padding: 12px 20px; color: #fff; font-family: var(--font-main); border-radius: 8px; }
+        .ghost-input:focus { border-color: var(--gold-champagne); outline: none; }
+        
+        .ephemeral-timer { position: absolute; bottom: 100px; left: 50%; transform: translateX(-50%); font-family: var(--font-number); font-size: 64px; font-weight: 900; color: rgba(255, 255, 255, 0.02); letter-spacing: 0.1em; pointer-events: none; }
+
+        /* RIGHT: VIDEO CONFERENCING */
+        /* We are integrating Jitsi Meet natively here so it looks like Studex proprietary tech */
+        .video-panel {
+            background: rgba(0,0,0,0.8);
+            border: 1px solid rgba(0, 208, 132, 0.2);
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        
+        .video-header {
+            padding: 16px 24px;
+            background: linear-gradient(90deg, rgba(7, 94, 61, 0.4) 0%, transparent 100%);
+            border-bottom: 1px solid rgba(0, 208, 132, 0.2);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        
+        #meet-container { flex: 1; min-height: 400px; position: relative; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle at center, rgba(0, 208, 132, 0.05), transparent 70%); }
+        .google-meet-bridge { text-align: center; padding: 40px; }
+        .meet-icon { width: 64px; height: 64px; margin-bottom: 24px; }
+        .meet-input { background: rgba(0,0,0,0.5); border: 1px solid rgba(0, 208, 132, 0.3); color: #fff; padding: 14px 20px; border-radius: 8px; font-family: var(--font-mono); width: 300px; margin-bottom: 20px; text-align: center; font-size: 14px; }
+        .meet-input:focus { outline: none; border-color: var(--emerald); }
+    </style>
+</head>
+
+<body>
+
+    <div class="topbar">
+        <a href="dashboard.html">◈ EXIT TO AGORA</a>
+        <div style="font-family:var(--font-mono); font-size:12px; color:var(--text-dim);">
+           CHRONOS NODE: ACTIVE | <span style="color:#FF3366;">GHOST PROTOCOL INITIATED</span>
+        </div>
+    </div>
+
+    <div class="ghost-container">
+        
+        <!-- LEFT PANEL: CHAT / SYSTEM -->
+        <div class="ghost-ui">
+            <div class="ghost-header">
+                <div class="room-id">SESSION_ID // DX-9942</div>
+                <div class="flex gap-md align-center">
+                    <span style="color:#00D084; font-size:10px; font-weight:700; letter-spacing:0.1em;">◈ ENCRYPTED</span>
+                    <span class="room-id" style="color: var(--text-dim);">BITCOIN SEAL: 6a3...82f</span>
+                </div>
+            </div>
+
+            <div class="chat-area" id="chat">
+                <div class="ephemeral-timer" id="timer">04:59</div>
+                
+                <div class="message agent" style="animation: fadeUp 0.5s ease;">
+                    <div class="sender">DIPLOMAT AGENT</div>
+                    <div class="text">Welcome to the secure Ghost Room. I have connected the external video link. When you are ready, you may share the secure URL with the buyer delegation.</div>
+                </div>
+
+            </div>
+
+            <div class="input-area">
+                <input type="text" class="ghost-input" id="msgInput" placeholder="Messages auto-delete on session end...">
+                <button class="btn-3d" style="padding: 12px 24px;" onclick="sendMsg()">SEND</button>
+            </div>
+        </div>
+
+        <!-- RIGHT PANEL: NATIVE VIDEO MEET -->
+        <div class="video-panel">
+            <div class="video-header">
+                <div>
+                   <span style="color:var(--emerald); font-size:11px; font-weight:700; letter-spacing:0.1em;">◈ CHRONOS SECURE VIDEO LINK</span>
+                </div>
+                <button class="btn-3d btn-3d-secondary" style="padding:8px 16px; font-size:10px;" onclick="copyMeetLink()">COPY LINK FOR CLIENT</button>
+            </div>
+            
+            <div id="meet-container">
+                <div class="google-meet-bridge" id="host-view">
+                    <svg class="meet-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M16 16L21 21V3L16 8V16Z" fill="#00D084"/>
+                        <path d="M3 8V16C3 17.1046 3.89543 18 5 18H14V6H5C3.89543 6 3 6.89543 3 8Z" fill="#00D084"/>
+                    </svg>
+                    <h3 style="font-family: var(--font-main); color: #FFF; margin-bottom: 12px; font-size: 20px;">Google Meet Integration</h3>
+                    <p style="color: var(--text-dim); font-size: 13px; margin-bottom: 30px; line-height: 1.6; max-width: 320px; margin-left: auto; margin-right: auto;">
+                        Google Meet’s institutional security requires it to launch in a secure dedicated window. 
+                    </p>
+                    <button class="btn-3d" style="width: 100%; max-width: 300px; margin-bottom: 20px; background: rgba(0, 208, 132, 0.1); border-color: var(--emerald); color: var(--emerald); box-shadow: 0 6px 0 rgba(0, 80, 50, 0.5);" onclick="window.open('https://meet.google.com/new', '_blank')">
+                        1. GENERATE SECURE MEET
+                    </button>
+                    <br/>
+                    <input type="text" class="meet-input" id="meetLinkInput" placeholder="2. Paste meet.google.com link here" />
+                    <br/>
+                    <button class="btn-3d" style="width: 100%; max-width: 300px;" onclick="syncMeetLink()">3. SYNC TO CLIENT ROOM</button>
+                </div>
+
+                <div class="google-meet-bridge" id="client-view" style="display: none;">
+                    <svg class="meet-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M16 16L21 21V3L16 8V16Z" fill="#E6C27A"/>
+                        <path d="M3 8V16C3 17.1046 3.89543 18 5 18H14V6H5C3.89543 6 3 6.89543 3 8Z" fill="#E6C27A"/>
+                    </svg>
+                    <div style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em; color: var(--gold-champagne); margin-bottom: 16px;">SECURE BRIDGE ACTIVE</div>
+                    <h3 style="font-family: var(--font-main); color: #FFF; margin-bottom: 12px; font-size: 20px;">Institutional Video Room</h3>
+                    <p style="color: var(--text-dim); font-size: 13px; margin-bottom: 30px; line-height: 1.6; max-width: 320px; margin-left: auto; margin-right: auto;">
+                        Click below to join the secure Google Meet session with your Studex representative.
+                    </p>
+                    <button class="btn-3d" id="joinMeetBtn" style="width: 100%; max-width: 300px; background: rgba(230, 194, 122, 0.1); border-color: var(--gold-champagne); color: var(--gold-champagne); box-shadow: 0 6px 0 rgba(100, 80, 40, 0.5);">
+                        ENTER SECURE MEETING
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // --- 1. EPHEMERAL TIMER ---
+        let seconds = 299;
+        const timerEl = document.getElementById('timer');
+        setInterval(() => {
+            seconds--;
+            if(seconds < 0) return;
+            const m = Math.floor(seconds / 60);
+            const s = seconds % 60;
+            timerEl.textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+        }, 1000);
+
+        // --- 2. CHAT LOGIC ---
+        function sendMsg() {
+            const input = document.getElementById('msgInput');
+            if(!input.value.trim()) return;
+            
+            const chat = document.getElementById('chat');
+            const newMsg = document.createElement('div');
+            newMsg.className = 'message user';
+            newMsg.innerHTML = `<div class="sender">SOVEREIGN MEMBER</div><div class="text">${input.value}</div>`;
+            chat.appendChild(newMsg);
+            
+            input.value = '';
+            chat.scrollTop = chat.scrollHeight;
+        }
+        
+        document.getElementById('msgInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') sendMsg();
+        });
+
+        // --- 3. VIDEO PIPELINE (GOOGLE MEET BRIDGE) ---
+        const urlParams = new URLSearchParams(window.location.search);
+        let roomName = urlParams.get('room');
+        let meetLink = urlParams.get('meet');
+        
+        // If the URL has 'meet=' it means we are the CLIENT joining an existing room
+        if (meetLink) {
+            document.getElementById('host-view').style.display = 'none';
+            document.getElementById('client-view').style.display = 'block';
+            
+            document.getElementById('joinMeetBtn').onclick = () => {
+                window.open(decodeURIComponent(meetLink), '_blank');
+            };
+            
+            // Add automated agent message for the client
+            setTimeout(() => {
+                const chat = document.getElementById('chat');
+                const newMsg = document.createElement('div');
+                newMsg.className = 'message agent';
+                newMsg.style.animation = 'fadeUp 0.5s ease';
+                newMsg.innerHTML = `<div class="sender">DIPLOMAT AGENT</div><div class="text">The secure Google Meet link has successfully synced to your dashboard. You may click Enter Secure Meeting when ready.</div>`;
+                chat.appendChild(newMsg);
+                chat.scrollTop = chat.scrollHeight;
+            }, 1000);
+            
+        } else {
+            // We are the HOST
+            if (!roomName) {
+                roomName = "StudexGhostRoom_" + Math.random().toString(36).substring(2, 10);
+                window.history.replaceState(null, '', '?room=' + roomName);
+            }
+        }
+
+        function syncMeetLink() {
+            const inputVal = document.getElementById('meetLinkInput').value.trim();
+            if (!inputVal || !inputVal.includes('meet.google.com')) {
+                alert("Please paste a valid Google Meet link.");
+                return;
+            }
+            
+            // Send a chat message informing exactly what happened
+            const chat = document.getElementById('chat');
+            const newMsg = document.createElement('div');
+            newMsg.className = 'message agent';
+            newMsg.style.animation = 'fadeUp 0.5s ease';
+            newMsg.innerHTML = `<div class="sender">SYSTEM NOTIFICATION</div><div class="text">Google Meet room synchronized successfully.</div>`;
+            chat.appendChild(newMsg);
+            chat.scrollTop = chat.scrollHeight;
+            
+            // Clear input for cleanliness
+            document.getElementById('meetLinkInput').value = '';
+            
+            // Provide the EXACT Studex platform URL with the meeting link encoded
+            const platformMeetUrl = window.location.origin + window.location.pathname + "?meet=" + encodeURIComponent(inputVal);
+            navigator.clipboard.writeText(platformMeetUrl).then(() => {
+                alert("Secure Client Platform Link copied to clipboard!\n\nWhen your client clicks this, they will be brought straight into the customized Ghost Room with your Google Meet button ready.\n\nLink to text them: " + platformMeetUrl);
+            });
+        }
+
+        // Overwrite the top-right copy button to mimic the sync flow
+        function copyMeetLink() {
+             alert("Please use the Google Meet Integration area first. Generate a meet, paste the link, and click SYNC TO CLIENT ROOM to get the shareable link.");
+        }
+    </script>
+
+</body>
+</html>

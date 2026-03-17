@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Studex // Chronos Ledger</title>
+  <link rel="stylesheet" href="studex-theme.css">
+  <style>
+    body { background: var(--bg-deep); height: 100vh; overflow: hidden; display: flex; }
+    .sidebar { width: 80px; border-right: 1px solid rgba(255,255,255,0.05); background: rgba(10,12,18,0.8); display: flex; flex-direction: column; align-items: center; padding-top: 32px; }
+    .sidebar-brand { font-size: 24px; color: var(--gold-champagne); cursor: pointer; }
+    
+    .ledger-container { flex: 1; padding: 48px; overflow-y: auto; }
+    .top-panel { margin-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 24px; }
+    
+    .block-list { display: flex; flex-direction: column; gap: 16px; }
+    .block-row { background: rgba(15,18,26,0.5); border: 1px solid rgba(230,194,122,0.1); border-radius: 12px; padding: 24px; display: flex; align-items: center; justify-content: space-between; transition: all 0.3s; }
+    .block-row:hover { border-color: var(--gold-champagne); background: rgba(230,194,122,0.05); transform: translateX(10px); }
+    
+    .block-hash { font-family: var(--font-mono); color: var(--gold-champagne); font-size: 14px; letter-spacing: 0.1em; }
+    .block-type { background: rgba(255,255,255,0.1); padding: 4px 12px; border-radius: 4px; font-size: 11px; font-weight: 700; color: #fff; letter-spacing: 0.1em; }
+    .block-time { color: var(--text-dim); font-size: 13px; font-family: var(--font-mono); }
+    .block-icon { font-size: 24px; background: rgba(230,194,122,0.1); width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; border-radius: 50%; border: 1px solid rgba(230,194,122,0.3); }
+
+    .live-pulse { width:8px; height:8px; background:var(--gold-champagne); border-radius:50%; display:inline-block; margin-right:12px; animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(230,194,122,0.7); } 70% { box-shadow: 0 0 0 10px rgba(230,194,122,0); } 100% { box-shadow: 0 0 0 0 rgba(230,194,122,0); } }
+  </style>
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="sidebar-brand" onclick="window.location.href='dashboard.html'">◈</div>
+  </aside>
+
+  <div class="ledger-container">
+    <div class="top-panel reveal">
+      <div class="eyebrow" style="color:var(--text-dim);"><span class="live-pulse"></span> CHRONOS PROTOCOL LIVE</div>
+      <h1 class="hero-title" style="font-size:42px; margin-bottom:0;">Immutable Trade Ledger</h1>
+      <p style="color:var(--text-dim); margin-top:16px;">Verified Bitcoin-anchored hashes for all negotiations and contracts on Studex Global Markets. No 3rd parties. No 90-day arbitrations.</p>
+    </div>
+
+    <div class="block-list reveal" id="blocks">
+      <!-- Blocks will be injected here -->
+    </div>
+  </div>
+
+  <script>
+    setTimeout(() => { document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible')); }, 100);
+
+    const blocks = [
+      { type: "GHOST_ROOM_SEAL", desc: "Meeting Transcript Hashed", time: "Just Now", icon: "👁‍🗨" },
+      { type: "SMART_CONTRACT", desc: "Wagyu Shipment Export Signed", time: "12 mins ago", icon: "📜" },
+      { type: "MATCHMAKER", desc: "AI Compatibility Matrix Executed", time: "45 mins ago", icon: "⬡" },
+      { type: "ORACLE_EVAL", desc: "Deal Simulation Results Anchored", time: "1 hr ago", icon: "🔮" },
+      { type: "DNA_EQUITY", desc: "2,000 Rhino Tokens Transferred", time: "3 hrs ago", icon: "🦏" }
+    ];
+
+    const container = document.getElementById('blocks');
+    
+    blocks.forEach((b, i) => {
+      const hashString = "0x" + Math.random().toString(16).substr(2, 40) + "...";
+      const div = document.createElement('div');
+      div.className = 'block-row';
+      div.style.animationDelay = `${i * 0.1}s`;
+      div.innerHTML = `
+        <div class="flex align-center gap-md">
+          <div class="block-icon">${b.icon}</div>
+          <div>
+            <div class="block-hash">${hashString}</div>
+            <div style="font-size:14px; color:#fff; margin-top:4px;">${b.desc}</div>
+          </div>
+        </div>
+        <div class="flex align-center gap-sm">
+          <div class="block-type">${b.type}</div>
+          <div class="block-time">${b.time}</div>
+        </div>
+      `;
+      container.appendChild(div);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SKTM × Studex Global Markets — Ghost Protocol Partnership Brief</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root {
+  --obsidian: #080A0E;
+  --deep: #0C0F15;
+  --surface: #111520;
+  --panel: #141824;
+  --border: rgba(201,168,76,0.18);
+  --border-light: rgba(201,168,76,0.08);
+  --gold: #C9A84C;
+  --gold-bright: #E5C26A;
+  --gold-dim: rgba(201,168,76,0.45);
+  --gold-glow: rgba(201,168,76,0.12);
+  --text: #D8D0BC;
+  --text-dim: rgba(216,208,188,0.55);
+  --text-faint: rgba(216,208,188,0.28);
+  --white: #F0EAD8;
+  --mono: 'Share Tech Mono', monospace;
+  --serif: 'Cormorant Garamond', Georgia, serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--obsidian);
+  color:var(--text);
+  font-family:var(--serif);
+  font-size:17px;
+  line-height:1.7;
+  overflow-x:hidden;
+}
+
+/* BACKGROUND TEXTURE */
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(201,168,76,0.06) 0%, transparent 70%),
+    linear-gradient(rgba(201,168,76,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201,168,76,0.025) 1px, transparent 1px);
+  background-size:100% 100%, 80px 80px, 80px 80px;
+  pointer-events:none;
+  z-index:0;
+}
+
+.wrap{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 28px 80px}
+
+/* ═══ COVER ═══ */
+.cover{
+  text-align:center;
+  padding:80px 0 64px;
+  border-bottom:1px solid var(--border);
+  position:relative;
+}
+.cover::after{
+  content:'';
+  position:absolute;
+  bottom:-1px;left:50%;transform:translateX(-50%);
+  width:200px;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+.cover-eyebrow{
+  font-family:var(--mono);
+  font-size:10px;
+  letter-spacing:4px;
+  color:var(--gold);
+  text-transform:uppercase;
+  margin-bottom:32px;
+}
+.cover-seal{
+  width:72px;height:72px;
+  border:1px solid var(--border);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 32px;
+  position:relative;
+}
+.cover-seal::before{
+  content:'';
+  position:absolute;inset:-4px;
+  border:1px solid var(--border-light);
+  border-radius:50%;
+}
+.seal-inner{
+  font-family:var(--mono);
+  font-size:9px;
+  letter-spacing:2px;
+  color:var(--gold-dim);
+  text-align:center;
+  line-height:1.3;
+}
+.cover-h1{
+  font-size:clamp(36px,5vw,58px);
+  font-weight:300;
+  color:var(--white);
+  line-height:1.15;
+  letter-spacing:-1px;
+  margin-bottom:12px;
+}
+.cover-h1 em{
+  font-style:italic;
+  color:var(--gold);
+}
+.cover-h2{
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:3px;
+  color:var(--gold-dim);
+  text-transform:uppercase;
+  margin-bottom:28px;
+}
+.cover-sub{
+  font-size:19px;
+  font-weight:300;
+  color:var(--text-dim);
+  font-style:italic;
+  max-width:560px;
+  margin:0 auto 36px;
+  line-height:1.6;
+}
+.cover-tags{
+  display:flex;flex-wrap:wrap;gap:10px;justify-content:center;
+}
+.cover-tag{
+  font-family:var(--mono);
+  font-size:9px;
+  letter-spacing:3px;
+  color:var(--text-faint);
+  text-transform:uppercase;
+  border:1px solid var(--border-light);
+  padding:6px 14px;
+}
+
+/* ═══ SECTION HEADERS ═══ */
+.section{margin-top:64px}
+.sec-label{
+  font-family:var(--mono);
+  font-size:9px;
+  letter-spacing:4px;
+  color:var(--gold);
+  text-transform:uppercase;
+  margin-bottom:10px;
+  display:flex;align-items:center;gap:12px;
+}
+.sec-label::after{
+  content:'';flex:1;height:1px;
+  background:linear-gradient(90deg,var(--border),transparent);
+}
+.sec-title{
+  font-size:clamp(26px,3.5vw,38px);
+  font-weight:300;
+  color:var(--white);
+  letter-spacing:-0.5px;
+  line-height:1.2;
+  margin-bottom:20px;
+}
+.sec-title em{font-style:italic;color:var(--gold)}
+.sec-title strong{font-weight:600}
+
+/* ═══ PROSE ═══ */
+p{
+  color:var(--text);
+  font-size:17px;
+  line-height:1.8;
+  font-weight:300;
+  margin-bottom:18px;
+}
+p strong{font-weight:600;color:var(--white)}
+p em{font-style:italic;color:var(--gold-bright)}
+
+/* ═══ CALL OUT BOX ═══ */
+.callout{
+  border-left:2px solid var(--gold);
+  background:var(--gold-glow);
+  padding:22px 26px;
+  margin:28px 0;
+}
+.callout-label{
+  font-family:var(--mono);
+  font-size:9px;
+  letter-spacing:3px;
+  color:var(--gold);
+  text-transform:uppercase;
+  margin-bottom:10px;
+}
+.callout p{color:var(--white);font-style:italic;margin-bottom:0}
+
+/* ═══ GHOST CALLOUT ═══ */
+.ghost-box{
+  background:linear-gradient(135deg,rgba(201,168,76,0.07),rgba(201,168,76,0.02));
+  border:1px solid var(--border);
+  padding:40px;
+  margin:40px 0;
+  position:relative;
+}
+.ghost-box::before{
+  content:'◈ GHOST PROTOCOL';
+  position:absolute;top:-1px;left:40px;
+  background:var(--obsidian);
+  padding:0 12px;
+  font-family:var(--mono);
+  font-size:9px;letter-spacing:4px;
+  color:var(--gold);
+}
+.ghost-box::after{
+  content:'';
+  position:absolute;
+  bottom:0;right:0;
+  width:60px;height:60px;
+  border-right:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+}
+
+/* ═══ EVENT CARD ═══ */
+.events-grid{
+  display:grid;
+  gap:16px;
+  margin:28px 0;
+}
+.event-card{
+  display:grid;
+  grid-template-columns:80px 1fr;
+  background:var(--panel);
+  border:1px solid var(--border-light);
+  overflow:hidden;
+}
+.event-card:hover{border-color:var(--border)}
+.event-month{
+  background:var(--gold-glow);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:16px 8px;
+  border-right:1px solid var(--border-light);
+}
+.event-month-text{
+  font-family:var(--mono);
+  font-size:9px;
+  letter-spacing:2px;
+  color:var(--gold);
+  text-transform:uppercase;
+  text-align:center;
+  line-height:1.4;
+}
+.event-body{padding:20px 24px}
+.event-name{
+  font-size:15px;
+  font-weight:500;
+  color:var(--white);
+  letter-spacing:0.3px;
+  margin-bottom:4px;
+}
+.event-location{
+  font-family:var(--mono);
+  font-size:9px;
+  letter-spacing:2px;
+  color:var(--gold-dim);
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+.event-desc{
+  font-size:14px;
+  font-weight:300;
+  color:var(--text-dim);
+  line-height:1.6;
+  font-family:var(--serif);
+}
+
+/* ═══ MILESTONE TIMELINE ═══ */
+.timeline{margin:28px 0}
+.tl-item{
+  display:grid;
+  grid-template-columns:160px 1fr;
+  gap:0;
+  position:relative;
+  padding-bottom:32px;
+}
+.tl-item:last-child{padding-bottom:0}
+.tl-left{
+  padding-right:28px;
+  text-align:right;
+  position:relative;
+}
+.tl-left::after{
+  content:'';
+  position:absolute;
+  top:10px;right:-1px;
+  width:8px;height:8px;
+  background:var(--gold);
+  border-radius:50%;
+  transform:translateX(50%);
+}
+.tl-left::before{
+  content:'';
+  position:absolute;
+  top:18px;right:-1px;
+  width:1px;
+  background:linear-gradient(180deg,var(--border),transparent);
+  height:calc(100% - 10px);
+  transform:translateX(50%);
+}
+.tl-item:last-child .tl-left::before{display:none}
+.tl-date{
+  font-family:var(--mono);
+  font-size:10px;
+  letter-spacing:2px;
+  color:var(--gold);
+  text-transform:uppercase;
+}
+.tl-right{padding-left:28px}
+.tl-title{
+  font-size:16px;
+  font-weight:500;
+  color:var(--white);
+  margin-bottom:6px;
+}
+.tl-body{
+  font-size:15px;
+  font-weight:300;
+  color:var(--text-dim);
+  line-height:1.7;
+  font-family:var(--serif);
+  margin:0;
+}
+
+/* ═══ STAT ROW ═══ */
+.stat-row{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:1px;
+  background:var(--border-light);
+  border:1px solid var(--border-light);
+  margin:28px 0;
+}
+.stat-cell{
+  background:var(--panel);
+  padding:24px 20px;
+  text-align:center;
+}
+.stat-num{
+  font-size:32px;
+  font-weight:300;
+  color:var(--gold-bright);
+  letter-spacing:-1px;
+  display:block;
+  font-family:var(--serif);
+}
+.stat-label{
+  font-family:var(--mono);
+  font-size:9px;
+  letter-spacing:2px;
+  color:var(--text-faint);
+  text-transform:uppercase;
+  margin-top:4px;
+}
+
+/* ═══ PRICING ═══ */
+.price-block{
+  background:var(--deep);
+  border:1px solid var(--gold);
+  padding:44px;
+  margin:40px 0;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.price-block::before{
+  content:'';
+  position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+.price-block::after{
+  content:'';
+  position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold-dim),transparent);
+}
+.price-eyebrow{
+  font-family:var(--mono);
+  font-size:9px;
+  letter-spacing:4px;
+  color:var(--gold);
+  text-transform:uppercase;
+  margin-bottom:24px;
+}
+.price-main{
+  font-size:clamp(48px,7vw,80px);
+  font-weight:300;
+  color:var(--white);
+  letter-spacing:-3px;
+  line-height:1;
+  margin-bottom:4px;
+}
+.price-main span{
+  font-size:0.4em;
+  vertical-align:super;
+  letter-spacing:0;
+  color:var(--gold);
+}
+.price-period{
+  font-family:var(--mono);
+  font-size:10px;
+  letter-spacing:3px;
+  color:var(--text-faint);
+  text-transform:uppercase;
+  margin-bottom:28px;
+}
+.price-divider{
+  width:80px;height:1px;
+  background:var(--border);
+  margin:28px auto;
+}
+.price-activation{
+  font-size:22px;
+  font-weight:300;
+  color:var(--text-dim);
+  font-style:italic;
+  margin-bottom:8px;
+}
+.price-activation strong{
+  font-weight:600;
+  color:var(--gold-bright);
+  font-style:normal;
+}
+.price-note{
+  font-family:var(--mono);
+  font-size:9px;
+  letter-spacing:2px;
+  color:var(--text-faint);
+  text-transform:uppercase;
+  margin-top:4px;
+}
+
+/* ═══ DELIVERABLE LIST ═══ */
+.dlist{list-style:none;margin:20px 0}
+.dlist li{
+  display:flex;
+  gap:14px;
+  align-items:flex-start;
+  padding:12px 0;
+  border-bottom:1px solid var(--border-light);
+  font-size:16px;
+  font-weight:300;
+  color:var(--text);
+  line-height:1.6;
+}
+.dlist li:last-child{border-bottom:none}
+.dlist li::before{
+  content:'◆';
+  color:var(--gold);
+  font-size:8px;
+  margin-top:6px;
+  flex-shrink:0;
+}
+
+/* ═══ DIVIDER ═══ */
+.divider{
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--border),transparent);
+  margin:56px 0;
+  position:relative;
+}
+.divider::after{
+  content:'◈';
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  color:var(--gold-dim);
+  font-size:12px;
+  background:var(--obsidian);
+  padding:0 12px;
+}
+
+/* ═══ FOOTER ═══ */
+.footer{
+  margin-top:80px;
+  padding-top:32px;
+  border-top:1px solid var(--border-light);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:12px;
+}
+.footer-left{
+  font-family:var(--mono);
+  font-size:9px;
+  letter-spacing:3px;
+  color:var(--text-faint);
+  text-transform:uppercase;
+}
+.footer-right{
+  font-family:var(--mono);
+  font-size:9px;
+  letter-spacing:2px;
+  color:var(--gold-dim);
+  text-transform:uppercase;
+}
+.confidential{
+  width:100%;text-align:center;
+  font-family:var(--mono);
+  font-size:9px;letter-spacing:3px;
+  color:var(--text-faint);
+  text-transform:uppercase;
+  margin-top:12px;
+}
+
+/* ═══ HIGHLIGHT QUOTE ═══ */
+.pullquote{
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  padding:32px 0;
+  margin:36px 0;
+  text-align:center;
+}
+.pullquote-text{
+  font-size:clamp(20px,2.5vw,28px);
+  font-weight:300;
+  font-style:italic;
+  color:var(--white);
+  line-height:1.4;
+  letter-spacing:-0.3px;
+}
+.pullquote-text em{color:var(--gold);font-style:normal}
+
+/* ═══ OPPORTUNITY TAG ═══ */
+.opp-tags{
+  display:flex;flex-wrap:wrap;gap:8px;
+  margin:16px 0 24px;
+}
+.opp-tag{
+  font-family:var(--mono);
+  font-size:9px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  padding:5px 12px;
+  border:1px solid var(--border);
+  color:var(--text-faint);
+}
+.opp-tag.gold{
+  border-color:var(--gold-dim);
+  color:var(--gold-dim);
+}
+
+/* ═══ TRIP CARD ═══ */
+.trip-card{
+  background:var(--panel);
+  border:1px solid var(--border-light);
+  padding:32px;
+  margin:20px 0;
+  border-left:3px solid var(--gold);
+}
+.trip-card-label{
+  font-family:var(--mono);
+  font-size:9px;letter-spacing:3px;
+  color:var(--gold);text-transform:uppercase;
+  margin-bottom:12px;
+}
+.trip-card-title{
+  font-size:20px;font-weight:500;
+  color:var(--white);margin-bottom:12px;
+}
+
+/* Responsive */
+@media(max-width:600px){
+  .tl-item{grid-template-columns:120px 1fr}
+  .event-card{grid-template-columns:60px 1fr}
+  .price-main{letter-spacing:-2px}
+  .footer{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-eyebrow">Private &amp; Strictly Confidential · Studex Global Markets</div>
+  <div class="cover-seal">
+    <div class="seal-inner">SGM<br>GP-01</div>
+  </div>
+  <h1 class="cover-h1">The <em>Ghost Protocol</em><br>Partnership Mandate</h1>
+  <div class="cover-h2">SKTM Group × Studex Global Markets · 2026–2027</div>
+  <p class="cover-sub">A classified sovereign engagement framework for securing Africa's gold corridor — curated exclusively for SKTM Group by Studex Global Markets.</p>
+  <div class="cover-tags">
+    <span class="cover-tag">Ghost Protocol Tier</span>
+    <span class="cover-tag">Gold Acquisition Strategy</span>
+    <span class="cover-tag">Sovereign Missions</span>
+    <span class="cover-tag">Forbes × Studex Series</span>
+    <span class="cover-tag">Mozambique · Uganda · Zimbabwe</span>
+  </div>
+</div>
+
+<!-- OPENING STATEMENT -->
+<div class="section">
+  <div class="sec-label">Opening Position</div>
+  <h2 class="sec-title">Africa's gold is not waiting.<br><em>The question is who secures it first.</em></h2>
+  <p>There is a narrow, geopolitically defined window — perhaps 18 to 24 months — during which the right partners can establish foundational positions in Africa's gold and mineral economy. The continent's mining sector is in structural transition: <strong>legacy operators are repositioning, new state partnerships are forming, and the regulatory architectures of emerging economies are being written in real time.</strong></p>
+  <p>Studex Global Markets has designed the Ghost Protocol engagement programme specifically for one type of client: the sophisticated international investor who understands that in Africa, the relationship precedes the contract, and the contract follows the relationship.</p>
+  <p>SKTM Group is that client. This document is your roadmap.</p>
+</div>
+
+<div class="divider"></div>
+
+<!-- CONTEXT: THE MOTSEPE MOMENT -->
+<div class="section">
+  <div class="sec-label">Market Intelligence · The Moment</div>
+  <h2 class="sec-title">A Continent <em>Restructuring</em> Its Power</h2>
+  <p>In February 2026, Africa's most celebrated mining dynasty underwent a quiet but profoundly significant structural shift. <strong>Patrice Motsepe</strong> — South Africa's only Black dollar billionaire, founder of African Rainbow Minerals, Non-Executive Chairman of Harmony Gold, and President of the Confederation of African Football — transitioned from executive to non-executive chairman of ARM. The move, formally necessitated by new JSE governance requirements, has nonetheless opened significant speculation about Motsepe's next chapter: a potential ANC presidency candidacy, and a new phase of influence that transcends any single corporate role.</p>
+  <p>Motsepe retains board positions across Sanlam, TymeBank parent ARC, Harmony Gold, and Mamelodi Sundowns. He sits on the World Economic Forum Board of Trustees. His brother-in-law is the President of South Africa. He holds relationships that cross from finance to football to statecraft — across 54 African nations.</p>
+
+  <div class="callout">
+    <div class="callout-label">◈ Strategic Intelligence Note</div>
+    <p>When figures of this stature enter a period of institutional transition, there is invariably a realignment of private capital. New relationships form. Old gatekeepers shift. The organisations closest to these figures during transitional periods are the ones that secure access <em>before</em> the next chapter is written. Studex Global Markets — with its advisory board relationships and its positioning at the intersection of African commodities, football diplomacy, and sovereign trade — occupies exactly that proximity. This is the window. SKTM Group's Ghost Protocol membership positions them inside it.</p>
+  </div>
+
+  <p>The convergence of political succession dynamics, mining sector consolidation, and a global premium being placed on African gold supply chains is not coincidence — it is the structural condition that makes this the most consequential investment moment in a generation. <em>The next 100 years of Africa's gold must be secured now, through the right relationships, through the right channels, with the right discretion.</em></p>
+</div>
+
+<div class="divider"></div>
+
+<!-- TWO SOVEREIGN VISITS — EXPANDED -->
+<div class="section">
+  <div class="sec-label">Year One · Sovereign Engagement Programme</div>
+  <h2 class="sec-title"><em>Two Sovereign Visits.</em><br>One Year of Access.</h2>
+  <p>The first twelve months of the SKTM × Studex partnership are anchored by two landmark state-level missions — <strong>Uganda in April</strong> and <strong>Zimbabwe in May 2026</strong> — the opening moves in a long-term continental gold strategy. But the architecture of this programme extends far beyond two trips. These sovereign missions are the formal public-facing layer of a much deeper and more granular engagement calendar that Studex Global Markets will curate end-to-end on SKTM's behalf.</p>
+  <p>Every meeting, every introduction, every private dinner and bilateral conversation is arranged, briefed, and contextualised by the Studex team in advance. SKTM Group arrives informed, positioned, and accompanied. You do not navigate Africa's relationship economy alone — <em>Studex leads, you engage, together we close.</em></p>
+  <p>What follows is the full programme architecture for 2026.</p>
+</div>
+
+<!-- MARCH: MOZAMBIQUE PRE-MISSION -->
+<div class="section">
+  <div class="sec-label">Pre-Mission · March 2026</div>
+  <h2 class="sec-title">The <em>Mozambique Reconnaissance</em><br>Mission</h2>
+  <p>Before the formal sovereign calendar begins, Studex Global Markets will lead a preparatory engagement mission to Mozambique — <strong>Africa's most undervalued gold and gas frontier</strong> — and through Johannesburg's refinery circuit. This is not a tourist engagement. This is your first step into the African gold market as an active participant.</p>
+
+  <div class="trip-card">
+    <div class="trip-card-label">◈ Leg One — Maputo, Mozambique</div>
+    <div class="trip-card-title">Ministry of Mineral Resources &amp; Energy</div>
+    <p>Studex Global Markets will arrange and facilitate a formal introductory meeting with senior officials within the Mozambique Ministry of Mineral Resources and Energy. The agenda: to position SKTM Group as a legitimate international investment counterparty, explore the framework for direct gold acquisition and investment participation, and lay the diplomatic groundwork for deeper engagement at the July Mozambique Gas and Gold Symposium.</p>
+    <p>This meeting will be preceded by a full briefing package prepared by the Studex intelligence team covering Mozambique's current gold licensing regime, key regional operators, and the investment terms most likely to resonate with ministry stakeholders.</p>
+  </div>
+
+  <div class="trip-card">
+    <div class="trip-card-label">◈ Leg Two — Johannesburg Refinery Circuit</div>
+    <div class="trip-card-title">Gold Mining Houses &amp; Refinery Introductions</div>
+    <p>On return through Johannesburg, Studex Global Markets will arrange a curated series of meetings with select gold mining houses and refinery operators. These are introductory sessions structured to allow SKTM Group to see the full value chain — from ore to certified bar — and to establish the early bilateral relationships that precede formal offtake discussions.</p>
+    <p>The explicit objective of these meetings is to <strong>identify and begin negotiating small consignment acquisitions</strong>: initial parcels in the range of <em>10kg to 50kg</em>, with clear pathways to scale toward 100kg to 200kg+ consignments as the relationship matures. Studex will identify the operators most amenable to working with an international partner at this entry scale, and will be present in all discussions as facilitator and strategic advisor.</p>
+    <p>For SKTM Group, this is the moment the market becomes real — not through reports, but through physical gold, verified provenance, and direct relationships with the people who extract and refine it.</p>
+  </div>
+
+  <div class="callout">
+    <div class="callout-label">◈ Gold Consignment Opportunity</div>
+    <p>The target is to secure initial consignments across both South Africa and Mozambique — <strong>10–50kg through 200kg+ depending on miner, refinery, and certification readiness.</strong> Studex Global Markets will manage all logistics coordination, KYC/KYB compliance documentation, and chain-of-custody verification. SKTM Group participates as buyer. The gold is real, the quantities are accessible, and the relationships are in place.</p>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- FORBES x STUDEX SYMPOSIUM SERIES -->
+<div class="section">
+  <div class="sec-label">Global Business Symposium · 2026 Series</div>
+  <h2 class="sec-title">Forbes Magazine × Studex Global Markets<br><em>Africa Business Summit Series</em></h2>
+  <p>As an exclusive Ghost Protocol member, SKTM Group is invited to participate in — and to sponsor — the inaugural <strong>Forbes Magazine × Studex Global Markets Africa Business Summit Series</strong>. This is the first of a landmark five-event programme co-produced by Studex Global Markets and Forbes Magazine, bringing together African heads of state, mining ministers, sovereign wealth operators, institutional investors, and the continent's most influential business figures.</p>
+  <p>The series is positioned as <em>the defining African business convening of the decade</em> — the platform through which the continent's next generation of resource deals, sovereign partnerships, and institutional investment relationships are forged. For SKTM Group, access to this series as a Ghost Protocol member is both a relationship asset and a positioning statement to Africa's power brokers: <strong>you are already inside the room.</strong></p>
+
+  <div class="events-grid">
+    <div class="event-card">
+      <div class="event-month">
+        <div class="event-month-text">EVENT<br>01<br>APRIL</div>
+      </div>
+      <div class="event-body">
+        <div class="event-name">Cape Town Launch Summit — Inaugural Edition</div>
+        <div class="event-location">◈ Cape Town, South Africa · Hout Bay · April 3, 2026</div>
+        <div class="event-desc">The series opens at the Cape Town Business Exchange — Studex Global Markets' flagship launch event. Hout Bay, Cape Town. The founding convening of the Forbes × Studex partnership, attended by institutional investors, commodity traders, and Africa's leading business figures. SKTM Group participates as a Ghost Protocol sponsor and featured international partner. First public introduction of SKTM to the Studex sovereign network.</div>
+      </div>
+    </div>
+    <div class="event-card">
+      <div class="event-month">
+        <div class="event-month-text">EVENT<br>02<br>MAY</div>
+      </div>
+      <div class="event-body">
+        <div class="event-name">Zimbabwe Gold &amp; Youth Mining Summit</div>
+        <div class="event-location">◈ Harare / Victoria Falls, Zimbabwe · May 2026</div>
+        <div class="event-desc">Co-hosted with Zimbabwe's Department of Minerals and the national youth mining associations, this summit addresses Zimbabwe's emerging gold sector and artisanal-to-formal mining transition. SKTM Group gains direct introductions to state mining officials and next-generation operators — the relationships that will define Zimbabwe's gold economy for the next 20 years. This event coincides with Studex's sovereign state mission to Zimbabwe.</div>
+      </div>
+    </div>
+    <div class="event-card">
+      <div class="event-month">
+        <div class="event-month-text">EVENT<br>03<br>JUNE</div>
+      </div>
+      <div class="event-body">
+        <div class="event-name">Uganda + Rwanda Coffee &amp; Commodities Symposium</div>
+        <div class="event-location">◈ Kampala, Uganda + Kigali, Rwanda · June 2026</div>
+        <div class="event-desc">A dual-nation convening exploring East Africa's specialty agriculture and commodity opportunity — coffee, tea, mineral rights, and cross-border trade infrastructure. The event connects East African producers with international buyers and institutional investors. SKTM Group's participation establishes a presence in the fastest-growing regional trade corridor on the continent. Co-coordinated with Kwame Rugunda and the African Blockchain Association network.</div>
+      </div>
+    </div>
+    <div class="event-card">
+      <div class="event-month">
+        <div class="event-month-text">EVENT<br>04<br>JULY</div>
+      </div>
+      <div class="event-body">
+        <div class="event-name">Mozambique Gas &amp; Gold Investment Forum</div>
+        <div class="event-location">◈ Maputo, Mozambique · July 2026</div>
+        <div class="event-desc">Mozambique is East Africa's most significant emerging resource economy — sitting on some of the world's largest natural gas reserves and an underdeveloped but rapidly formalising gold sector. This forum brings together LNG operators, gold mining houses, ministry officials, and international capital. SKTM Group's Ghost Protocol status and the March pre-mission ensure they arrive at this event as known, credentialed participants — not first-time visitors.</div>
+      </div>
+    </div>
+    <div class="event-card">
+      <div class="event-month">
+        <div class="event-month-text">EVENT<br>05<br>AUGUST</div>
+      </div>
+      <div class="event-body">
+        <div class="event-name">Botswana Minerals &amp; Investment Summit</div>
+        <div class="event-location">◈ Gaborone, Botswana · August 2026</div>
+        <div class="event-desc">Botswana's diamond-dominant economy is diversifying aggressively into gold, copper, and critical minerals. This summit convenes Botswana's Minerals Development Board, international mining houses, and frontier capital. For SKTM Group, Botswana represents a high-governance, USD-stable entry point into Southern African mineral investment — with established rule of law and proven royalty structures.</div>
+      </div>
+    </div>
+    <div class="event-card">
+      <div class="event-month">
+        <div class="event-month-text">EVENT<br>06<br>SEPT</div>
+      </div>
+      <div class="event-body">
+        <div class="event-name">Eswatini (Swaziland) Regional Trade &amp; Investment Forum</div>
+        <div class="event-location">◈ Mbabane, Eswatini · September 2026</div>
+        <div class="event-desc">The series concludes in Eswatini — Southern Africa's sovereign monarchy and a strategically positioned trade gateway between South Africa and Mozambique. This forum explores intra-regional trade facilitation, investment frameworks, and cultural diplomacy. SKTM Group's presence at all six events over the series creates a fully mapped relationship architecture across Sub-Saharan Africa — a network built in six months that would take most international investors six years to assemble independently.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-label">◈ Ghost Protocol Sponsorship Opportunity</div>
+    <p>Ghost Protocol members are offered <strong>exclusive co-presenting sponsor status</strong> across all six Forbes × Studex events. This includes branded presence, speaking opportunities at select panels, private dinner seating with keynote guests, and co-branding in all Forbes-distributed promotional materials. The sponsorship not only funds access — <em>it signals to Africa's business elite that SKTM Group has arrived.</em></p>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- MOZAMBIQUE MINING INVESTMENT -->
+<div class="section">
+  <div class="sec-label">Investment Opportunity · Live Deal</div>
+  <h2 class="sec-title">Mozambique Gold Mining<br><em>Direct Investment Participation</em></h2>
+  <p>Beyond the symposium series and sovereign missions, Studex Global Markets has identified a <strong>direct gold mining investment opportunity in Mozambique</strong> requiring international capital participation. This is a live, active opportunity — not a prospectus, not a concept. A specific mining operation has been identified with defined licensing, partially established infrastructure, and a management team seeking a credentialed investment partner.</p>
+
+  <div class="stat-row">
+    <div class="stat-cell">
+      <span class="stat-num">10–50<span style="font-size:0.4em;vertical-align:middle">kg</span></span>
+      <div class="stat-label">Entry Consignment Range</div>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-num">200+<span style="font-size:0.4em;vertical-align:middle">kg</span></span>
+      <div class="stat-label">Scale Target Per Quarter</div>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-num">6</span>
+      <div class="stat-label">Refinery Relationships</div>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-num">Mar</span>
+      <div class="stat-label">First Ministry Meeting</div>
+    </div>
+  </div>
+
+  <p>The March Mozambique mission will include a site-level introduction to this opportunity. Studex Global Markets will facilitate meetings with the mine's management, accompany the delegation to the Ministry of Mineral Resources, and provide independent intelligence on the operation's licensing status, geological surveys, and export compliance framework.</p>
+  <p>This is the entry point for SKTM Group to graduate from <em>buyer of consignments</em> to <em>participant in production</em> — a transition that changes the economics, the risk profile, and the depth of the relationship with the African gold supply chain permanently.</p>
+
+  <div class="ghost-box">
+    <h3 style="font-size:22px;font-weight:300;color:var(--white);margin-bottom:14px;letter-spacing:-0.3px;">The Goal: Securing Africa's Next<br><em style="color:var(--gold)">100 Years of Gold Supply</em></h3>
+    <p>For SKTM Group's long-term interests — across investment, treasury, and generational wealth positioning — the question is not whether to engage with Africa's gold sector. The question is whether to do so <strong>now, through the right relationships, in the right jurisdictions, with the right guide</strong> — or later, after the positions have been established by others.</p>
+    <p>Studex Global Markets exists to ensure SKTM Group is in the former category. The Ghost Protocol programme is not a service package. It is a <em>mandate</em>: to position SKTM Group at the centre of Africa's gold economy for the next generation.</p>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- HOW STUDEX CURATES THE EXPERIENCE -->
+<div class="section">
+  <div class="sec-label">Methodology · The Studex Curation Model</div>
+  <h2 class="sec-title">How <em>Studex Leads.</em><br>Every Step. Every Meeting.</h2>
+  <p>Ghost Protocol is not a directory of events and a list of contacts. It is a <strong>fully curated, actively managed engagement programme</strong> in which the Studex Global Markets team functions as your strategic intelligence unit, diplomatic scheduler, commercial facilitator, and market translator — simultaneously.</p>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-left"><div class="tl-date">Pre-Mission<br>Briefing</div></div>
+      <div class="tl-right">
+        <div class="tl-title">Intelligence &amp; Preparation Packages</div>
+        <p class="tl-body">Before every trip, meeting, or event, the Studex team prepares a complete briefing document for SKTM Group covering all counterparties, their known priorities and sensitivities, the political and regulatory context, and the specific outcomes Studex recommends targeting. You never walk into a room without knowing exactly who is in it and why it matters.</p>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-left"><div class="tl-date">Private<br>Zoom Calls</div></div>
+      <div class="tl-right">
+        <div class="tl-title">Regular Strategic Coordination Sessions</div>
+        <p class="tl-body">Studex Global Markets will schedule regular private Zoom calls with SKTM Group leadership — not general updates, but structured strategy sessions in which the Studex team presents active opportunities, current market intelligence, and recommended positioning adjustments. These calls are classified, recorded for reference, and attended only by approved parties on both sides.</p>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-left"><div class="tl-date">In-Country<br>Facilitation</div></div>
+      <div class="tl-right">
+        <div class="tl-title">Ground-Level Accompaniment &amp; Translation</div>
+        <p class="tl-body">During sovereign missions and investment trips, Studex team members accompany SKTM Group throughout. We make the introductions, manage the protocol, translate the cultural and commercial subtext, and handle the follow-up documentation. In contexts where relationships are built on reciprocity and trust, having the right companion is as important as having the right credentials.</p>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-left"><div class="tl-date">Opportunity<br>Origination</div></div>
+      <div class="tl-right">
+        <div class="tl-title">Proactive Deal &amp; Investment Sourcing</div>
+        <p class="tl-body">The Studex team actively scouts and originates opportunities on behalf of Ghost Protocol members — gold consignments, refinery introductions, co-investment structures, offtake agreements, and strategic JV possibilities. SKTM Group does not wait for opportunities to come to them. Studex brings them directly, pre-qualified and contextualised.</p>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-left"><div class="tl-date">Post-Mission<br>Activation</div></div>
+      <div class="tl-right">
+        <div class="tl-title">Relationship Maintenance &amp; Follow-Through</div>
+        <p class="tl-body">After every mission, Studex manages the follow-up communications, maintains the relationships with counterparties on SKTM's behalf, and advances discussions toward definitive commercial outcomes. In Africa's relationship-driven market, the follow-up is frequently where the deal is made. The Studex team does not let relationships cool.</p>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-left"><div class="tl-date">Long-Term<br>Positioning</div></div>
+      <div class="tl-right">
+        <div class="tl-title">Entrenching the Relationship Before the Window Closes</div>
+        <p class="tl-body">The current geopolitical moment in Africa — leadership transitions, shifting mining governance, the repositioning of legacy operators — creates a time-sensitive window for international investors to establish themselves in the continent's resource economy. The relationships that are built now, in 2026, will define who has access in 2030 and beyond. This is not aggressive — it is simply accurate. Studex Global Markets exists to ensure that SKTM Group is positioned correctly before the window narrows.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="pullquote">
+    <div class="pullquote-text">The market does not come to you.<br>You must show the market what you can do.<br><em>Studex makes sure the market is watching.</em></div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- WHAT'S INCLUDED -->
+<div class="section">
+  <div class="sec-label">Ghost Protocol · Programme Scope</div>
+  <h2 class="sec-title">What Your <em>Membership</em> Delivers</h2>
+  <ul class="dlist">
+    <li>Two fully curated sovereign state-level missions (Uganda — April, Zimbabwe — May), including pre-mission intelligence briefings, in-country facilitation, and post-mission follow-up</li>
+    <li>Access to all six Forbes × Studex Africa Business Summit events across 2026, with Ghost Protocol co-presenting sponsorship status available</li>
+    <li>Full facilitation of the March Mozambique pre-mission: Ministry of Mineral Resources meeting, Johannesburg refinery circuit, and direct gold consignment introduction</li>
+    <li>Identification and facilitation of direct gold mining investment opportunity in Mozambique — site introduction, management meetings, and due diligence support</li>
+    <li>Opportunity to acquire gold consignments of 10–50kg to 200kg+ from South African and Mozambican operators through the Studex refinery network</li>
+    <li>Monthly private strategic Zoom calls with the Studex Global Markets intelligence and deal team</li>
+    <li>Proactive deal origination: Studex continuously scouts and pre-qualifies opportunities on SKTM's behalf across the full commodity and investment spectrum</li>
+    <li>Inclusion in the Studex Global Markets advisory network — direct proximity to key figures in African mining, politics, sport, and finance</li>
+    <li>Access to the Ghost Protocol sovereign communication channel: encrypted deal rooms, air-gapped documentation, zero-knowledge verification</li>
+    <li>Full commercial and diplomatic facilitation across all Studex-originated engagements: introductions, contracts, compliance, and follow-through</li>
+  </ul>
+</div>
+
+<div class="divider"></div>
+
+<!-- PRICING -->
+<div class="section">
+  <div class="sec-label">Ghost Protocol · Investment Structure</div>
+  <h2 class="sec-title">The <em>Most Exclusive</em> Commercial<br>Relationship in Africa</h2>
+  <p>Ghost Protocol is not a subscription. It is an activation — a commitment from Studex Global Markets to dedicate its full network, intelligence resources, and senior team time to SKTM Group's strategic objectives in Africa. The investment reflects the exclusivity, the access, and the outcomes this relationship is designed to deliver.</p>
+
+  <div class="price-block">
+    <div class="price-eyebrow">◈ Ghost Protocol Annual Activation Fee</div>
+    <div class="price-main"><span>$</span>25,000</div>
+    <div class="price-period">One-Time Yearly Account Activation · Into Global Markets</div>
+    <div class="price-divider"></div>
+    <div class="price-activation">+ <strong>$7,500 per month</strong><br>Monthly Retainer · Active Engagement &amp; Deal Facilitation</div>
+    <div class="price-note">Payment link will be provided separately. All pricing in USD.</div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-label">◈ Positioning Note</div>
+    <p>The Ghost Protocol activation fee of <strong>$25,000</strong> and monthly retainer of <strong>$7,500</strong> are not costs — they are the price of admission to a relationship architecture that most international investors cannot access at any price. The relationships being opened through this programme — at ministry level, at refinery level, at sovereign advisory level — represent a commercial value that is orders of magnitude higher than the engagement fee. This is the most exclusive entry point into Africa's gold economy available to any international partner today. <em>There are no equivalents. There are no alternatives. There is only this.</em></p>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- CLOSING -->
+<div class="section">
+  <div class="sec-label">Final Word · Ghost Protocol</div>
+  <h2 class="sec-title">The Relationships That Define<br><em>The Next Century of African Gold</em></h2>
+  <p>Africa is not a future market. It is the present one — restructuring, accelerating, and hardening around the relationships that are being built right now. The gold, the gas, the mineral rights, the state partnerships: they are being allocated in meeting rooms and private dinners and sovereign corridors that most international investors will never access.</p>
+  <p>Studex Global Markets exists in those rooms. And through the Ghost Protocol mandate, SKTM Group will be there too — not as observers, but as active, recognised, relationship-entrenched participants in the most consequential resource economy of the 21st century.</p>
+  <p style="color:var(--gold-bright);font-style:italic;font-size:19px;">The window is open. The map is drawn. The team is ready.<br>The only question is whether SKTM Group is prepared to move.</p>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-left">Studex Global Markets · Ghost Protocol GP-01 · 2026</div>
+  <div class="footer-right">Where Vision Meets Intelligence</div>
+  <div class="confidential">Strictly Private &amp; Confidential · Not for Distribution · For SKTM Group Eyes Only</div>
+</div>
+
+</div>
+</body>
+</html>
