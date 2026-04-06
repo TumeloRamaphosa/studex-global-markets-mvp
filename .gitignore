@@ -1,0 +1,11 @@
+node_modules
+*.dmg
+*.mp4
+*.pdf
+*.zip
+*.docx
+*.png
+*.jpg
+*.LRV
+*.THM
+.DS_Store

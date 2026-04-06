@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The 10 Commandments — Studex Global Markets × NLMK | Oracle Protocol</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&family=Orbitron:wght@400;700;900&display=swap');
+
+  :root {
+    --gold: #C9A84C;
+    --gold-dim: rgba(201,168,76,0.15);
+    --gold-glow: rgba(201,168,76,0.4);
+    --blue: #4A9EBF;
+    --blue-dim: rgba(74,158,191,0.15);
+    --red: #FF6B6B;
+    --green: #51E89A;
+    --bg: #030508;
+    --surface: rgba(0,0,0,0.5);
+    --text: #d8d0bc;
+    --text-dim: rgba(255,255,255,0.45);
+    --border: rgba(201,168,76,0.2);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Share Tech Mono', monospace;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Animated grid */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: gridScroll 25s linear infinite;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* Scanlines */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(transparent 50%, rgba(0,0,0,0.03) 50%);
+    background-size: 100% 4px;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Corner brackets */
+  .corner { position: fixed; width: 44px; height: 44px; z-index: 5; }
+  .corner.tl { top: 16px; left: 16px; border-top: 1px solid var(--gold-glow); border-left: 1px solid var(--gold-glow); }
+  .corner.tr { top: 16px; right: 16px; border-top: 1px solid var(--gold-glow); border-right: 1px solid var(--gold-glow); }
+  .corner.bl { bottom: 16px; left: 16px; border-bottom: 1px solid var(--gold-glow); border-left: 1px solid var(--gold-glow); }
+  .corner.br { bottom: 16px; right: 16px; border-bottom: 1px solid var(--gold-glow); border-right: 1px solid var(--gold-glow); }
+
+  /* Wrapper */
+  .wrapper { position: relative; z-index: 2; max-width: 1400px; margin: 0 auto; padding: 24px 24px 40px; }
+
+  /* Header */
+  .header { text-align: center; margin-bottom: 32px; padding-top: 16px; }
+  .header-meta { font-size: 9px; letter-spacing: 5px; color: var(--gold); opacity: 0.65; margin-bottom: 10px; }
+  .header-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(22px, 4vw, 40px);
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    color: #fff;
+    text-transform: uppercase;
+    animation: glitchCycle 6s infinite;
+  }
+  .header-sub { font-size: 11px; letter-spacing: 4px; color: var(--gold); margin-top: 6px; text-transform: uppercase; }
+  .header-line { width: 220px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); margin: 14px auto 0; }
+
+  /* Company toggle */
+  .toggle-bar { display: flex; gap: 12px; justify-content: center; margin-bottom: 28px; flex-wrap: wrap; }
+  .toggle-btn {
+    padding: 12px 28px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--text-dim);
+    cursor: pointer;
+    font-family: 'Share Tech Mono', monospace;
+    letter-spacing: 2px;
+    font-size: 11px;
+    transition: all 0.3s;
+    text-align: center;
+  }
+  .toggle-btn:hover { opacity: 1; }
+  .toggle-btn.active-studex {
+    background: var(--gold-dim);
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+  .toggle-btn.active-nlmk {
+    background: var(--blue-dim);
+    border-color: var(--blue);
+    color: var(--blue);
+  }
+  .toggle-btn-label { font-weight: 700; font-size: 12px; }
+  .toggle-btn-sub { font-size: 9px; opacity: 0.6; margin-top: 3px; }
+
+  /* Layout */
+  .layout { display: flex; gap: 20px; align-items: flex-start; }
+
+  /* Sidebar */
+  .sidebar {
+    width: 230px;
+    flex-shrink: 0;
+    border: 1px solid rgba(201,168,76,0.15);
+    background: rgba(0,0,0,0.45);
+  }
+  .sidebar-header {
+    padding: 10px 14px;
+    border-bottom: 1px solid rgba(201,168,76,0.12);
+    font-size: 8px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    opacity: 0.65;
+    text-transform: uppercase;
+  }
+  .q-btn {
+    display: block; width: 100%;
+    text-align: left;
+    padding: 10px 14px;
+    background: transparent;
+    border: none;
+    border-left: 2px solid transparent;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    color: var(--text-dim);
+    cursor: pointer;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+    transition: all 0.2s;
+  }
+  .q-btn:hover { background: rgba(201,168,76,0.08); transform: translateX(3px); color: rgba(255,255,255,0.7); }
+  .q-btn.active { background: rgba(201,168,76,0.1); border-left-color: var(--gold); color: var(--gold); }
+  .q-btn.active-nlmk-btn { background: rgba(74,158,191,0.1); border-left-color: var(--blue); color: var(--blue); }
+  .q-btn-num { font-weight: 700; margin-bottom: 2px; font-size: 11px; }
+  .q-btn-tag { font-size: 8px; opacity: 0.55; line-height: 1.3; }
+
+  /* Main */
+  .main { flex: 1; min-width: 0; }
+
+  /* Scanner */
+  .scanner {
+    border: 1px solid rgba(201,168,76,0.25);
+    background: rgba(0,0,0,0.6);
+    padding: 60px 40px;
+    text-align: center;
+    min-height: 420px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    display: none;
+  }
+  .scanner.active { display: flex; }
+  .scanner-text { font-size: 11px; letter-spacing: 4px; color: var(--gold); animation: pulse 0.6s infinite; }
+  .scanner-dots { display: flex; gap: 6px; justify-content: center; margin-top: 24px; }
+  .scanner-dot { width: 5px; height: 5px; background: var(--gold); animation: pulse 0.5s infinite; }
+  .scanner-dot:nth-child(2) { animation-delay: 0.1s; }
+  .scanner-dot:nth-child(3) { animation-delay: 0.2s; }
+  .scanner-dot:nth-child(4) { animation-delay: 0.3s; }
+  .scanner-dot:nth-child(5) { animation-delay: 0.4s; }
+
+  /* Card */
+  .card { animation: fadeUp 0.4s ease-out; display: none; }
+  .card.active { display: block; }
+
+  /* Card header bar */
+  .card-header {
+    padding: 14px 20px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .card-header.studex-header { background: rgba(201,168,76,0.06); border: 1px solid rgba(201,168,76,0.25); }
+  .card-header.nlmk-header { background: rgba(74,158,191,0.06); border: 1px solid rgba(74,158,191,0.25); }
+  .card-header-meta { font-size: 9px; letter-spacing: 3px; margin-bottom: 5px; }
+  .card-header-meta.studex-meta { color: var(--gold); opacity: 0.75; }
+  .card-header-meta.nlmk-meta { color: var(--blue); opacity: 0.75; }
+  .card-header-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(10px, 1.8vw, 14px);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: #fff;
+    text-transform: uppercase;
+    line-height: 1.3;
+  }
+  .card-header-tags { text-align: right; flex-shrink: 0; }
+  .card-header-tag { font-size: 8px; letter-spacing: 1.5px; opacity: 0.65; }
+  .card-header-tag.studex-tag { color: var(--gold); }
+  .card-header-tag.nlmk-tag { color: var(--blue); }
+
+  /* Question block */
+  .q-block {
+    position: relative;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(0,0,0,0.5);
+    padding: 28px 32px;
+    margin-bottom: 16px;
+    animation: borderBreathe 5s infinite;
+  }
+  .q-block::before {
+    content: attr(data-source);
+    position: absolute;
+    top: -1px; left: 40px;
+    background: var(--bg);
+    padding: 0 10px;
+    font-size: 8px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .q-block.studex-block::before { color: var(--gold); }
+  .q-block.nlmk-block::before { color: var(--blue); }
+  .q-numeral {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 72px; font-weight: 900;
+    color: rgba(201,168,76,0.05);
+    position: absolute; top: 8px; right: 20px;
+    line-height: 1; user-select: none; pointer-events: none;
+  }
+  .q-text {
+    font-size: clamp(12px, 1.6vw, 15px);
+    line-height: 1.9;
+    color: #cfc8b4;
+    position: relative; z-index: 1;
+    max-width: 92%;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 400;
+  }
+
+  /* Intel panels */
+  .intel-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+  .intel-panel { border: 1px solid; padding: 14px 16px; }
+  .intel-panel.weakness { border-color: rgba(255,107,107,0.25); background: rgba(255,107,107,0.04); }
+  .intel-panel.strength { border-color: rgba(81,232,154,0.25); background: rgba(81,232,154,0.04); }
+  .intel-panel.ai { border-color: rgba(74,158,191,0.25); background: rgba(74,158,191,0.04); }
+  .intel-label { font-size: 8px; letter-spacing: 2px; font-weight: 700; margin-bottom: 8px; text-transform: uppercase; }
+  .intel-panel.weakness .intel-label { color: var(--red); }
+  .intel-panel.strength .intel-label { color: var(--green); }
+  .intel-panel.ai .intel-label { color: var(--blue); }
+  .intel-text { font-size: 11px; color: rgba(255,255,255,0.6); line-height: 1.55; font-family: 'Share Tech Mono', monospace; }
+
+  /* Navigation */
+  .nav-bar { display: flex; gap: 8px; align-items: center; }
+  .nav-btn {
+    padding: 8px 18px;
+    background: transparent;
+    border: 1px solid rgba(201,168,76,0.25);
+    color: var(--gold);
+    cursor: pointer;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    transition: all 0.2s;
+  }
+  .nav-btn:hover:not(:disabled) { background: var(--gold-dim); }
+  .nav-btn:disabled { color: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.08); cursor: default; }
+  .nav-dots { flex: 1; display: flex; gap: 5px; justify-content: center; align-items: center; flex-wrap: wrap; }
+  .nav-dot {
+    height: 6px; background: rgba(255,255,255,0.15);
+    cursor: pointer; transition: all 0.3s;
+    border: none; padding: 0;
+  }
+  .nav-dot.active { background: var(--gold); }
+  .nav-dot.active-nlmk { background: var(--blue); }
+
+  /* Footer */
+  .footer {
+    margin-top: 36px; padding-top: 16px;
+    border-top: 1px solid rgba(201,168,76,0.08);
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 8px; letter-spacing: 3px;
+    flex-wrap: wrap; gap: 8px;
+  }
+  .footer-left { color: rgba(255,255,255,0.18); }
+  .footer-center { color: var(--gold); opacity: 0.45; animation: pulse 2.5s infinite; }
+  .footer-right { color: rgba(255,255,255,0.18); }
+
+  /* Stats bar */
+  .stats-bar {
+    display: flex; gap: 0;
+    border: 1px solid var(--border);
+    margin-bottom: 28px;
+    overflow: hidden;
+  }
+  .stat-item {
+    flex: 1;
+    padding: 10px 16px;
+    border-right: 1px solid var(--border);
+    text-align: center;
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-val { font-family: 'Orbitron', sans-serif; font-size: 16px; font-weight: 700; color: var(--gold); }
+  .stat-label { font-size: 8px; letter-spacing: 2px; color: rgba(255,255,255,0.3); margin-top: 3px; text-transform: uppercase; }
+
+  /* Animations */
+  @keyframes gridScroll { from { background-position: 0 0; } to { background-position: 60px 60px; } }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.25} }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes borderBreathe { 0%,100%{border-color:rgba(255,255,255,0.08)} 50%{border-color:rgba(201,168,76,0.18)} }
+  @keyframes glitchCycle {
+    0%,97%,100% { transform: translate(0); filter: none; }
+    98% { transform: translate(-2px, 1px); filter: hue-rotate(90deg); }
+    99% { transform: translate(2px, -1px); filter: hue-rotate(-90deg); }
+  }
+  @keyframes aiPing {
+    0% { box-shadow: 0 0 0 0 rgba(74,158,191,0.4); }
+    70% { box-shadow: 0 0 0 8px rgba(74,158,191,0); }
+    100% { box-shadow: 0 0 0 0 rgba(74,158,191,0); }
+  }
+  .ai-ping { animation: aiPing 2.5s infinite; }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .layout { flex-direction: column; }
+    .sidebar { width: 100%; }
+    .intel-grid { grid-template-columns: 1fr; }
+    .stats-bar { flex-wrap: wrap; }
+    .q-numeral { font-size: 48px; }
+  }
+  @media (max-width: 600px) {
+    .wrapper { padding: 16px 14px 32px; }
+    .toggle-bar { gap: 8px; }
+    .toggle-btn { padding: 10px 16px; }
+    .q-text { max-width: 100%; }
+    .footer { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="corner tl"></div>
+<div class="corner tr"></div>
+<div class="corner bl"></div>
+<div class="corner br"></div>
+
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-meta">◈ ORACLE PROTOCOL v2.0 &nbsp;|&nbsp; POWERED BY STUDEX AI &nbsp;|&nbsp; ACTIVE SESSION ◈</div>
+    <h1 class="header-title">The 10 Commandments</h1>
+    <div class="header-sub">A Hybrid AI-Powered Business Intelligence Protocol &nbsp;·&nbsp; The Future of Global Trade</div>
+    <div class="header-line"></div>
+  </header>
+
+  <!-- STATS BAR -->
+  <div class="stats-bar">
+    <div class="stat-item"><div class="stat-val">20</div><div class="stat-label">Total Questions</div></div>
+    <div class="stat-item"><div class="stat-val">54</div><div class="stat-label">African Nations Mapped</div></div>
+    <div class="stat-item"><div class="stat-val">$480M</div><div class="stat-label">5-Year Value Model</div></div>
+    <div class="stat-item"><div class="stat-val ai-ping">AI</div><div class="stat-label">Intelligence Active</div></div>
+  </div>
+
+  <!-- COMPANY TOGGLE -->
+  <div class="toggle-bar">
+    <button class="toggle-btn active-studex" id="btn-studex" onclick="switchCompany('studex')">
+      <div class="toggle-btn-label">STUDEX → NLMK</div>
+      <div class="toggle-btn-sub">10 Questions Asked by Studex Global Markets</div>
+    </button>
+    <button class="toggle-btn" id="btn-nlmk" onclick="switchCompany('nlmk')">
+      <div class="toggle-btn-label">NLMK → STUDEX</div>
+      <div class="toggle-btn-sub">10 Questions Returned by NLMK Group</div>
+    </button>
+  </div>
+
+  <!-- LAYOUT -->
+  <div class="layout">
+
+    <!-- SIDEBAR -->
+    <nav class="sidebar" id="sidebar">
+      <div class="sidebar-header">◈ Select Commandment</div>
+      <!-- populated by JS -->
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+      <div class="scanner" id="scanner">
+        <div class="scanner-text" id="scanner-text">INITIALIZING ORACLE PROTOCOL...</div>
+        <div class="scanner-dots">
+          <div class="scanner-dot"></div>
+          <div class="scanner-dot"></div>
+          <div class="scanner-dot"></div>
+          <div class="scanner-dot"></div>
+          <div class="scanner-dot"></div>
+        </div>
+      </div>
+      <div id="card-area"></div>
+      <div class="nav-bar" id="nav-bar" style="display:none;">
+        <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">← PREV</button>
+        <div class="nav-dots" id="nav-dots"></div>
+        <button class="nav-btn" id="next-btn" onclick="navigate(1)">NEXT →</button>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-left">STUDEX GLOBAL MARKETS &nbsp;·&nbsp; ORACLE PROTOCOL &nbsp;·&nbsp; CONFIDENTIAL 2026</div>
+    <div class="footer-center">◈ AI INTELLIGENCE LAYER ACTIVE</div>
+    <div class="footer-right">WHERE VISION MEETS INTELLIGENCE</div>
+  </footer>
+
+</div>
+
+<script>
+const STUDEX_Q = [
+  {
+    id:"I", title:"THE COMMANDMENT OF MARKET SOVEREIGNTY",
+    tag:"MARKET ENTRY · COMPETITIVE INTELLIGENCE",
+    question:"NLMK, your Lipetsk furnaces have produced steel that built empires — yet Africa, a continent constructing its future at unprecedented speed, has never witnessed your name on a project tender. Our AI has mapped 847 active infrastructure contracts across 38 African nations right now. Which of these do you believe your steel is most qualified to dominate, and what has stopped you from claiming that sovereignty until today?",
+    weakness:"NLMK's African footprint is effectively zero — a strategic blind spot for a $16B revenue company",
+    strength:"NLMK's metallurgical quality grades outperform 74% of current African steel imports",
+    ai:"Real-time tender scanning across 54 AfCFTA nations"
+  },
+  {
+    id:"II", title:"THE COMMANDMENT OF GEOPOLITICAL REINVENTION",
+    tag:"SANCTIONS NAVIGATION · RISK ARCHITECTURE",
+    question:"Western sanctions have not broken NLMK — they have revealed the fragility of depending on markets that can be switched off by political decree. Studex Global Markets has built verified trading corridors through which Russian steel can flow legally, transparently, and profitably into 54 African nations. Our AI compliance engine monitors 340 active sanctions frameworks in real time. Are you prepared to let Africa become the market that replaces what the West took — or will you wait for another decree to force your hand?",
+    weakness:"Western market dependency created existential revenue risk that remains unresolved",
+    strength:"NLMK's financial resilience — zero net debt posture — means it can fund African expansion immediately",
+    ai:"340-framework sanctions compliance monitoring updated every 6 hours"
+  },
+  {
+    id:"III", title:"THE COMMANDMENT OF RAW MATERIAL DESTINY",
+    tag:"SUPPLY CHAIN SOVEREIGNTY · RAW MATERIAL SECURITY",
+    question:"You currently source iron ore through supply chains that were designed in a different geopolitical era. Guinea's Simandou deposit holds 8.6 billion tonnes of high-grade ore — more than Russia's entire known reserves — and it has no committed Russian offtake partner. Studex has relationships with 3 active mining concession holders near this corridor. Our predictive AI models show that locking in a 10-year offtake agreement today would reduce your Lipetsk input costs by an estimated 23–31%. Do you have the strategic appetite to reverse the trade flow — and make Africa feed your furnaces, not just receive your steel?",
+    weakness:"Over-reliance on existing ore corridors creates supply chain brittleness in a fragmented world",
+    strength:"NLMK's vertical integration model is perfectly designed to absorb African mineral inputs",
+    ai:"Ore quality simulation across 12 West African deposits vs Lipetsk blast furnace specs"
+  },
+  {
+    id:"IV", title:"THE COMMANDMENT OF LOCAL INCARNATION",
+    tag:"JOINT VENTURE ARCHITECTURE · LOCAL CONTENT COMPLIANCE",
+    question:"The African governments that control the largest infrastructure budgets have one non-negotiable requirement: local content. A factory on African soil producing 'African-made' steel unlocks preferential procurement, duty exemptions, and political protection that no import arrangement can replicate. Studex holds land rights, permits, and community stakeholder agreements in three strategic locations. Our AI site-selection engine has ranked Lagos Port, Abidjan Free Zone, and Cairo Smart City District as your three highest-return JV locations. Which of these is NLMK prepared to plant its flag in first?",
+    weakness:"NLMK has zero local manufacturing presence on the African continent",
+    strength:"NLMK's rolling technology and quality control IP is world-class and highly licensable",
+    ai:"JV ROI modelling across 14 candidate sites using live FDI incentive databases"
+  },
+  {
+    id:"V", title:"THE COMMANDMENT OF GREEN STEEL MONETIZATION",
+    tag:"CBAM COMPLIANCE · IP MONETIZATION",
+    question:"The EU's Carbon Border Adjustment Mechanism is not coming — it is here. African manufacturers who supply European markets are already facing carbon certification demands they cannot meet. NLMK's Lipetsk facility has environmental credentials, gas purification systems, and waste heat recovery technologies that African mini-mills would pay significant consulting fees to access. Our B2B exchange has 214 pre-registered African industrial operators currently searching for exactly this knowledge. Is NLMK prepared to monetize its environmental IP as a standalone revenue line — or will you continue treating it as an internal operational asset while others charge for what you give away for free?",
+    weakness:"NLMK's world-class green tech remains entirely internal — a dormant revenue asset",
+    strength:"NLMK's environmental certifications are among the most rigorous of any Russian industrial company",
+    ai:"CBAM impact modelling for 214 African exporters on the Studex exchange"
+  },
+  {
+    id:"VI", title:"THE COMMANDMENT OF CURRENCY FEARLESSNESS",
+    tag:"TREASURY · FX RISK ELIMINATION",
+    question:"The Nigerian Naira. The Kenyan Shilling. The Egyptian Pound. Every Russian steel executive who has considered Africa has retreated at the mention of these currencies. Studex has built an AI-powered FX conversion and escrow architecture that eliminates your exposure entirely — we collect in local currency, convert at optimal windows using our predictive FX models, and remit to NLMK in USD or Rubles. Our backtested model shows this mechanism would have protected $43M in margin over the past 36 months on comparable volumes. Does NLMK have a treasury architecture capable of accepting this, or do you need Studex to build the bridge?",
+    weakness:"NLMK's treasury is built for Western FX environments — African currency complexity is uncharted",
+    strength:"NLMK's zero-debt balance sheet provides the financial buffer to absorb transition costs",
+    ai:"Predictive FX conversion timing model across 12 African currencies, backtested 36 months"
+  },
+  {
+    id:"VII", title:"THE COMMANDMENT OF REPUTATION ARCHITECTURE",
+    tag:"COUNTERPARTY VERIFICATION · CREDIT RISK",
+    question:"In African business, your counterparty's reputation is your only collateral. Studex Global Markets runs a mandatory KYC/KYB credibility scoring system — every buyer on our exchange is verified, rated, and tracked across 7 dimensions of commercial reliability. NLMK has experienced counterparty default in emerging markets before. Our AI risk engine has already scored 1,847 potential African steel buyers and flagged 23% as high-risk. The remaining 77% represent verified institutional demand. Are you prepared to enter Africa's largest verified B2B exchange, or do you prefer to keep navigating unknown counterparties through conventional channels?",
+    weakness:"NLMK's existing Africa outreach has been through opaque third-party traders with no verification layer",
+    strength:"NLMK's brand equity is strong enough to command premium pricing from verified institutional buyers",
+    ai:"1,847 African buyer profiles scored across 7 credibility dimensions"
+  },
+  {
+    id:"VIII", title:"THE COMMANDMENT OF INFRASTRUCTURE DESTINY",
+    tag:"SOVEREIGN CONTRACT PIPELINE · TENDER STRATEGY",
+    question:"Africa's PIDA infrastructure pipeline holds $68 billion in active projects. Russia has historically won infrastructure contracts in Africa through state-to-state financing packages — but those packages have never included a world-class steel supply chain with local processing capability. Studex is currently in active conversation with procurement officials across Nigeria, Kenya, and Egypt. Our AI tender-matching engine has identified 14 projects in the next 18 months where NLMK-specification steel is a perfect match and no qualified supplier has been awarded yet. These contracts will be won by someone. Will it be NLMK?",
+    weakness:"NLMK has not historically pursued African sovereign contracts independently",
+    strength:"Russia's state financing relationships in Africa create a natural procurement advantage for NLMK",
+    ai:"14 unawarded tenders matched to NLMK product specs via real-time procurement database"
+  },
+  {
+    id:"IX", title:"THE COMMANDMENT OF DIGITAL TRANSFORMATION PARTNERSHIP",
+    tag:"DIGITAL INTEGRATION · PREDICTIVE ANALYTICS",
+    question:"NLMK has been digitalizing its industrial laboratories and production systems — impressive internally, but invisible externally to the African markets that are simultaneously digitizing their procurement infrastructure. Studex AI operates predictive demand forecasting, real-time pricing intelligence, and automated deal-matching that runs 24 hours ahead of market movement. Our platform can integrate directly with NLMK's ERP systems to create a seamless pipeline from Lipetsk production planning to African order fulfillment. Is NLMK ready for a digital integration that makes your production system and Africa's infrastructure demand speak the same language in real time?",
+    weakness:"NLMK's digital investments have been inward-facing — no external market intelligence layer exists",
+    strength:"NLMK's Industry 4.0 manufacturing systems are among the most advanced in Russian heavy industry",
+    ai:"ERP-to-exchange integration layer with live demand signal from African procurement systems"
+  },
+  {
+    id:"X", title:"THE COMMANDMENT OF LEGACY AND CIVILIZATION",
+    tag:"STRATEGIC VISION · CIVILIZATIONAL PARTNERSHIP",
+    question:"NLMK was founded in 1931. It has survived Stalin's purges, the Soviet collapse, the 1998 financial crisis, Western sanctions, and a global pandemic. You are not a company — you are a civilization of steel. Africa is the only continent on earth currently building its civilization from the ground up, and it needs exactly what NLMK knows how to do. Studex Global Markets is the bridge between your century of metallurgical mastery and Africa's century of industrial becoming. The question is not whether this partnership creates value — our models show a conservative $480M in combined value creation over 5 years. The question is whether NLMK's leadership has the vision to see that the greatest chapter of this company's story has not yet been written. Are you ready to write it?",
+    weakness:"NLMK's strategic narrative has become defensive — survival mode rather than empire-building mode",
+    strength:"NLMK's 94-year history of resilience is the most powerful credibility signal in any African negotiation",
+    ai:"$480M 5-year value creation model across all 5 partnership pillars"
+  }
+];
+
+const NLMK_Q = [
+  {
+    id:"I", title:"THE COMMANDMENT OF PROOF OF SCALE",
+    tag:"SCALE VERIFICATION · COMPETITIVE MOAT",
+    question:"Studex Group was founded in 2016 as a blockchain fractional investment platform for farm animals. Today you claim to be 'Africa's Premier Global Consignment Exchange.' Our AI has analyzed 847 B2B exchanges that launched between 2015 and 2022 — 94% failed to achieve institutional adoption. What is your current verified GMV on the Studex Global Markets platform, and what AI-verifiable evidence exists that African institutional steel buyers will choose your exchange over Alibaba.com, which already operates in 17 African nations?",
+    weakness:"Studex's origin as a micro-investment platform creates credibility gaps with billion-dollar industrial buyers",
+    strength:"Studex's diversified vertical presence (meat, coffee, wheat, AI) demonstrates genuine African market embeddedness",
+    ai:"Competitive analysis of 847 B2B commodity exchanges 2015–2022"
+  },
+  {
+    id:"II", title:"THE COMMANDMENT OF REGULATORY REALITY",
+    tag:"REGULATORY INFRASTRUCTURE · LEGAL STANDING",
+    question:"SONCAP certification in Nigeria takes 6–18 months. KEBS certification in Kenya requires a physical laboratory presence. Egypt's import approval mechanisms involve 7 distinct government ministries. Our AI compliance team has mapped 54 African regulatory environments and found that 31 of them require in-country legal entities — not just relationships — to operate a bonded warehouse. Studex claims to have the regulatory infrastructure to onboard NLMK across Africa. Provide us with the specific legal entity registrations, certified laboratory partnerships, and import authority approvals you currently hold in our three target markets: Nigeria, Egypt, and Kenya.",
+    weakness:"Studex's regulatory infrastructure claims are broader than what has been publicly verified",
+    strength:"Studex's existing African commodity operations mean some regulatory groundwork is already laid",
+    ai:"54-nation regulatory mapping with entity registration status database"
+  },
+  {
+    id:"III", title:"THE COMMANDMENT OF COUNTERPARTY CREDIBILITY",
+    tag:"FINANCIAL RISK · ESCROW VALIDATION",
+    question:"You propose to introduce NLMK to Africa's largest verified institutional buyers. Your KYC/KYB system scores buyers across 7 dimensions. Our AI risk model flagged a structural concern: without a licensed financial services authorization in the relevant jurisdictions, a private credibility scoring system has no legal standing as a credit guarantee mechanism. If a buyer on your platform defaults on a $15M steel shipment, what specific contractual, legal, and financial mechanisms ensure NLMK recovers its exposure — and which African Development Finance Institution has formally validated your escrow architecture?",
+    weakness:"Studex's credibility scoring system, however sophisticated, is not a regulated financial guarantee instrument",
+    strength:"Studex's proposed Afreximbank integration, if formalized, transforms this from a weakness to a competitive moat",
+    ai:"Default risk modelling across comparable African B2B commodity exchange case studies"
+  },
+  {
+    id:"IV", title:"THE COMMANDMENT OF CAPITAL ARCHITECTURE",
+    tag:"CAPITALIZATION · FUNDING ARCHITECTURE",
+    question:"Building regional distribution hubs in Lagos, Mombasa, and Cairo simultaneously — together with bonded warehouse infrastructure, local legal entities, KYC verification systems, and Afreximbank escrow architecture — represents a capital requirement our AI models estimate at $12–18M minimum to execute at the quality level NLMK's products demand. Studex Group's publicly available financial information does not indicate this capital is on hand. What is your current capitalization, who are your institutional investors, and what is the specific funding structure that finances the infrastructure you are proposing to build on NLMK's behalf?",
+    weakness:"Studex's capital position relative to the scale of infrastructure it is proposing is the partnership's most critical unknown",
+    strength:"Studex's asset-light exchange model means infrastructure costs can be staged and co-funded",
+    ai:"Infrastructure CAPEX modelling for tri-hub African distribution network"
+  },
+  {
+    id:"V", title:"THE COMMANDMENT OF AI SOVEREIGNTY",
+    tag:"AI DUE DILIGENCE · TECHNOLOGY IP",
+    question:"You describe Studex AI as a suite of proprietary predictive tools — demand forecasting, FX conversion timing, tender matching, and buyer credibility scoring. Our technology due diligence team needs to understand the underlying architecture. Are these tools built on proprietary models trained on African trade data — or are they wrappers around OpenAI, Google, or Anthropic APIs with African data prompting? The distinction matters enormously: proprietary models represent a defensible moat; API wrappers represent a commodity capability any competitor can replicate in 90 days. What is the genuine IP position of Studex AI?",
+    weakness:"The 'AI-powered' positioning requires rigorous technical substantiation to survive institutional scrutiny",
+    strength:"Studex's data advantage — real African trade flows across multiple commodities — is genuine and not easily replicated",
+    ai:"AI capability benchmarking framework for commodity exchange platforms"
+  },
+  {
+    id:"VI", title:"THE COMMANDMENT OF COMMODITY CONFLICT",
+    tag:"ORGANIZATIONAL FOCUS · STRATEGIC COHERENCE",
+    question:"Studex Group operates simultaneously in Wagyu beef, Ankole cattle, specialty coffee, Uvelka wheat, wildlife conservation investments, and now industrial steel. Our market analysis AI has identified a structural tension: the institutional buyers who purchase steel at sovereign scale — government infrastructure ministries, construction conglomerates, port authorities — do not share buyer profiles with premium meat and coffee consumers. Managing relationships across these radically different market segments simultaneously requires either extraordinary organizational depth or strategic overextension. How does Studex prevent the credibility and focus required for billion-dollar steel relationships from being diluted by its premium consumer food brand operations?",
+    weakness:"Studex's multi-vertical diversification risks fragmentation of institutional credibility",
+    strength:"Cross-vertical commodity intelligence creates genuine data advantages that single-sector competitors lack",
+    ai:"Organizational capacity modelling for multi-vertical B2B enterprise management"
+  },
+  {
+    id:"VII", title:"THE COMMANDMENT OF POLITICAL RISK NAVIGATION",
+    tag:"POLITICAL RISK · RELATIONSHIP DURABILITY",
+    question:"Nigeria has changed trade policy 14 times in the last decade. Egypt's foreign exchange regime has been restructured 4 times since 2016. Kenya's local content legislation has invalidated 3 foreign distribution agreements in the past 5 years. Political risk is not theoretical in Africa — it is the operating environment. NLMK needs a partner whose local political capital can survive a change of government minister, a sudden import tariff, or a foreign exchange crisis without collapsing the steel distribution architecture we have built together. Who specifically are Studex's political relationships in Lagos, Cairo, and Nairobi, and what evidence exists that these relationships survive political transitions?",
+    weakness:"Political relationship durability in volatile African regulatory environments is extremely difficult to guarantee",
+    strength:"Studex's pan-African commodity presence means political goodwill is spread across sectors, not concentrated in steel alone",
+    ai:"Political risk scoring for 38 African nations using governance stability indices"
+  },
+  {
+    id:"VIII", title:"THE COMMANDMENT OF LOGISTICS INFRASTRUCTURE",
+    tag:"LOGISTICS DUE DILIGENCE · PHYSICAL INFRASTRUCTURE",
+    question:"Steel logistics is not an abstract concept — it is 40-tonne coils, customs bonded warehouses with certified load-bearing floors, port crane capacity specifications, inland transport corridors with weight limit compliance, and cold chain documentation for pre-painted products. Your AI logistics models are sophisticated, but logistics for premium industrial steel requires physical infrastructure that no model can substitute. Please provide NLMK with the specific warehouse certifications, port handling agreements, and logistics partner SLAs you have executed in Lagos, Mombasa, and Cairo — not proposed, but signed and operational.",
+    weakness:"Studex's logistics capabilities for heavy industrial goods have not been demonstrated at scale",
+    strength:"Studex's existing commodity logistics network provides real infrastructure anchors that can be adapted",
+    ai:"Steel logistics specification matching across African port infrastructure databases"
+  },
+  {
+    id:"IX", title:"THE COMMANDMENT OF DATA SOVEREIGNTY",
+    tag:"DATA SOVEREIGNTY · CYBERSECURITY",
+    question:"Your proposal includes integrating Studex's AI platform directly with NLMK's ERP systems. This integration would give Studex real-time visibility into NLMK's production volumes, pricing models, inventory positions, and customer relationships. This data represents competitive intelligence of the highest order. Our cybersecurity AI has modelled 14 scenarios in which an integrated partner's data access created material commercial risk to a steel manufacturer. What specific data governance framework, cybersecurity architecture, and contractual data sovereignty protections does Studex propose to ensure that NLMK's operational intelligence remains protected?",
+    weakness:"A multi-supplier B2B exchange creates inherent data conflict-of-interest risks that require explicit legal architecture",
+    strength:"Studex's proposed KYB/KYC infrastructure demonstrates awareness of data governance requirements",
+    ai:"14-scenario cybersecurity risk modelling for ERP-to-exchange integration"
+  },
+  {
+    id:"X", title:"THE COMMANDMENT OF THE ULTIMATE WAGER",
+    tag:"PERFORMANCE ACCOUNTABILITY · PARTNERSHIP TERMS",
+    question:"NLMK has survived 94 years because it has never made a bet it could not survive losing. You are asking us to make Africa a strategic pillar of our recovery — not a market experiment. The Studex proposition is visionary: a private, future-first AI trading community where legacy meets technology. But vision without execution architecture is poetry. Here is our final question, and it is the only one that truly matters: If NLMK commits to a 36-month exclusive distribution partnership in sub-Saharan Africa through Studex Global Markets, and at month 36 the platform has not delivered the first three project supply contract wins, the first two JV site approvals, and a verified trading volume of $150M — what specific financial guarantees, equity commitments, or performance bonds is Studex prepared to offer as the price of our trust?",
+    weakness:"Without performance guarantees, Studex's proposition requires NLMK to absorb all execution risk",
+    strength:"Studex's proposed revenue-share model aligns incentives — Studex only earns when NLMK earns",
+    ai:"Partnership performance benchmark modelling across 23 comparable B2B industrial exchange partnerships"
+  }
+];
+
+let activeCompany = 'studex';
+let activeQ = 0;
+let scanning = false;
+
+function getQuestions() { return activeCompany === 'studex' ? STUDEX_Q : NLMK_Q; }
+
+function switchCompany(co) {
+  if (co === activeCompany) return;
+  activeCompany = co;
+  activeQ = 0;
+  document.getElementById('btn-studex').className = 'toggle-btn' + (co==='studex'?' active-studex':'');
+  document.getElementById('btn-nlmk').className = 'toggle-btn' + (co==='nlmk'?' active-nlmk':'');
+  buildSidebar();
+  loadQuestion();
+}
+
+function buildSidebar() {
+  const qs = getQuestions();
+  const sb = document.getElementById('sidebar');
+  sb.innerHTML = '<div class="sidebar-header">◈ Select Commandment</div>';
+  qs.forEach((q, i) => {
+    const btn = document.createElement('button');
+    const tagPart = q.tag.split('·')[0].trim();
+    btn.className = 'q-btn' + (i === activeQ ? (activeCompany==='studex' ? ' active' : ' active-nlmk-btn') : '');
+    btn.innerHTML = `<div class="q-btn-num">COMMANDMENT ${q.id}</div><div class="q-btn-tag">${tagPart}</div>`;
+    btn.onclick = () => { activeQ = i; buildSidebar(); loadQuestion(); };
+    sb.appendChild(btn);
+  });
+}
+
+function buildNavDots() {
+  const qs = getQuestions();
+  const nd = document.getElementById('nav-dots');
+  nd.innerHTML = '';
+  qs.forEach((_, i) => {
+    const d = document.createElement('button');
+    d.className = 'nav-dot' + (i===activeQ ? (activeCompany==='studex'?' active':' active-nlmk') : '');
+    d.style.width = i===activeQ ? '20px' : '6px';
+    d.onclick = () => { activeQ = i; buildSidebar(); loadQuestion(); };
+    nd.appendChild(d);
+  });
+  document.getElementById('prev-btn').disabled = activeQ === 0;
+  document.getElementById('next-btn').disabled = activeQ === qs.length - 1;
+}
+
+function navigate(dir) {
+  const qs = getQuestions();
+  activeQ = Math.max(0, Math.min(qs.length-1, activeQ + dir));
+  buildSidebar();
+  loadQuestion();
+}
+
+function loadQuestion() {
+  const scanner = document.getElementById('scanner');
+  const cardArea = document.getElementById('card-area');
+  const navBar = document.getElementById('nav-bar');
+  cardArea.innerHTML = '';
+  navBar.style.display = 'none';
+  scanner.classList.add('active');
+
+  const msgs = [
+    'INITIALIZING ORACLE PROTOCOL...',
+    'SCANNING GLOBAL TRADE NETWORKS...',
+    'CROSS-REFERENCING AfCFTA CORRIDORS...',
+    'LOADING COMMANDMENT ' + getQuestions()[activeQ].id + '...'
+  ];
+  let i = 0;
+  const scanEl = document.getElementById('scanner-text');
+  const interval = setInterval(() => {
+    if (i < msgs.length) { scanEl.textContent = msgs[i]; i++; }
+    else {
+      clearInterval(interval);
+      scanner.classList.remove('active');
+      renderCard();
+      navBar.style.display = 'flex';
+      buildNavDots();
+    }
+  }, 320);
+}
+
+function renderCard() {
+  const q = getQuestions()[activeQ];
+  const isSt = activeCompany === 'studex';
+  const headerCls = isSt ? 'card-header studex-header' : 'card-header nlmk-header';
+  const metaCls = isSt ? 'card-header-meta studex-meta' : 'card-header-meta nlmk-meta';
+  const tagCls = isSt ? 'card-header-tag studex-tag' : 'card-header-tag nlmk-tag';
+  const blockCls = isSt ? 'q-block studex-block' : 'q-block nlmk-block';
+  const srcLabel = isSt ? 'STUDEX GLOBAL MARKETS → NLMK GROUP' : 'NLMK GROUP → STUDEX GLOBAL MARKETS';
+  const tags = q.tag.split('·').map(t => `<div class="${tagCls}">◈ ${t.trim()}</div>`).join('');
+
+  const card = document.createElement('div');
+  card.className = 'card active';
+  card.innerHTML = `
+    <div class="${headerCls}">
+      <div>
+        <div class="${metaCls}">COMMANDMENT ${q.id} OF X</div>
+        <div class="card-header-title">${q.title}</div>
+      </div>
+      <div class="card-header-tags">${tags}</div>
+    </div>
+    <div class="${blockCls}" data-source="${srcLabel}">
+      <div class="q-numeral">${q.id}</div>
+      <p class="q-text">${q.question}</p>
+    </div>
+    <div class="intel-grid">
+      <div class="intel-panel weakness">
+        <div class="intel-label">⚠ Weakness Exposed</div>
+        <div class="intel-text">${q.weakness}</div>
+      </div>
+      <div class="intel-panel strength">
+        <div class="intel-label">◈ Strength Leveraged</div>
+        <div class="intel-text">${q.strength}</div>
+      </div>
+      <div class="intel-panel ai">
+        <div class="intel-label">AI Intelligence Layer</div>
+        <div class="intel-text">${q.ai}</div>
+      </div>
+    </div>
+  `;
+  document.getElementById('card-area').appendChild(card);
+}
+
+// Init
+buildSidebar();
+loadQuestion();
+</script>
+</body>
+</html>

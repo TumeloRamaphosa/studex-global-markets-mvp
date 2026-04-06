@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Studex Oracle Platform — AI Partnership Intelligence Engine</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap');
+:root{--gold:#C9A84C;--teal:#2EC4B6;--red:#FF6B6B;--green:#51E89A;--bg:#030508;--text:#d8d0bc;--dim:rgba(255,255,255,0.4);}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'Share Tech Mono',monospace;min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(46,196,182,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,0.03) 1px,transparent 1px);
+  background-size:70px 70px;animation:gridScroll 30s linear infinite;}
+body::after{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(transparent 50%,rgba(0,0,0,0.025) 50%);background-size:100% 4px;}
+
+.corner{position:fixed;width:44px;height:44px;z-index:5;}
+.corner.tl{top:16px;left:16px;border-top:1px solid rgba(46,196,182,0.5);border-left:1px solid rgba(46,196,182,0.5);}
+.corner.tr{top:16px;right:16px;border-top:1px solid rgba(46,196,182,0.5);border-right:1px solid rgba(46,196,182,0.5);}
+.corner.bl{bottom:16px;left:16px;border-bottom:1px solid rgba(201,168,76,0.5);border-left:1px solid rgba(201,168,76,0.5);}
+.corner.br{bottom:16px;right:16px;border-bottom:1px solid rgba(201,168,76,0.5);border-right:1px solid rgba(201,168,76,0.5);}
+
+.wrapper{position:relative;z-index:2;max-width:1400px;margin:0 auto;padding:24px 24px 60px;}
+
+/* HEADER */
+.header{text-align:center;margin-bottom:32px;padding-top:20px;}
+.header-eyebrow{font-size:9px;letter-spacing:5px;color:var(--teal);opacity:0.7;margin-bottom:10px;}
+.header-title{font-family:'Orbitron',sans-serif;font-size:clamp(20px,4vw,40px);font-weight:900;letter-spacing:0.1em;color:#fff;animation:glitchCycle 8s infinite;}
+.header-sub{font-size:11px;letter-spacing:3px;color:var(--gold);margin-top:6px;}
+.header-line{width:240px;height:1px;background:linear-gradient(90deg,transparent,var(--teal),var(--gold),transparent);margin:14px auto 0;}
+
+/* NAV TABS */
+.nav-tabs{display:flex;gap:0;border:1px solid rgba(201,168,76,0.2);margin-bottom:28px;overflow:hidden;flex-wrap:wrap;}
+.nav-tab{flex:1;min-width:140px;padding:12px 20px;background:transparent;border:none;border-right:1px solid rgba(201,168,76,0.15);
+  color:var(--dim);cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;transition:all 0.3s;text-align:center;}
+.nav-tab:last-child{border-right:none;}
+.nav-tab:hover{background:rgba(201,168,76,0.07);color:rgba(255,255,255,0.7);}
+.nav-tab.active{background:rgba(201,168,76,0.12);color:var(--gold);border-bottom:2px solid var(--gold);}
+.nav-tab-icon{font-size:16px;display:block;margin-bottom:4px;}
+
+/* PANELS */
+.panel{display:none;animation:fadeUp 0.4s ease-out;}
+.panel.active{display:block;}
+
+/* ─── PANEL 1: GENERATOR ─── */
+.gen-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;}
+.gen-box{border:1px solid rgba(201,168,76,0.2);background:rgba(0,0,0,0.4);padding:0;}
+.gen-box-header{padding:12px 16px;border-bottom:1px solid rgba(201,168,76,0.15);font-size:9px;letter-spacing:3px;color:var(--gold);opacity:0.7;}
+.gen-box-body{padding:16px;}
+label{display:block;font-size:9px;letter-spacing:2px;color:var(--dim);margin-bottom:6px;margin-top:12px;}
+label:first-child{margin-top:0;}
+input[type=text],input[type=password],textarea,select{
+  width:100%;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.1);
+  color:var(--text);padding:10px 12px;font-family:'Share Tech Mono',monospace;font-size:11px;
+  letter-spacing:1px;outline:none;transition:border-color 0.2s;resize:vertical;}
+input[type=text]:focus,input[type=password]:focus,textarea:focus,select:focus{border-color:var(--gold);}
+textarea{min-height:200px;line-height:1.6;}
+select{appearance:none;cursor:pointer;}
+select option{background:#0a0d12;}
+.api-note{font-size:9px;color:rgba(255,255,255,0.3);margin-top:6px;line-height:1.5;}
+.api-note a{color:var(--teal);text-decoration:none;}
+
+.gen-run-bar{border:1px solid rgba(201,168,76,0.2);background:rgba(0,0,0,0.4);padding:16px 20px;margin-bottom:20px;
+  display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.run-btn{
+  padding:12px 32px;background:linear-gradient(135deg,rgba(201,168,76,0.2),rgba(46,196,182,0.15));
+  border:1px solid var(--gold);color:var(--gold);cursor:pointer;
+  font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:3px;
+  transition:all 0.3s;font-weight:700;}
+.run-btn:hover:not(:disabled){background:linear-gradient(135deg,rgba(201,168,76,0.35),rgba(46,196,182,0.25));box-shadow:0 0 20px rgba(201,168,76,0.2);}
+.run-btn:disabled{opacity:0.4;cursor:default;}
+.run-info{font-size:9px;color:var(--dim);line-height:1.6;flex:1;}
+
+/* Progress */
+.progress-bar{width:100%;height:3px;background:rgba(255,255,255,0.08);margin-top:12px;overflow:hidden;}
+.progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--teal),var(--gold));transition:width 0.5s ease;}
+
+/* Output */
+.output-area{display:none;border:1px solid rgba(46,196,182,0.25);background:rgba(0,0,0,0.5);margin-bottom:20px;}
+.output-area.visible{display:block;}
+.output-header{padding:12px 16px;border-bottom:1px solid rgba(46,196,182,0.15);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+.output-title{font-size:9px;letter-spacing:3px;color:var(--teal);}
+.output-actions{display:flex;gap:8px;}
+.action-btn{
+  padding:6px 14px;background:transparent;border:1px solid;
+  color:inherit;cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:2px;transition:all 0.2s;}
+.action-btn.gold{border-color:var(--gold);color:var(--gold);}
+.action-btn.gold:hover{background:rgba(201,168,76,0.15);}
+.action-btn.teal{border-color:var(--teal);color:var(--teal);}
+.action-btn.teal:hover{background:rgba(46,196,182,0.15);}
+.output-content{padding:24px 28px;font-family:'Rajdhani',sans-serif;font-size:14px;line-height:1.8;color:#cfc8b4;max-height:600px;overflow-y:auto;}
+.output-content h2{font-family:'Orbitron',sans-serif;font-size:13px;color:var(--gold);margin:24px 0 10px;letter-spacing:2px;border-bottom:1px solid rgba(201,168,76,0.2);padding-bottom:6px;}
+.output-content h3{font-size:12px;color:var(--teal);margin:16px 0 8px;letter-spacing:1px;}
+.output-content .commandment{
+  border-left:2px solid var(--gold);padding:14px 18px;margin:16px 0;
+  background:rgba(201,168,76,0.04);}
+.output-content .weakness-badge{display:inline-block;background:rgba(255,107,107,0.1);border:1px solid rgba(255,107,107,0.3);color:var(--red);padding:3px 10px;font-size:10px;letter-spacing:1px;margin:4px 2px;}
+.output-content .strength-badge{display:inline-block;background:rgba(81,232,154,0.1);border:1px solid rgba(81,232,154,0.3);color:var(--green);padding:3px 10px;font-size:10px;letter-spacing:1px;margin:4px 2px;}
+
+/* ─── PANEL 2: DOCUMENTS ─── */
+.docs-toolbar{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;align-items:center;}
+.docs-toolbar input{flex:1;min-width:200px;}
+.docs-count{font-size:9px;letter-spacing:2px;color:var(--dim);margin-left:auto;}
+.docs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;}
+.doc-card{
+  border:1px solid rgba(201,168,76,0.15);background:rgba(0,0,0,0.45);
+  padding:0;transition:border-color 0.2s;}
+.doc-card:hover{border-color:rgba(201,168,76,0.35);}
+.doc-card-header{padding:14px 16px;border-bottom:1px solid rgba(255,255,255,0.05);}
+.doc-type-badge{font-size:8px;letter-spacing:2px;padding:2px 8px;margin-bottom:8px;display:inline-block;}
+.doc-type-badge.oracle{background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.3);color:var(--gold);}
+.doc-type-badge.brief{background:rgba(46,196,182,0.1);border:1px solid rgba(46,196,182,0.3);color:var(--teal);}
+.doc-title{font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;color:#fff;line-height:1.3;margin-bottom:4px;}
+.doc-company{font-size:9px;color:var(--dim);letter-spacing:1px;}
+.doc-card-footer{padding:10px 16px;display:flex;justify-content:space-between;align-items:center;}
+.doc-meta{font-size:8px;color:rgba(255,255,255,0.25);letter-spacing:1px;}
+.doc-actions{display:flex;gap:6px;}
+.doc-btn{padding:4px 12px;background:transparent;border:1px solid;cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:1px;transition:all 0.2s;}
+.doc-btn.view{border-color:rgba(201,168,76,0.4);color:var(--gold);}
+.doc-btn.view:hover{background:rgba(201,168,76,0.1);}
+.doc-btn.dl{border-color:rgba(46,196,182,0.4);color:var(--teal);}
+.doc-btn.dl:hover{background:rgba(46,196,182,0.1);}
+.doc-btn.del{border-color:rgba(255,107,107,0.3);color:var(--red);}
+.doc-btn.del:hover{background:rgba(255,107,107,0.1);}
+.empty-state{text-align:center;padding:60px 40px;border:1px solid rgba(255,255,255,0.05);color:var(--dim);}
+.empty-state-icon{font-size:40px;opacity:0.3;margin-bottom:16px;}
+.empty-state-text{font-size:11px;letter-spacing:2px;}
+
+/* ─── PANEL 3: NOTEBOOKS ─── */
+.notebook-banner{
+  background:linear-gradient(135deg,rgba(46,196,182,0.08),rgba(201,168,76,0.08));
+  border:1px solid rgba(46,196,182,0.25);padding:24px 28px;margin-bottom:24px;}
+.nb-title{font-family:'Orbitron',sans-serif;font-size:14px;color:var(--teal);margin-bottom:8px;letter-spacing:2px;}
+.nb-desc{font-size:12px;color:var(--dim);line-height:1.7;font-family:'Rajdhani',sans-serif;}
+.nb-steps{margin-top:16px;display:grid;gap:12px;}
+.nb-step{display:flex;gap:14px;align-items:flex-start;padding:12px 16px;border:1px solid rgba(255,255,255,0.06);background:rgba(0,0,0,0.3);}
+.nb-step-num{font-family:'Orbitron',sans-serif;font-size:18px;font-weight:900;color:var(--gold);flex-shrink:0;line-height:1.2;}
+.nb-step-content{}
+.nb-step-title{font-size:11px;letter-spacing:2px;color:#fff;margin-bottom:4px;}
+.nb-step-text{font-size:11px;color:var(--dim);line-height:1.6;font-family:'Rajdhani',sans-serif;}
+.nb-step-text a{color:var(--teal);text-decoration:none;}
+.nb-step-text a:hover{text-decoration:underline;}
+
+/* ─── PANEL 4: GITHUB GUIDE ─── */
+.github-steps{display:grid;gap:16px;}
+.gh-step{border:1px solid rgba(201,168,76,0.15);background:rgba(0,0,0,0.4);overflow:hidden;}
+.gh-step-header{padding:12px 16px;background:rgba(201,168,76,0.06);display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(201,168,76,0.12);}
+.gh-step-num{font-family:'Orbitron',sans-serif;font-size:20px;font-weight:900;color:var(--gold);}
+.gh-step-title{font-size:11px;letter-spacing:2px;color:#fff;}
+.gh-step-body{padding:16px 20px;font-size:12px;color:var(--dim);line-height:1.8;font-family:'Rajdhani',sans-serif;}
+.gh-step-body code{background:rgba(46,196,182,0.1);border:1px solid rgba(46,196,182,0.2);padding:2px 8px;color:var(--teal);font-family:'Share Tech Mono',monospace;font-size:11px;}
+.gh-step-body strong{color:#fff;}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:100;display:none;align-items:center;justify-content:center;padding:20px;}
+.modal-overlay.active{display:flex;}
+.modal{background:#080b10;border:1px solid rgba(201,168,76,0.3);max-width:860px;width:100%;max-height:90vh;display:flex;flex-direction:column;}
+.modal-header{padding:16px 20px;border-bottom:1px solid rgba(201,168,76,0.15);display:flex;justify-content:space-between;align-items:center;}
+.modal-title{font-family:'Orbitron',sans-serif;font-size:12px;color:var(--gold);letter-spacing:2px;}
+.modal-close{background:transparent;border:1px solid rgba(255,255,255,0.2);color:var(--dim);cursor:pointer;padding:4px 12px;font-family:'Share Tech Mono',monospace;font-size:12px;}
+.modal-close:hover{border-color:var(--red);color:var(--red);}
+.modal-body{padding:24px 28px;overflow-y:auto;font-family:'Rajdhani',sans-serif;font-size:14px;line-height:1.8;color:#cfc8b4;}
+
+/* STATUS BAR */
+.status-bar{position:fixed;bottom:0;left:0;right:0;z-index:10;background:rgba(3,5,8,0.95);border-top:1px solid rgba(201,168,76,0.1);padding:8px 24px;display:flex;justify-content:space-between;align-items:center;font-size:8px;letter-spacing:2px;}
+.status-l{color:rgba(255,255,255,0.2);}
+.status-c{color:var(--teal);animation:pulse 2.5s infinite;}
+.status-r{color:rgba(255,255,255,0.2);}
+
+/* ANIMATIONS */
+@keyframes gridScroll{from{background-position:0 0}to{background-position:70px 70px}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.2}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes glitchCycle{0%,96%,100%{transform:translate(0);filter:none}97%{transform:translate(-2px,1px);filter:hue-rotate(60deg)}98%{transform:translate(2px,-1px);filter:hue-rotate(-60deg)}}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.spinner{display:inline-block;animation:spin 1s linear infinite;}
+
+@media(max-width:800px){.gen-grid{grid-template-columns:1fr}.docs-grid{grid-template-columns:1fr}}
+@media(max-width:500px){.nav-tab{padding:10px 8px;font-size:9px}.wrapper{padding:14px 12px 60px}}
+</style>
+</head>
+<body>
+<div class="corner tl"></div><div class="corner tr"></div>
+<div class="corner bl"></div><div class="corner br"></div>
+
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-eyebrow">◈ STUDEX ORACLE PLATFORM &nbsp;|&nbsp; AI PARTNERSHIP INTELLIGENCE ENGINE &nbsp;|&nbsp; v1.0 ◈</div>
+    <h1 class="header-title">Oracle Platform</h1>
+    <div class="header-sub">Paste Company Data → AI Generates 10 Commandments → Download & Store</div>
+    <div class="header-line"></div>
+  </header>
+
+  <!-- NAV -->
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showPanel('generator')">
+      <span class="nav-tab-icon">⚡</span>GENERATE REPORT
+    </button>
+    <button class="nav-tab" onclick="showPanel('documents')">
+      <span class="nav-tab-icon">📁</span>MY DOCUMENTS
+    </button>
+    <button class="nav-tab" onclick="showPanel('notebook')">
+      <span class="nav-tab-icon">🧠</span>NOTEBOOKLM GUIDE
+    </button>
+    <button class="nav-tab" onclick="showPanel('github')">
+      <span class="nav-tab-icon">🌐</span>GITHUB HOSTING
+    </button>
+  </div>
+
+  <!-- ═══ PANEL: GENERATOR ═══ -->
+  <div class="panel active" id="panel-generator">
+
+    <div class="gen-grid">
+      <!-- LEFT: Config -->
+      <div class="gen-box">
+        <div class="gen-box-header">⚙ CONFIGURATION</div>
+        <div class="gen-box-body">
+          <label>ANTHROPIC API KEY</label>
+          <input type="password" id="api-key" placeholder="sk-ant-api03-..." />
+          <div class="api-note">Get your key at <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> → API Keys. Key is never stored or sent anywhere except directly to Anthropic.</div>
+
+          <label>REPORT TYPE</label>
+          <select id="report-type">
+            <option value="commandments">10 Commandments (Q&A Oracle Format)</option>
+            <option value="brief">Strategic Partnership Brief (Full Report)</option>
+            <option value="both">Both — Commandments + Brief</option>
+          </select>
+
+          <label>COMPANY NAME</label>
+          <input type="text" id="company-name" placeholder="e.g. Pulsar Mining and Consulting" />
+
+          <label>INDUSTRY / SECTOR</label>
+          <input type="text" id="company-sector" placeholder="e.g. Critical Minerals Mining, Mozambique" />
+        </div>
+      </div>
+
+      <!-- RIGHT: Company Data -->
+      <div class="gen-box">
+        <div class="gen-box-header">📋 PASTE COMPANY DATA</div>
+        <div class="gen-box-body">
+          <label>COMPANY INFORMATION (paste pitch deck, about page, or any text)</label>
+          <textarea id="company-data" placeholder="Paste any company information here — executive summary, about page, product descriptions, LinkedIn profile, investor deck content, annual report extracts...
+
+The AI will:
+• Analyse the company's strengths and weaknesses
+• Map them against Studex Global Markets capabilities
+• Generate 10 questions Studex asks the company
+• Generate 10 questions the company asks Studex back
+• Include AI intelligence layers for each question"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- RUN BAR -->
+    <div class="gen-run-bar">
+      <button class="run-btn" id="run-btn" onclick="generateReport()">
+        ◈ GENERATE ORACLE REPORT
+      </button>
+      <div class="run-info">
+        Powered by Claude (Anthropic). Analysing company data against Studex Global Markets intelligence.<br>
+        Average generation time: 30–90 seconds. Report is automatically saved to My Documents.
+      </div>
+      <div style="width:100%">
+        <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+        <div id="status-msg" style="font-size:9px;color:rgba(46,196,182,0.7);margin-top:6px;letter-spacing:2px;min-height:16px;"></div>
+      </div>
+    </div>
+
+    <!-- OUTPUT -->
+    <div class="output-area" id="output-area">
+      <div class="output-header">
+        <div class="output-title" id="output-title">◈ ORACLE REPORT — READY</div>
+        <div class="output-actions">
+          <button class="action-btn teal" onclick="downloadCurrentReport()">⬇ DOWNLOAD HTML</button>
+          <button class="action-btn gold" onclick="copyReportText()">⎘ COPY TEXT</button>
+        </div>
+      </div>
+      <div class="output-content" id="output-content"></div>
+    </div>
+
+  </div>
+
+  <!-- ═══ PANEL: DOCUMENTS ═══ -->
+  <div class="panel" id="panel-documents">
+    <div class="docs-toolbar">
+      <input type="text" id="doc-search" placeholder="Search documents..." oninput="renderDocs()" style="max-width:320px;">
+      <div class="docs-count" id="docs-count">0 documents</div>
+      <button class="action-btn gold" onclick="exportAllDocs()">⬇ EXPORT ALL</button>
+      <button class="action-btn" style="border-color:rgba(255,107,107,0.3);color:var(--red);" onclick="clearAllDocs()">✕ CLEAR ALL</button>
+    </div>
+    <div class="docs-grid" id="docs-grid"></div>
+  </div>
+
+  <!-- ═══ PANEL: NOTEBOOKLM ═══ -->
+  <div class="panel" id="panel-notebook">
+    <div class="notebook-banner">
+      <div class="nb-title">🧠 CONNECT TO GOOGLE NOTEBOOKLM</div>
+      <div class="nb-desc">Google NotebookLM is an AI research tool that lets you upload your company documents and ask questions across all of them simultaneously. By uploading your Studex partnership briefs, company research, and Oracle reports, NotebookLM becomes your private AI brain that knows everything about your partnerships — and can generate insights, summaries, and answers on demand.</div>
+    </div>
+    <div class="nb-steps">
+      <div class="nb-step">
+        <div class="nb-step-num">01</div>
+        <div class="nb-step-content">
+          <div class="nb-step-title">GO TO NOTEBOOKLM</div>
+          <div class="nb-step-text">Visit <a href="https://notebooklm.google.com" target="_blank">notebooklm.google.com</a> and sign in with your Google account. Click <strong>+ New Notebook</strong> and name it "Studex Oracle Intelligence".</div>
+        </div>
+      </div>
+      <div class="nb-step">
+        <div class="nb-step-num">02</div>
+        <div class="nb-step-content">
+          <div class="nb-step-title">UPLOAD YOUR DOCUMENTS</div>
+          <div class="nb-step-text">Click <strong>+ Add Source</strong> and upload: (1) the NLMK Partnership Brief .docx, (2) the Pulsar Oracle HTML or a PDF export of it, (3) any other company pitch decks or research documents. NotebookLM accepts PDFs, Word docs, Google Docs, and text files.</div>
+        </div>
+      </div>
+      <div class="nb-step">
+        <div class="nb-step-num">03</div>
+        <div class="nb-step-content">
+          <div class="nb-step-title">ASK CROSS-DOCUMENT QUESTIONS</div>
+          <div class="nb-step-text">Once uploaded, ask questions like: <strong>"What are the common weaknesses across all our partnership targets?"</strong> or <strong>"Which company has the strongest alignment with Studex's critical mineral strategy?"</strong> or <strong>"Summarise all the AI intelligence layers from the Oracle reports."</strong></div>
+        </div>
+      </div>
+      <div class="nb-step">
+        <div class="nb-step-num">04</div>
+        <div class="nb-step-content">
+          <div class="nb-step-title">GENERATE NEW REPORTS FROM NOTEBOOKLM</div>
+          <div class="nb-step-text">Ask NotebookLM to draft new content: <strong>"Using the patterns from the NLMK and Pulsar briefs, generate a partnership brief structure for a new steel company in India."</strong> Then paste the output into the Oracle Platform generator above to turn it into a full Oracle report.</div>
+        </div>
+      </div>
+      <div class="nb-step">
+        <div class="nb-step-num">05</div>
+        <div class="nb-step-content">
+          <div class="nb-step-title">THE AUTOMATION LOOP</div>
+          <div class="nb-step-text"><strong>Step 1:</strong> Find new company → paste info into Oracle Platform → download HTML report.<br><strong>Step 2:</strong> Upload report to NotebookLM → ask questions across all partnerships.<br><strong>Step 3:</strong> NotebookLM insights → paste back into Oracle Platform → generate next-level analysis.<br>This creates an ever-growing intelligence database of every Studex partnership target.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ PANEL: GITHUB ═══ -->
+  <div class="panel" id="panel-github">
+    <div class="github-steps">
+      <div class="gh-step">
+        <div class="gh-step-header"><div class="gh-step-num">01</div><div class="gh-step-title">CREATE A FREE GITHUB ACCOUNT</div></div>
+        <div class="gh-step-body">Go to <strong>github.com</strong> and sign up for a free account. Your live website URL will be: <code>https://[your-username].github.io/studex-oracle</code></div>
+      </div>
+      <div class="gh-step">
+        <div class="gh-step-header"><div class="gh-step-num">02</div><div class="gh-step-title">CREATE A NEW REPOSITORY</div></div>
+        <div class="gh-step-body">Click the green <strong>New</strong> button → Name it <code>studex-oracle</code> → Set to <strong>Public</strong> → Check "Add a README file" → Click <strong>Create repository</strong></div>
+      </div>
+      <div class="gh-step">
+        <div class="gh-step-header"><div class="gh-step-num">03</div><div class="gh-step-title">UPLOAD THIS FILE AS index.html</div></div>
+        <div class="gh-step-body">Click <strong>Add file → Upload files</strong> → Drag in this platform HTML file → <strong>Rename it to <code>index.html</code></strong> before uploading → Click <strong>Commit changes</strong></div>
+      </div>
+      <div class="gh-step">
+        <div class="gh-step-header"><div class="gh-step-num">04</div><div class="gh-step-title">ALSO UPLOAD YOUR ORACLE REPORT PAGES</div></div>
+        <div class="gh-step-body">Upload <code>pulsar_oracle.html</code>, <code>nlmk_oracle.html</code> and any other report files. Each gets its own URL: <code>https://[username].github.io/studex-oracle/pulsar_oracle.html</code>. You can link between them from this platform page.</div>
+      </div>
+      <div class="gh-step">
+        <div class="gh-step-header"><div class="gh-step-num">05</div><div class="gh-step-title">ENABLE GITHUB PAGES</div></div>
+        <div class="gh-step-body">Go to <strong>Settings → Pages → Branch: main → folder: / (root) → Save</strong>. Your site goes live within 1–2 minutes. Every time you upload a new Oracle report HTML file, it automatically gets a live URL.</div>
+      </div>
+      <div class="gh-step">
+        <div class="gh-step-header"><div class="gh-step-num">06</div><div class="gh-step-title">ADDING NEW REPORTS — THE AUTOMATION WORKFLOW</div></div>
+        <div class="gh-step-body">
+          <strong>1.</strong> Generate new Oracle report on this platform → Download HTML file<br>
+          <strong>2.</strong> Go to your GitHub repo → <strong>Add file → Upload files</strong> → Upload the HTML<br>
+          <strong>3.</strong> New report is instantly live at its own URL — no code, no server, no cost<br>
+          <strong>4.</strong> Share the URL with partners, investors, or your team — they can view and download directly<br><br>
+          Your GitHub repo becomes a <strong>permanent, searchable library</strong> of every Oracle report Studex has ever generated.
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /wrapper -->
+
+<!-- STATUS BAR -->
+<div class="status-bar">
+  <div class="status-l">STUDEX ORACLE PLATFORM v1.0 · 2026</div>
+  <div class="status-c">◈ AI ENGINE READY</div>
+  <div class="status-r">WHERE VISION MEETS INTELLIGENCE</div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-title">DOCUMENT VIEWER</div>
+      <button class="modal-close" onclick="closeModal()">✕ CLOSE</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+// ─── STATE ───
+let docs = JSON.parse(localStorage.getItem('studex_oracle_docs') || '[]');
+let currentReport = null;
+
+// ─── PANELS ───
+function showPanel(id) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  event.currentTarget.classList.add('active');
+  if (id === 'documents') renderDocs();
+}
+
+// ─── GENERATE ───
+async function generateReport() {
+  const apiKey = document.getElementById('api-key').value.trim();
+  const companyName = document.getElementById('company-name').value.trim();
+  const companyData = document.getElementById('company-data').value.trim();
+  const reportType = document.getElementById('report-type').value;
+  const sector = document.getElementById('company-sector').value.trim();
+
+  if (!apiKey) { alert('Please enter your Anthropic API key.'); return; }
+  if (!companyName) { alert('Please enter the company name.'); return; }
+  if (!companyData) { alert('Please paste company information.'); return; }
+
+  const btn = document.getElementById('run-btn');
+  const progress = document.getElementById('progress-fill');
+  const statusMsg = document.getElementById('status-msg');
+  const outputArea = document.getElementById('output-area');
+
+  btn.disabled = true;
+  btn.textContent = '⟳ GENERATING...';
+  outputArea.classList.remove('visible');
+  setProgress(5, 'CONNECTING TO CLAUDE AI...');
+
+  const systemPrompt = `You are the Studex Oracle — an AI intelligence engine for Studex Global Markets, Africa's premier B2B consignment exchange. 
+
+Studex Global Markets background:
+- Founded 2016, evolved from blockchain livestock investment platform into Africa's premier B2B trading exchange
+- Verticals: Studex Meat (Halaal Wagyu & Ankole beef), Studex Coffee (African specialty), Studex Wheat (Uvelka partnership), Studex AI, Animal Exchange
+- Building Studex Global Markets: AI-powered B2B exchange with mandatory KYC/KYB, reputation scoring, Afreximbank escrow architecture
+- Active partnership engagement with NLMK Group (Russian steel, $16B revenue) and Pulsar Mining (Mozambique critical minerals)
+- Studex AI: predictive demand forecasting, FX conversion timing, tender matching, buyer credibility scoring
+- Positioning: "Africa's Premier Global Consignment Exchange" — where vision meets intelligence
+
+Your task: Generate a 10 Commandments Oracle Report for the company provided. This is a BIDIRECTIONAL intelligence format:
+- 10 questions Studex asks the company (probing their weaknesses, leveraging their strengths, showing Studex's value)  
+- 10 questions the company asks Studex back (stress-testing Studex's credibility, capabilities, and track record)
+
+Each question must:
+1. Be powerfully worded — not generic, but specific to actual data points from both companies
+2. Include real statistics, market data, and specific details from the company information provided
+3. Expose a genuine weakness AND leverage a genuine strength simultaneously
+4. Include an AI intelligence layer showing what Studex's AI systems would analyse for that question
+5. Feel like a high-stakes boardroom challenge, not a questionnaire
+
+Format: Use clear headers for each commandment, label them I through X, include WEAKNESS EXPOSED, STRENGTH LEVERAGED, and AI INTELLIGENCE LAYER subsections for each question.`;
+
+  const userPrompt = `Company Name: ${companyName}
+Sector: ${sector}
+Report Type: ${reportType}
+
+COMPANY INFORMATION:
+${companyData}
+
+Generate the full 10 Commandments Oracle Report. Make the questions bold, specific to this company's actual data, and commercially sophisticated. Each question should feel like it was written by someone who deeply understands both companies.`;
+
+  try {
+    setProgress(15, 'ANALYSING COMPANY DATA...');
+    
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-calls': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 8000,
+        system: systemPrompt,
+        messages: [{ role: 'user', content: userPrompt }]
+      })
+    });
+
+    setProgress(80, 'FORMATTING ORACLE REPORT...');
+
+    if (!response.ok) {
+      const err = await response.json();
+      throw new Error(err.error?.message || 'API error ' + response.status);
+    }
+
+    const data = await response.json();
+    const rawText = data.content[0].text;
+
+    setProgress(90, 'SAVING TO DOCUMENTS...');
+    
+    const formattedHTML = formatReportHTML(rawText, companyName, sector);
+    currentReport = { name: companyName, sector, type: reportType, content: rawText, html: formattedHTML };
+
+    // Save to docs
+    const doc = {
+      id: Date.now(),
+      title: `Oracle Report — ${companyName}`,
+      company: companyName,
+      sector,
+      type: reportType === 'brief' ? 'brief' : 'oracle',
+      date: new Date().toLocaleDateString(),
+      content: rawText,
+      html: formattedHTML
+    };
+    docs.unshift(doc);
+    localStorage.setItem('studex_oracle_docs', JSON.stringify(docs));
+
+    setProgress(100, '✓ REPORT GENERATED AND SAVED');
+    
+    document.getElementById('output-title').textContent = `◈ ORACLE REPORT — ${companyName.toUpperCase()} — READY`;
+    document.getElementById('output-content').innerHTML = formattedHTML;
+    outputArea.classList.add('visible');
+
+    setTimeout(() => {
+      setProgress(0, '');
+      btn.disabled = false;
+      btn.textContent = '◈ GENERATE ORACLE REPORT';
+    }, 3000);
+
+  } catch(e) {
+    setProgress(0, '');
+    btn.disabled = false;
+    btn.textContent = '◈ GENERATE ORACLE REPORT';
+    document.getElementById('status-msg').style.color = 'var(--red)';
+    document.getElementById('status-msg').textContent = '✕ ERROR: ' + e.message;
+    setTimeout(() => {
+      document.getElementById('status-msg').style.color = 'rgba(46,196,182,0.7)';
+      document.getElementById('status-msg').textContent = '';
+    }, 8000);
+  }
+}
+
+function setProgress(pct, msg) {
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('status-msg').textContent = msg;
+}
+
+function formatReportHTML(text, company, sector) {
+  let html = text
+    .replace(/^#{1,2}\s+(.+)$/gm, '<h2>$1</h2>')
+    .replace(/^#{3,4}\s+(.+)$/gm, '<h3>$1</h3>')
+    .replace(/\*\*COMMANDMENT ([IVX]+)[:\s—]+(.+?)\*\*/g, '<h2>COMMANDMENT $1 — $2</h2>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/WEAKNESS EXPOSED:?\s*/g, '<span class="weakness-badge">⚠ WEAKNESS EXPOSED</span> ')
+    .replace(/STRENGTH LEVERAGED:?\s*/g, '<span class="strength-badge">◈ STRENGTH LEVERAGED</span> ')
+    .replace(/AI INTELLIGENCE LAYER:?\s*/g, '<span class="strength-badge" style="background:rgba(46,196,182,0.1);border-color:rgba(46,196,182,0.3);color:var(--teal);">⬡ AI INTEL</span> ')
+    .replace(/\n\n/g, '</p><p>')
+    .replace(/\n/g, '<br>');
+  return `<p>${html}</p>`;
+}
+
+// ─── DOWNLOAD ───
+function downloadCurrentReport() {
+  if (!currentReport) return;
+  downloadDocAsHTML(currentReport.name, currentReport.content, currentReport.html);
+}
+
+function downloadDocAsHTML(name, rawText, htmlContent) {
+  const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '_');
+  const fullHTML = `<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Oracle Report — ${name}</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&family=Orbitron:wght@400;700;900&display=swap');
+body{background:#030508;color:#d8d0bc;font-family:'Share Tech Mono',monospace;max-width:900px;margin:0 auto;padding:40px 24px;}
+h1{font-family:'Orbitron',sans-serif;font-size:28px;color:#C9A84C;margin-bottom:8px;}
+h2{font-family:'Orbitron',sans-serif;font-size:14px;color:#C9A84C;margin:28px 0 10px;border-bottom:1px solid rgba(201,168,76,0.2);padding-bottom:6px;}
+h3{color:#2EC4B6;font-size:12px;margin:16px 0 8px;}
+p{font-family:'Rajdhani',sans-serif;font-size:14px;line-height:1.8;margin:8px 0;}
+strong{color:#fff;}
+.badge-w{display:inline-block;background:rgba(255,107,107,0.1);border:1px solid rgba(255,107,107,0.3);color:#FF6B6B;padding:2px 8px;font-size:10px;margin:2px;}
+.badge-s{display:inline-block;background:rgba(81,232,154,0.1);border:1px solid rgba(81,232,154,0.3);color:#51E89A;padding:2px 8px;font-size:10px;margin:2px;}
+.header-block{border-bottom:1px solid rgba(201,168,76,0.2);padding-bottom:20px;margin-bottom:28px;}
+.meta{font-size:9px;letter-spacing:3px;color:rgba(255,255,255,0.3);margin-top:6px;}
+</style></head><body>
+<div class="header-block">
+<div class="meta">◈ STUDEX ORACLE PLATFORM · GENERATED ${new Date().toLocaleDateString()}</div>
+<h1>Oracle Report — ${name}</h1>
+<div class="meta">SECTOR: ${document.getElementById('company-sector').value || 'N/A'} · TYPE: 10 COMMANDMENTS</div>
+</div>
+${htmlContent}
+<div style="margin-top:48px;padding-top:16px;border-top:1px solid rgba(201,168,76,0.1);font-size:8px;letter-spacing:3px;color:rgba(255,255,255,0.15);">
+STUDEX GLOBAL MARKETS · ORACLE PROTOCOL · CONFIDENTIAL 2026 · WHERE VISION MEETS INTELLIGENCE
+</div>
+</body></html>`;
+
+  const blob = new Blob([fullHTML], { type: 'text/html' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = `studex_oracle_${slug}.html`; a.click();
+}
+
+function copyReportText() {
+  if (!currentReport) return;
+  navigator.clipboard.writeText(currentReport.content).then(() => {
+    const btn = event.currentTarget;
+    const orig = btn.textContent; btn.textContent = '✓ COPIED';
+    setTimeout(() => btn.textContent = orig, 2000);
+  });
+}
+
+// ─── DOCUMENTS ───
+function renderDocs() {
+  const search = (document.getElementById('doc-search').value || '').toLowerCase();
+  const filtered = docs.filter(d =>
+    d.title.toLowerCase().includes(search) ||
+    d.company.toLowerCase().includes(search) ||
+    (d.sector || '').toLowerCase().includes(search)
+  );
+  document.getElementById('docs-count').textContent = filtered.length + ' document' + (filtered.length !== 1 ? 's' : '');
+  const grid = document.getElementById('docs-grid');
+  if (filtered.length === 0) {
+    grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1">
+      <div class="empty-state-icon">📁</div>
+      <div class="empty-state-text">${docs.length === 0 ? 'NO DOCUMENTS YET — GENERATE YOUR FIRST ORACLE REPORT' : 'NO RESULTS MATCHING YOUR SEARCH'}</div>
+    </div>`;
+    return;
+  }
+  grid.innerHTML = filtered.map(d => `
+    <div class="doc-card">
+      <div class="doc-card-header">
+        <div class="doc-type-badge ${d.type}">${d.type === 'oracle' ? '◈ ORACLE REPORT' : '⬡ PARTNERSHIP BRIEF'}</div>
+        <div class="doc-title">${d.title}</div>
+        <div class="doc-company">${d.sector || ''}</div>
+      </div>
+      <div class="doc-card-footer">
+        <div class="doc-meta">${d.date}</div>
+        <div class="doc-actions">
+          <button class="doc-btn view" onclick="viewDoc(${d.id})">VIEW</button>
+          <button class="doc-btn dl" onclick="dlDoc(${d.id})">⬇ HTML</button>
+          <button class="doc-btn del" onclick="delDoc(${d.id})">✕</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function viewDoc(id) {
+  const d = docs.find(x => x.id === id); if (!d) return;
+  document.getElementById('modal-title').textContent = d.title.toUpperCase();
+  document.getElementById('modal-body').innerHTML = d.html || `<p>${d.content}</p>`;
+  document.getElementById('modal').classList.add('active');
+}
+
+function dlDoc(id) {
+  const d = docs.find(x => x.id === id); if (!d) return;
+  downloadDocAsHTML(d.company, d.content, d.html || `<p>${d.content}</p>`);
+}
+
+function delDoc(id) {
+  if (!confirm('Delete this document?')) return;
+  docs = docs.filter(x => x.id !== id);
+  localStorage.setItem('studex_oracle_docs', JSON.stringify(docs));
+  renderDocs();
+}
+
+function clearAllDocs() {
+  if (!confirm('Clear ALL documents? This cannot be undone.')) return;
+  docs = []; localStorage.removeItem('studex_oracle_docs'); renderDocs();
+}
+
+function exportAllDocs() {
+  docs.forEach(d => dlDoc(d.id));
+}
+
+function closeModal() { document.getElementById('modal').classList.remove('active'); }
+document.getElementById('modal').addEventListener('click', e => { if (e.target.id === 'modal') closeModal(); });
+renderDocs();
+</script>
+</body>
+</html>

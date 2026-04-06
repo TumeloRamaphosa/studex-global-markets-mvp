@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Studex Global Markets — Space Matrix</title>
+  <link rel="stylesheet" href="studex-theme.css">
+  <style>
+    body { background: #010103; display: flex; height: 100vh; overflow: hidden; color: #FFF; font-family: var(--font-main); }
+    
+    /* STARFIELD BACKDROP */
+    .space-bg { position: absolute; inset: 0; background: radial-gradient(circle at center, #0a0e1c 0%, #010103 100%); overflow: hidden; z-index: 0; }
+    .star { position: absolute; background: #fff; border-radius: 50%; opacity: 0.6; animation: twinkle 3s infinite; }
+    @keyframes twinkle { 0%,100% { opacity: 0.3; } 50% { opacity: 0.8; } }
+
+    /* SIDEBAR */
+    .sidebar { width: 260px; border-right: 1px solid rgba(255,255,255,0.05); padding: 32px 24px; background: rgba(5,6,10,0.85); display: flex; flex-direction: column; z-index: 10; backdrop-filter: blur(10px); }
+    .sidebar-brand { font-weight: 800; font-size: 12px; letter-spacing: 0.3em; color: var(--gold-champagne); margin-bottom: 48px; }
+    .sidebar-menu a { display: flex; align-items: center; padding: 12px; color: var(--text-dim); text-decoration: none; font-size: 13px; font-weight: 600; border-radius: 8px; margin-bottom: 8px; transition: all 0.3s; }
+    .sidebar-menu a:hover, .sidebar-menu a.active { background: rgba(230,194,122,0.05); color: var(--text-main); }
+    .sidebar-menu a.active { border-left: 2px solid var(--gold-champagne); }
+
+    /* COSMIC GLOBE */
+    .globe-container { flex: 1; position: relative; display: flex; align-items: center; justify-content: center; z-index: 1; overflow: hidden; }
+    .globe { width: 440px; height: 440px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, #1e253c 0%, #06080e 70%, #000 100%); box-shadow: 0 0 100px rgba(230,194,122,0.1), inset -20px -20px 50px rgba(0,0,0,0.8), inset 20px 20px 50px rgba(255,255,255,0.05); position: absolute; animation: floatGlobe 6s ease-in-out infinite; }
+    .orbit-ring { position: absolute; width: 600px; height: 200px; border: 1px solid rgba(230,194,122,0.15); border-radius: 50%; transform: rotateX(75deg) rotateY(-10deg); animation: rotateRing 20s linear infinite; }
+    
+    @keyframes floatGlobe { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+    @keyframes rotateRing { 100% { transform: rotateX(75deg) rotateY(-10deg) rotateZ(360deg); } }
+
+    /* 3D PYRAMID HIERARCHY */
+    .pyramid-container { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px; padding-top: 40px; transform-style: preserve-3d; transform: perspective(1000px); }
+    
+    .pyramid-row { display: flex; gap: 24px; transform: translateZ(20px); }
+    
+    .node-card { background: rgba(10, 15, 26, 0.7); border: 1px solid rgba(230,194,122,0.2); border-radius: 12px; padding: 20px; width: 220px; text-align: center; backdrop-filter: blur(12px); box-shadow: 0 12px 30px rgba(0,0,0,0.5); transition: all 0.4s ease; cursor: pointer; }
+    .node-card:hover { transform: translateZ(30px) translateY(-5px); border-color: var(--gold-champagne); box-shadow: 0 16px 40px rgba(230,194,122,0.15); }
+    
+    .node-icon { font-size: 24px; color: var(--gold-champagne); margin-bottom: 12px; }
+    .node-name { font-size: 14px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; color: #FFF; }
+    .node-desc { font-size: 11px; color: var(--text-dim); line-height: 1.4; }
+
+    /* GLOW TRAILS (Connecting levels) */
+    .glow-trail { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--gold-champagne), transparent); opacity: 0.4; }
+
+  </style>
+</head>
+<body>
+
+  <div class="space-bg" id="space"></div>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">◈ STUDEX AGORA</div>
+    <div class="sidebar-menu">
+      <a href="dashboard.html">The Marketplace</a>
+      <a href="global-markets.html" class="active">Global Markets</a>
+      <a href="vault.html">My Portfolio (Vault)</a>
+      <a href="oracle.html">The Oracle Engine</a>
+      <a href="ledger.html">Chronos Ledger</a>
+      <a href="ghost-room.html" style="color:#FF3366;">[Enter Ghost Room]</a>
+      <a href="https://app.xtrading.exchange/trade" target="_blank" style="color:var(--gold-champagne);">◈ Crypto Exchange</a>
+      <a href="openclaw-admin.html" style="margin-top:24px; border-top:1px solid rgba(255,255,255,0.1); padding-top:24px;">⬡ OpenClaw Network</a>
+    </div>
+  </aside>
+
+  <!-- GLOBE / SPACE CONTAINER -->
+  <main class="globe-container">
+    <div class="globe"></div>
+    <div class="orbit-ring"></div>
+
+    <!-- HIERARCHICAL PYRAMID SYSTEM -->
+    <div class="pyramid-container">
+      
+      <!-- LEVEL 1: APEX -->
+      <div class="pyramid-row">
+        <div class="node-card" style="border-width: 2px;">
+          <div class="node-icon">◈</div>
+          <div class="node-name" style="color: var(--gold-champagne);">Studex Global</div>
+          <div class="node-desc">Core Aggregation Umbrella Layer. Sovereign clearing infrastructure.</div>
+        </div>
+      </div>
+
+      <div class="glow-trail"></div>
+
+      <!-- LEVEL 2: STRATEGIC PILLARS -->
+      <div class="pyramid-row">
+        <div class="node-card">
+          <div class="node-icon">⚖</div>
+          <div class="node-name">Primary Markets</div>
+          <div class="node-desc">Direct institutional supply for mineral and energy vectors.</div>
+        </div>
+        <div class="node-card">
+          <div class="node-icon">🧬</div>
+          <div class="node-name">ESG Aggregator</div>
+          <div class="node-desc">Fractionalized conservation data, tokenized offsets.</div>
+        </div>
+      </div>
+
+      <div class="glow-trail"></div>
+
+      <!-- LEVEL 3: CLIENT & PARTNER NODES -->
+      <div class="pyramid-row">
+        <div class="node-card" style="width: 170px;">
+          <div class="node-icon">◎</div>
+          <div class="node-name" style="font-size: 12px;">NLMK Alliance</div>
+          <div class="node-desc">Heavy Metal Flow list</div>
+        </div>
+        <div class="node-card" style="width: 170px;">
+          <div class="node-icon">◎</div>
+          <div class="node-name" style="font-size: 12px;">Mines Ministry</div>
+          <div class="node-desc">Strategic Cobalt Desk</div>
+        </div>
+        <div class="node-card" style="width: 170px;">
+          <div class="node-icon">◎</div>
+          <div class="node-name" style="font-size: 12px;">CWB Verified</div>
+          <div class="node-desc">Agricultural Trust chain</div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    // Generate Stars Backround
+    const space = document.getElementById('space');
+    for (let i = 0; i < 100; i++) {
+        let star = document.createElement('div');
+        star.className = 'star';
+        star.style.width = Math.random() * 2 + 'px';
+        star.style.height = star.style.width;
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.animationDelay = Math.random() * 3 + 's';
+        space.appendChild(star);
+    }
+  </script>
+
+</body>
+</html>
